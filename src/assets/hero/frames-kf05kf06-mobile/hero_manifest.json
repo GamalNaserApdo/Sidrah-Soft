@@ -1,0 +1,14 @@
+{
+  "total_frames": 121,
+  "resolution": {
+    "width": 960,
+    "height": 540
+  },
+  "quality": 80,
+  "format": "webp",
+  "source_clip": "hero_kf05_to_kf06_v1.mp4",
+  "fps": 24.0,
+  "duration": 5.042,
+  "frame_naming": "frame_%04d.webp",
+  "scroll_mapping": "linear"
+}

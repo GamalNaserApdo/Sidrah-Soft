@@ -1,0 +1,49 @@
+﻿[
+  {
+    "created_at": "2026-07-07T20:57:18.11256Z",
+    "display_name": "Seedance 2.0",
+    "id": "64f2296d-5956-4cf1-8eb9-2b818db716d0",
+    "job_type": "seedance_2_0",
+    "min_result_url": null,
+    "params": {
+      "aspect_ratio": "16:9",
+      "bitrate_mode": "standard",
+      "duration": 5,
+      "generate_audio": false,
+      "genre": "auto",
+      "height": 1080,
+      "medias": [
+        {
+          "data": {
+            "id": "e43c0b63-7fc9-4bdf-b9f3-16247dd5e29d",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/e43c0b63-7fc9-4bdf-b9f3-16247dd5e29d.png"
+          },
+          "role": "start_image"
+        },
+        {
+          "data": {
+            "id": "18eaa540-11f7-4a34-88e4-8dd2964ab1ea",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/18eaa540-11f7-4a34-88e4-8dd2964ab1ea.png"
+          },
+          "role": "end_image"
+        }
+      ],
+      "mode": "std",
+      "model": "seedance_2_0",
+      "multi_prompt": [],
+      "multi_shot_mode": "custom",
+      "multi_shots": false,
+      "prompt": "The exact same proprietary technological seed remains perfectly preserved. The object is dormant at the beginning of the shot. A barely perceptible internal energy slowly begins awakening deep within the hidden core. Very subtle illumination emerges from inside the structure. No transformation of shape. No morphing. No deformation. No new objects appear. The silhouette remains identical. The camera performs an extremely slow premium cinematic push-in. The environment remains dark graphite and nearly empty. Large negative space. The awakening is internal, not external. No visible networks. No particles. No holograms. No interfaces. No ecosystem. No connection lines. No dramatic lighting changes. Only the earliest sign of life emerging from within. Luxury enterprise aesthetic. Museum-quality presentation. Photorealistic materials. Soft reflections. Subtle purple, blue and amber highlights. Calm. Elegant. Restrained. Premium. The object remains the unquestioned focal point. Without people, text, logo, watermark, UI, dashboard, hologram, cyberpunk elements, smoke, fire, explosion, generic AI orb, sphere, cube, crystal ball, excessive particles, chaotic motion, camera shake, motion blur, visual clutter, or sudden transitions.",
+      "prompt_language": "en",
+      "reference_elements": [],
+      "resolution": "1080p",
+      "speedramp": "auto",
+      "width": 1920
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_205718_64f2296d-5956-4cf1-8eb9-2b818db716d0.mp4",
+    "status": "completed",
+    "thumbnail_url": "https://cdn.higgsfield.ai/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_205718_64f2296d-5956-4cf1-8eb9-2b818db716d0_thumbnail.webp"
+  }
+]

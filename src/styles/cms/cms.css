@@ -1,0 +1,193 @@
+/**
+ * CMS Global Styles
+ *
+ * Design tokens are defined in src/styles/tokens.css and exposed as --cms-*
+ * aliases for backward compatibility. Only structural CMS styles belong here.
+ */
+
+/* ─── CMS Reset & Base ───────────────────────────────────────────────────── */
+.cms-root,
+.cms-root * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.cms-root {
+  min-height: 100vh;
+  background: var(--cms-bg-page);
+  color: var(--cms-text-primary);
+  font-family: var(--cms-font-family);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.cms-root a {
+  color: var(--cms-accent);
+  text-decoration: none;
+}
+
+.cms-root a:hover {
+  color: var(--cms-accent-hover);
+}
+
+.cms-root button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.cms-root input,
+.cms-root select,
+.cms-root textarea {
+  font-family: inherit;
+}
+
+.cms-root ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.cms-root ::-webkit-scrollbar-track {
+  background: var(--cms-bg-page);
+}
+
+.cms-root ::-webkit-scrollbar-thumb {
+  background: var(--cms-border-default);
+  border-radius: 4px;
+}
+
+.cms-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--cms-border-strong);
+}
+
+/* ─── Focus Visible ──────────────────────────────────────────────────────── */
+.cms-root :focus-visible {
+  outline: none;
+  box-shadow: var(--cms-focus-ring);
+  border-radius: var(--cms-radius-md, 6px);
+}
+
+/* ─── RTL Support ────────────────────────────────────────────────────────── */
+.cms-root[dir="rtl"] {
+  text-align: right;
+}
+
+.cms-root[dir="rtl"] .cms-sidebar {
+  right: 0;
+  left: auto;
+  border-right: none;
+  border-left: 1px solid var(--cms-border-subtle);
+}
+
+.cms-root[dir="rtl"] .cms-main {
+  margin-right: var(--cms-sidebar-width);
+  margin-left: 0;
+}
+
+.cms-root[dir="rtl"] .cms-header {
+  right: var(--cms-sidebar-width);
+  left: auto;
+}
+
+/* ─── Responsive Sidebar ─────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cms-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform var(--cms-transition-normal);
+  }
+
+  .cms-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .cms-root[dir="rtl"] .cms-sidebar {
+    right: 0;
+    left: auto;
+    transform: translateX(100%);
+  }
+
+  .cms-root[dir="rtl"] .cms-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .cms-main {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .cms-header {
+    left: 0 !important;
+    right: 0 !important;
+  }
+}
+
+/* ─── Table Responsive ───────────────────────────────────────────────────── */
+.cms-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Form Layout ────────────────────────────────────────────────────────── */
+.cms-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .cms-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Bilingual Field Layout ─────────────────────────────────────────────── */
+.cms-bilingual-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .cms-bilingual-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Loading Skeleton ───────────────────────────────────────────────────── */
+@keyframes cms-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.cms-skeleton {
+  animation: cms-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes cms-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Toast Animation ────────────────────────────────────────────────────── */
+@keyframes cms-slide-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes cms-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.cms-toast-enter {
+  animation: cms-slide-in var(--cms-transition-normal);
+}
+
+.cms-toast-exit {
+  animation: cms-fade-out 300ms ease forwards;
+}

@@ -1,0 +1,111 @@
+{
+  "total_frames": 366,
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "quality": 85,
+  "format": "webp",
+  "source_clips": [
+    "hero_kf01_to_kf02_v1.mp4",
+    "hero_kf02_to_kf03_v1.mp4",
+    "hero_kf03_to_kf04_v1.mp4",
+    "hero_kf04_to_kf045_v1.mp4",
+    "hero_kf045_to_kf05_v1.mp4",
+    "hero_kf05_to_kf06_v1.mp4"
+  ],
+  "segment_boundaries": [
+    {
+      "clip": "hero_kf01_to_kf02_v1.mp4",
+      "start_frame": 1,
+      "end_frame": 61,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    },
+    {
+      "clip": "hero_kf02_to_kf03_v1.mp4",
+      "start_frame": 62,
+      "end_frame": 122,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    },
+    {
+      "clip": "hero_kf03_to_kf04_v1.mp4",
+      "start_frame": 123,
+      "end_frame": 183,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    },
+    {
+      "clip": "hero_kf04_to_kf045_v1.mp4",
+      "start_frame": 184,
+      "end_frame": 244,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    },
+    {
+      "clip": "hero_kf045_to_kf05_v1.mp4",
+      "start_frame": 245,
+      "end_frame": 305,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    },
+    {
+      "clip": "hero_kf05_to_kf06_v1.mp4",
+      "start_frame": 306,
+      "end_frame": 366,
+      "extracted_frames": 61,
+      "source_frames": 121,
+      "source_fps": 24.0
+    }
+  ],
+  "scroll_weights": [
+    {
+      "segment": 1,
+      "scroll_start": 0,
+      "scroll_end": 0.16666666666666666,
+      "frame_start": 1,
+      "frame_end": 61
+    },
+    {
+      "segment": 2,
+      "scroll_start": 0.16666666666666666,
+      "scroll_end": 0.3333333333333333,
+      "frame_start": 62,
+      "frame_end": 122
+    },
+    {
+      "segment": 3,
+      "scroll_start": 0.3333333333333333,
+      "scroll_end": 0.5,
+      "frame_start": 123,
+      "frame_end": 183
+    },
+    {
+      "segment": 4,
+      "scroll_start": 0.5,
+      "scroll_end": 0.6666666666666666,
+      "frame_start": 184,
+      "frame_end": 244
+    },
+    {
+      "segment": 5,
+      "scroll_start": 0.6666666666666666,
+      "scroll_end": 0.8333333333333333,
+      "frame_start": 245,
+      "frame_end": 305
+    },
+    {
+      "segment": 6,
+      "scroll_start": 0.8333333333333333,
+      "scroll_end": 1.0,
+      "frame_start": 306,
+      "frame_end": 366
+    }
+  ]
+}

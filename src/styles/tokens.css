@@ -1,0 +1,443 @@
+/**
+ * SidrahSoft Global Design Tokens
+ *
+ * Single source of truth for colors, typography, spacing, radius, shadows,
+ * transitions, and z-index used by the public website, leads dashboard,
+ * lead detail, login, and future form builder.
+ *
+ * Updated in SIDRAH-VISUAL-FOUNDATION-001 with:
+ * - Dark plum base palette (not pure black)
+ * - Copper and tech-blue accent tokens
+ * - Section-specific background tokens
+ * - Card surface tokens (glass, solid, premium, gold)
+ * - Display/body font family tokens
+ * - Extended container, shadow, z-index, and motion scales
+ * - Backward-compatible aliases for all legacy tokens
+ *
+ * Values are exposed as CSS custom properties and consumed by both CSS
+ * classes and (where needed) JavaScript via getComputedStyle or companion
+ * cmsTokens.js.
+ */
+
+:root {
+  /* ───────────────────────────────────────────────────────────────────────
+     Backgrounds — dark plum with depth layers (not pure black)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-bg: #0a0b10;
+  --color-bg-elevated: #12101c;
+  --color-bg-raised: #1a1530;
+  --color-bg-input: #08090f;
+  --color-bg-hover: #181530;
+  --color-bg-deep: #07080c;
+
+  /* Section-specific backgrounds for ambient mood differentiation */
+  --section-bg-hero: #0a0b10;
+  --section-bg-foundation: #0e0c16;
+  --section-bg-capabilities: #12101c;
+  --section-bg-services: #0c0a14;
+  --section-bg-automation: #100e1a;
+  --section-bg-industries: #0e0c16;
+  --section-bg-partners: #12101c;
+  --section-bg-casestudies: #0a0b10;
+  --section-bg-insights: #100e1a;
+  --section-bg-careers: #0e0c16;
+  --section-bg-contact: #0c0a14;
+  --section-bg-footer: #07080c;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Surfaces (glass/card panels)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-surface: rgba(242, 242, 242, 0.035);
+  --color-surface-elevated: rgba(242, 242, 242, 0.06);
+  --color-surface-hover: rgba(242, 242, 242, 0.08);
+  --color-surface-card: rgba(242, 242, 242, 0.045);
+  --color-surface-card-hover: rgba(242, 242, 242, 0.07);
+  --color-surface-premium: rgba(141, 81, 160, 0.04);
+
+  /* New card surface tokens */
+  --card-surface-glass: rgba(242, 242, 242, 0.04);
+  --card-surface-glass-hover: rgba(242, 242, 242, 0.07);
+  --card-surface-solid: #161420;
+  --card-surface-solid-hover: #1c1730;
+  --card-surface-premium: linear-gradient(180deg, rgba(139, 92, 166, 0.04), rgba(242, 242, 242, 0.02));
+  --card-surface-gold: linear-gradient(180deg, rgba(201, 169, 110, 0.03), rgba(242, 242, 242, 0.02));
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Borders
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-border: rgba(242, 242, 242, 0.10);
+  --color-border-subtle: rgba(242, 242, 242, 0.07);
+  --color-border-strong: rgba(242, 242, 242, 0.14);
+  --color-border-solid: #1e1c2e;
+  --color-border-default: #2a273e;
+  --color-border-strong-solid: #363340;
+
+  /* New gradient border token */
+  --color-border-gradient: linear-gradient(135deg, rgba(139, 92, 166, 0.3), rgba(201, 169, 110, 0.2), transparent);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Brand — Primary Gold (refined)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-gold: #c9a96e;
+  --color-gold-hover: #d8b87a;
+  --color-gold-soft: rgba(201, 169, 110, 0.1);
+  --color-gold-soft-border: rgba(201, 169, 110, 0.3);
+  --color-gold-glow: rgba(201, 169, 110, 0.18);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Brand — Secondary Purple (deepened)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-purple: #8b5ca6;
+  --color-purple-deep: #6d4a8a;
+  --color-purple-soft: rgba(139, 92, 166, 0.14);
+  --color-purple-soft-border: rgba(139, 92, 166, 0.28);
+  --color-purple-glow: rgba(139, 92, 166, 0.18);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Tertiary — Copper (warmth)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-copper: #b87333;
+  --color-copper-soft: rgba(184, 115, 51, 0.08);
+  --color-copper-border: rgba(184, 115, 51, 0.25);
+  --color-copper-glow: rgba(184, 115, 51, 0.12);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Quaternary — Tech Blue (sparingly, for technology signal)
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-tech-blue: #4a9eff;
+  --color-tech-blue-soft: rgba(74, 158, 255, 0.08);
+  --color-tech-blue-border: rgba(74, 158, 255, 0.25);
+  --color-tech-blue-glow: rgba(74, 158, 255, 0.12);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Text hierarchy
+     Values kept close to legacy for backward compatibility.
+     New --color-text-* deep tokens added for future section rebuilds.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-text-primary: #f0eef4;
+  --color-text-secondary: #9088a0;
+  --color-text-muted: #a0a7b0;       /* kept light for backward compat */
+  --color-text-tertiary: #888;       /* kept for backward compat */
+  --color-text-dim: #555;
+  --color-text-inverse: #0a0b10;
+
+  /* New deep text tokens for section rebuilds (not used by legacy components) */
+  --color-text-secondary-deep: #9088a0;
+  --color-text-muted-deep: #6b6580;
+  --color-text-dim-deep: #4a4458;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Status
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --color-success: #22c55e;
+  --color-success-soft: rgba(34, 197, 94, 0.15);
+  --color-success-border: rgba(34, 197, 94, 0.3);
+
+  --color-warning: #f59e0b;
+  --color-warning-soft: rgba(245, 158, 11, 0.15);
+  --color-warning-border: rgba(245, 158, 11, 0.3);
+
+  --color-danger: #ef4444;
+  --color-danger-soft: rgba(239, 68, 68, 0.1);
+  --color-danger-border: rgba(239, 68, 68, 0.3);
+
+  --color-info: #3b82f6;
+  --color-info-soft: rgba(59, 130, 246, 0.15);
+  --color-info-border: rgba(59, 130, 246, 0.3);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Typography — Font families
+     ─────────────────────────────────────────────────────────────────────── */
+
+  /* Display fonts for headings */
+  --font-display: 'Space Grotesk', 'El Messiri', system-ui, sans-serif;
+  --font-display-ar: 'El Messiri', 'Space Grotesk', system-ui, sans-serif;
+
+  /* Body fonts for text */
+  --font-body: 'Inter', 'Tajawal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body-ar: 'Tajawal', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Legacy font-family alias — points to body font for backward compat */
+  --font-family: var(--font-body);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Typography — Size scale
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --font-size-2xs: 0.625rem;
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+  --font-size-2xl: 1.25rem;
+  --font-size-3xl: 1.5rem;
+  --font-size-4xl: 1.75rem;
+
+  /* New editorial sizes for section headings */
+  --font-size-display: clamp(2.75rem, 6vw, 5rem);
+  --font-size-h1: clamp(2.25rem, 4.5vw, 3.75rem);
+  --font-size-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --font-size-h3: clamp(1.375rem, 2vw, 1.75rem);
+  --font-size-h4: clamp(1.125rem, 1.5vw, 1.375rem);
+  --font-size-body-lg: 1.125rem;
+  --font-size-body: 1rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-caption: 0.75rem;
+
+  /* Eyebrow style */
+  --eyebrow-font-size: 0.75rem;
+  --eyebrow-font-weight: 500;
+  --eyebrow-letter-spacing: 0.12em;
+  --eyebrow-text-transform: uppercase;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Typography — Weights
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --font-weight-thin: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Typography — Line heights
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --line-height-display: 1.05;
+  --line-height-display-ar: 1.2;
+  --line-height-heading: 1.15;
+  --line-height-heading-ar: 1.25;
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+  --line-height-body: 1.6;
+  --line-height-body-ar: 1.7;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Typography — Letter spacing
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.04em;
+  --letter-spacing-wider: 0.08em;
+  --letter-spacing-eyebrow: 0.12em;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Spacing
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* New section spacing tokens */
+  --section-padding-y: 10rem;
+  --section-padding-y-tablet: 7rem;
+  --section-padding-y-mobile: 5rem;
+  --section-padding-x: 2rem;
+  --section-padding-x-tablet: 1.5rem;
+  --section-padding-x-mobile: 1.25rem;
+  --section-gap-heading: 6rem;
+  --section-gap-cards: 2.5rem;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Radius
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 1.25rem;
+  --radius-pill: 9999px;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Shadows
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --shadow-premium: 0 1rem 3rem rgba(0, 0, 0, 0.3), 0 0 1rem rgba(139, 92, 166, 0.06);
+  --shadow-gold: 0 0 2.5rem rgba(201, 169, 110, 0.12);
+  --shadow-purple: 0 0 2.5rem rgba(139, 92, 166, 0.12);
+
+  /* New glow shadows */
+  --glow-purple: 0 0 3rem rgba(139, 92, 166, 0.12);
+  --glow-gold: 0 0 3rem rgba(201, 169, 110, 0.10);
+  --glow-copper: 0 0 2.5rem rgba(184, 115, 51, 0.08);
+  --glow-tech: 0 0 2.5rem rgba(74, 158, 255, 0.08);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Transitions / Motion durations
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  /* New motion tokens */
+  --motion-duration-instant: 100ms;
+  --motion-duration-fast: 200ms;
+  --motion-duration-normal: 400ms;
+  --motion-duration-slow: 600ms;
+  --motion-duration-cinematic: 800ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Focus ring
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --focus-ring: 0 0 0 2px rgba(201, 169, 110, 0.4);
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-gold);
+  --focus-ring-width: 2px;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Containers
+     ─────────────────────────────────────────────────────────────────────── */
+
+  /* Legacy container tokens (kept for backward compat) */
+  --container-sm: 48rem;
+  --container-md: 60rem;
+  --container-lg: 68rem;
+  --container-xl: 84rem;
+
+  /* New container system */
+  --container-narrow: 48rem;
+  --container-standard: 64rem;
+  --container-wide: 80rem;
+  --container-full: 90rem;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Gradients
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --gradient-section: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(139, 92, 166, 0.04), transparent 70%);
+  --gradient-section-gold: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201, 169, 110, 0.03), transparent 70%);
+  --gradient-section-deep: radial-gradient(ellipse 100% 60% at 50% 100%, rgba(27, 24, 48, 0.5), transparent 70%);
+  --gradient-surface: linear-gradient(180deg, rgba(242, 242, 242, 0.035), rgba(242, 242, 242, 0.015));
+  --gradient-card-premium: linear-gradient(180deg, rgba(139, 92, 166, 0.03), rgba(242, 242, 242, 0.02));
+  --gradient-border-glow: linear-gradient(90deg, transparent, rgba(139, 92, 166, 0.15), transparent);
+
+  /* New ambient gradients for section mood differentiation */
+  --gradient-ambient-default: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(139, 92, 166, 0.04), transparent 70%);
+  --gradient-ambient-gold: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201, 169, 110, 0.03), transparent 70%);
+  --gradient-ambient-tech: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(74, 158, 255, 0.03), transparent 70%);
+  --gradient-ambient-copper: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(184, 115, 51, 0.03), transparent 70%);
+  --gradient-card-edge: linear-gradient(135deg, rgba(139, 92, 166, 0.15), transparent 50%, rgba(201, 169, 110, 0.08));
+  --gradient-section-transition: linear-gradient(180deg, transparent, rgba(139, 92, 166, 0.02), transparent);
+
+  /* ───────────────────────────────────────────────────────────────────────
+     Z-index scale
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --z-base: 0;
+  --z-content: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-header: 500;
+  --z-backdrop: 900;
+  --z-overlay: 9990;
+  --z-modal: 1000;
+  --z-tooltip: 1100;
+  --z-toast: 1200;
+  --z-cinematic-layers: 9995;
+  --z-progress-bar: 600;
+
+  /* ───────────────────────────────────────────────────────────────────────
+     CMS compatibility aliases
+     Existing CMS components reference --cms-* variables. These aliases keep
+     them working while we migrate toward the unified --color-* / --space-*
+     naming in future phases.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --cms-bg-page: var(--color-bg-input);
+  --cms-bg-surface: var(--color-bg-elevated);
+  --cms-bg-surface-alt: var(--color-bg-raised);
+  --cms-bg-input: var(--color-bg-input);
+  --cms-bg-hover: var(--color-bg-hover);
+
+  --cms-border-subtle: var(--color-border-solid);
+  --cms-border-default: var(--color-border-default);
+  --cms-border-strong: var(--color-border-strong-solid);
+
+  --cms-text-primary: var(--color-text-primary);
+  --cms-text-secondary: var(--color-text-tertiary);
+  --cms-text-muted: var(--color-text-tertiary);
+  --cms-text-dim: var(--color-text-dim);
+
+  --cms-accent: var(--color-gold);
+  --cms-accent-bg: var(--color-gold-soft);
+  --cms-accent-border: var(--color-gold-soft-border);
+  --cms-accent-hover: var(--color-gold-hover);
+
+  --cms-success: var(--color-success);
+  --cms-success-bg: var(--color-success-soft);
+  --cms-success-border: var(--color-success-border);
+  --cms-warning: var(--color-warning);
+  --cms-warning-bg: var(--color-warning-soft);
+  --cms-warning-border: var(--color-warning-border);
+  --cms-danger: var(--color-danger);
+  --cms-danger-bg: var(--color-danger-soft);
+  --cms-danger-border: var(--color-danger-border);
+  --cms-info: var(--color-info);
+  --cms-info-bg: var(--color-info-soft);
+  --cms-info-border: var(--color-info-border);
+
+  --cms-font-family: var(--font-family);
+  --cms-transition-fast: var(--transition-fast);
+  --cms-transition-normal: var(--transition-normal);
+  --cms-focus-ring: var(--focus-ring);
+
+  --cms-radius-sm: var(--radius-sm);
+  --cms-radius-md: var(--radius-md);
+  --cms-radius-lg: var(--radius-lg);
+  --cms-radius-xl: var(--radius-xl);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   RTL typography overrides
+   ─────────────────────────────────────────────────────────────────────────── */
+
+[dir='rtl'] {
+  --letter-spacing-tight: 0;
+  --letter-spacing-eyebrow: 0;
+  --letter-spacing-wide: 0;
+  --letter-spacing-wider: 0;
+
+  --font-display: var(--font-display-ar);
+  --font-body: var(--font-body-ar);
+  --font-family: var(--font-body-ar);
+
+  --line-height-display: var(--line-height-display-ar);
+  --line-height-heading: var(--line-height-heading-ar);
+  --line-height-body: var(--line-height-body-ar);
+}

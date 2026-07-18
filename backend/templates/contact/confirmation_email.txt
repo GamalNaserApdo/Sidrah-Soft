@@ -1,0 +1,13 @@
+Thank you for contacting {{ site_name }}
+
+Dear {{ submission.full_name }},
+
+We have received your request and appreciate your interest in {{ site_name }}.
+
+Selected inquiry type: {{ inquiry_name }}
+
+Our team will review your message and respond as soon as possible. If your request is urgent, please feel free to reach out directly at {{ support_email }}.
+
+Best regards,
+The {{ site_name }} Team
+{{ support_email }}

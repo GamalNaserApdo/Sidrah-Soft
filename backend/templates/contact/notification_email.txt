@@ -1,0 +1,26 @@
+New SidrahSoft Lead
+
+Submission ID: {{ submission.public_id }}
+Created at: {{ submission.created_at|date:"Y-m-d H:i" }}
+Priority: {{ submission.get_priority_display }}
+Status: {{ submission.get_status_display }}
+Language: {{ submission.language|default:"-" }}
+
+--- Contact details ---
+Name: {{ submission.full_name }}
+Email: {{ submission.email }}
+Phone: {{ submission.phone|default:"-" }}
+Company: {{ submission.company|default:"-" }}
+Job title: {{ submission.job_title|default:"-" }}
+
+--- Inquiry ---
+Inquiry type: {{ inquiry_name }}
+Related service: {{ service_name }}
+Subject: {{ submission.subject|default:"-" }}
+
+Message:
+{{ submission.message }}
+
+---
+{% if lead_url %}Open in Leads Dashboard: {{ lead_url }}
+{% endif %}Reply to this email to respond to {{ submission.full_name }}.

@@ -1,0 +1,334 @@
+/* ============================================================
+   VISUAL-COMPOSITION-AND-WORKFLOW-SYSTEM-001
+   Workflow Visual Language — CSS-only node/flow diagrams
+   ============================================================ */
+
+/* ── Flow container ── */
+.wf-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.wf-flow--vertical {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── Node ── */
+.wf-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-5) var(--space-4);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  min-width: 7rem;
+  min-height: 5.5rem;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.wf-node:hover {
+  border-color: var(--color-purple-soft-border);
+  background-color: var(--color-surface-card-hover);
+  box-shadow: 0 0.5rem 1.5rem var(--color-purple-glow);
+}
+
+.wf-node--accent {
+  border-color: rgba(141, 81, 160, 0.4);
+  background-color: var(--color-surface-premium);
+}
+
+.wf-node--accent:hover {
+  border-color: rgba(141, 81, 160, 0.6);
+  box-shadow: 0 0.5rem 1.5rem rgba(141, 81, 160, 0.2);
+}
+
+.wf-node--gold {
+  border-color: var(--color-gold-soft-border);
+}
+
+.wf-node--gold:hover {
+  border-color: rgba(201, 169, 110, 0.5);
+  box-shadow: 0 0.5rem 1.5rem var(--color-gold-glow);
+}
+
+.wf-node--ai {
+  background: linear-gradient(135deg, rgba(141, 81, 160, 0.08), var(--color-surface-card));
+  border-color: rgba(141, 81, 160, 0.35);
+}
+
+.wf-node--ai:hover {
+  border-color: rgba(141, 81, 160, 0.55);
+  box-shadow: 0 0.5rem 2rem rgba(141, 81, 160, 0.18);
+}
+
+/* ── Node icon ── */
+.wf-node__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wf-node--gold .wf-node__icon {
+  color: var(--color-gold);
+}
+
+.wf-node--ai .wf-node__icon {
+  color: var(--color-purple);
+  filter: drop-shadow(0 0 0.375rem rgba(141, 81, 160, 0.3));
+}
+
+.wf-node__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Node label ── */
+.wf-node__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.wf-node__sublabel {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── Connector (horizontal) ── */
+.wf-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.wf-connector__line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    var(--color-border-strong),
+    rgba(141, 81, 160, 0.3),
+    var(--color-border-strong)
+  );
+  border-radius: 1px;
+}
+
+.wf-connector__arrow {
+  position: absolute;
+  right: -0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid rgba(141, 81, 160, 0.4);
+  border-top: 0.375rem solid transparent;
+  border-bottom: 0.375rem solid transparent;
+}
+
+/* ── Connector (vertical) ── */
+.wf-flow--vertical .wf-connector {
+  min-width: 0;
+  min-height: 2.5rem;
+}
+
+.wf-flow--vertical .wf-connector__line {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg,
+    var(--color-border-strong),
+    rgba(141, 81, 160, 0.3),
+    var(--color-border-strong)
+  );
+}
+
+.wf-flow--vertical .wf-connector__arrow {
+  bottom: -0.25rem;
+  top: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) rotate(90deg);
+}
+
+/* ── Connector variant: dashed ── */
+.wf-connector--dashed .wf-connector__line {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border-strong) 0,
+    var(--color-border-strong) 0.375rem,
+    transparent 0.375rem,
+    transparent 0.75rem
+  );
+}
+
+.wf-flow--vertical .wf-connector--dashed .wf-connector__line {
+  background: repeating-linear-gradient(
+    180deg,
+    var(--color-border-strong) 0,
+    var(--color-border-strong) 0.375rem,
+    transparent 0.375rem,
+    transparent 0.75rem
+  );
+}
+
+/* ── Flow wrap (responsive) ── */
+.wf-flow-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-6);
+  background-color: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.wf-flow-wrap--gradient {
+  background: linear-gradient(135deg, var(--color-surface-premium), var(--color-surface-card));
+  border-color: rgba(141, 81, 160, 0.2);
+}
+
+/* ── Flow label ── */
+.wf-flow-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-purple);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+[dir='rtl'] .wf-flow-label {
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* ── Flow caption ── */
+.wf-flow-caption {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: var(--space-4);
+  line-height: var(--line-height-relaxed);
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Responsive: collapse horizontal flows to vertical on mobile ── */
+@media (max-width: 767px) {
+  .wf-flow {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .wf-connector {
+    min-width: 0;
+    min-height: 2rem;
+  }
+
+  .wf-connector__line {
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg,
+      var(--color-border-strong),
+      rgba(141, 81, 160, 0.3),
+      var(--color-border-strong)
+    );
+  }
+
+  .wf-connector__arrow {
+    bottom: -0.25rem;
+    top: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) rotate(90deg);
+  }
+
+  .wf-node {
+    min-width: 9rem;
+    width: 100%;
+    max-width: 16rem;
+  }
+
+  .wf-flow-wrap {
+    padding: var(--space-6) var(--space-4);
+  }
+}
+
+/* ── RTL: flip arrow direction ── */
+[dir='rtl'] .wf-connector__arrow {
+  left: -0.25rem;
+  right: auto;
+  border-left: none;
+  border-right: 0.5rem solid rgba(141, 81, 160, 0.4);
+}
+
+[dir='rtl'] .wf-flow--vertical .wf-connector__arrow {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) rotate(90deg);
+}
+
+[dir='rtl'] .wf-connector__line {
+  background: linear-gradient(270deg,
+    var(--color-border-strong),
+    rgba(141, 81, 160, 0.3),
+    var(--color-border-strong)
+  );
+}
+
+/* ── Extra small screens ── */
+@media (max-width: 430px) {
+  .wf-node {
+    min-width: 8rem;
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .wf-node__label {
+    font-size: 0.75rem;
+  }
+
+  .wf-node__sublabel {
+    font-size: 0.625rem;
+  }
+
+  .wf-flow-wrap {
+    padding: var(--space-4) var(--space-3);
+  }
+}
+
+@media (max-width: 360px) {
+  .wf-node {
+    min-width: 7rem;
+    min-height: 4.5rem;
+  }
+
+  .wf-flow-wrap {
+    padding: var(--space-3) var(--space-2);
+  }
+}

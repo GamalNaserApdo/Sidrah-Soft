@@ -1,0 +1,77 @@
+{
+  "generation_date": "2026-07-16",
+  "model": "gpt_image_2",
+  "backend_model": "videotape-alpha",
+  "aspect_ratio": "16:9",
+  "resolution": "2k",
+  "dimensions": "2688x1520",
+  "quality": "high",
+  "total_variations": 8,
+  "prompt": "Create a magnificent digital Sidrah tree made of flowing golden light streams, intelligent network connections, luminous data pathways, and elegant technological filaments. The tree stands inside a vast premium architectural space with cinematic depth, dark graphite surfaces, subtle deep-plum atmosphere, and warm golden illumination. The trunk is formed from multiple streams of intelligent energy merging into one strong, elegant, architectural structure. The branches spread naturally like a living software architecture system, carrying glowing data nodes, interconnected pathways, and refined digital filaments. The tree must feel like a premium enterprise technology organism. Luxury technology brand. Enterprise-grade. Editorial. Cinematic. Architectural. Color palette: Dark graphite. Deep plum. Warm antique gold. Burnished copper. Controlled muted purple. Lighting: Cinematic volumetric lighting. Warm gold emitted from the tree. Subtle copper rim light. Deep purple atmospheric haze. Elegant reflections on the dark floor. Composition: 16:9 cinematic website hero background. Tree positioned center and upper-center. Large stable trunk. Wide but elegant canopy. Preserve large dark negative space on both sides for website text. Preserve a dark lower portion for headlines. Every edge and corner should fade into near-black graphite and dark plum. No people. No text. No logos. No watermarks. No cyberpunk. No gaming aesthetics. No fantasy forests. No bright blue dominance. No teal. No neon overload.",
+  "variations": [
+    {
+      "id": 1,
+      "job_id": "cf7d190c-1ecf-44a4-a5aa-9ba813e13306",
+      "file": "variation-01.png",
+      "size_bytes": 5561307,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_155548_cf7d190c-1ecf-44a4-a5aa-9ba813e13306.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_155548_cf7d190c-1ecf-44a4-a5aa-9ba813e13306_min.webp"
+    },
+    {
+      "id": 2,
+      "job_id": "8697deea-608e-4b63-ba42-66d5b2634293",
+      "file": "variation-02.png",
+      "size_bytes": 5869615,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_155854_8697deea-608e-4b63-ba42-66d5b2634293.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_155854_8697deea-608e-4b63-ba42-66d5b2634293_min.webp"
+    },
+    {
+      "id": 3,
+      "job_id": "87c2850b-98e2-4cd0-af02-4984e5c1b592",
+      "file": "variation-03.png",
+      "size_bytes": 6208516,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160146_87c2850b-98e2-4cd0-af02-4984e5c1b592.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160146_87c2850b-98e2-4cd0-af02-4984e5c1b592_min.webp"
+    },
+    {
+      "id": 4,
+      "job_id": "9fa64794-cda4-41dd-ae75-a97cb12b7ffb",
+      "file": "variation-04.png",
+      "size_bytes": 5570441,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160420_9fa64794-cda4-41dd-ae75-a97cb12b7ffb.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160420_9fa64794-cda4-41dd-ae75-a97cb12b7ffb_min.webp"
+    },
+    {
+      "id": 5,
+      "job_id": "d4a0612a-4a46-43f6-accd-9f6442548558",
+      "file": "variation-05.png",
+      "size_bytes": 6707666,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160704_d4a0612a-4a46-43f6-accd-9f6442548558.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160704_d4a0612a-4a46-43f6-accd-9f6442548558_min.webp"
+    },
+    {
+      "id": 6,
+      "job_id": "7962ad01-8ae0-4a1b-9c56-814e301a9f11",
+      "file": "variation-06.png",
+      "size_bytes": 6657818,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160952_7962ad01-8ae0-4a1b-9c56-814e301a9f11.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_160952_7962ad01-8ae0-4a1b-9c56-814e301a9f11_min.webp"
+    },
+    {
+      "id": 7,
+      "job_id": "d7f5639d-f250-48d8-bbf2-dbed85d45126",
+      "file": "variation-07.png",
+      "size_bytes": 6280165,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_161247_d7f5639d-f250-48d8-bbf2-dbed85d45126.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_161247_d7f5639d-f250-48d8-bbf2-dbed85d45126_min.webp"
+    },
+    {
+      "id": 8,
+      "job_id": "1a0c60dd-e074-44cd-b1fa-ffd8967bec6f",
+      "file": "variation-08.png",
+      "size_bytes": 5882601,
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_161537_1a0c60dd-e074-44cd-b1fa-ffd8967bec6f.png",
+      "thumbnail_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260716_161537_1a0c60dd-e074-44cd-b1fa-ffd8967bec6f_min.webp"
+    }
+  ]
+}

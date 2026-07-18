@@ -1,0 +1,49 @@
+﻿[
+  {
+    "created_at": "2026-07-07T21:26:09.812315Z",
+    "display_name": "Seedance 2.0",
+    "id": "6f25c310-9109-4d9b-9efd-ed87c1f31ef3",
+    "job_type": "seedance_2_0",
+    "min_result_url": null,
+    "params": {
+      "aspect_ratio": "16:9",
+      "bitrate_mode": "standard",
+      "duration": 5,
+      "generate_audio": false,
+      "genre": "auto",
+      "height": 1080,
+      "medias": [
+        {
+          "data": {
+            "id": "8bef3023-6974-4b9c-853e-3e32cada0de8",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/8bef3023-6974-4b9c-853e-3e32cada0de8.png"
+          },
+          "role": "start_image"
+        },
+        {
+          "data": {
+            "id": "8f879372-33b4-429c-ab97-854188433221",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/8f879372-33b4-429c-ab97-854188433221.png"
+          },
+          "role": "end_image"
+        }
+      ],
+      "mode": "std",
+      "model": "seedance_2_0",
+      "multi_prompt": [],
+      "multi_shot_mode": "custom",
+      "multi_shots": false,
+      "prompt": "The exact same technological seed remains perfectly preserved. The internal intelligence architecture is now fully formed and highly organized. For the first time, the intelligent entity begins sensing a larger world beyond itself. A very small number of distant external points become faintly visible in the surrounding darkness. These points are subtle, elegant, and restrained. The central intelligence remains overwhelmingly dominant. Only a few extremely delicate pathways begin extending outward from the core toward these distant points. The emphasis is awareness, not connection. The ecosystem has not formed. No network web. No infrastructure. No large-scale linking. No expansion event. No technological diagram. No data visualization. No holograms. No interfaces. No dashboards. No particles filling the environment. The external points should feel distant and almost mysterious. The object remains the unquestioned focal point. Large negative space. Dark graphite environment. Luxury enterprise aesthetic. Museum-quality presentation. Photorealistic materials. Subtle blue, purple, and amber highlights. Premium cinematic push-in. Elegant reflections. The scene should feel like: An intelligent entity realizing there is something beyond itself. No morphing. No deformation. No shape change. No generic AI orb. No sphere. No cube. No crystal ball. No text. No logo. No watermark. No cyberpunk. No visual clutter. No sudden motion. No camera shake. No dramatic effects. No explosion. No smoke. No fire. No chaotic movement.",
+      "prompt_language": "en",
+      "reference_elements": [],
+      "resolution": "1080p",
+      "speedramp": "auto",
+      "width": 1920
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_212609_6f25c310-9109-4d9b-9efd-ed87c1f31ef3.mp4",
+    "status": "completed",
+    "thumbnail_url": "https://cdn.higgsfield.ai/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_212609_6f25c310-9109-4d9b-9efd-ed87c1f31ef3_thumbnail.webp"
+  }
+]

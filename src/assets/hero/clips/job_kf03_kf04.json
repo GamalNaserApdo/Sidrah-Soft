@@ -1,0 +1,49 @@
+﻿[
+  {
+    "created_at": "2026-07-07T21:16:49.465068Z",
+    "display_name": "Seedance 2.0",
+    "id": "eec9b722-1bed-4fb1-8885-fbe35bb9eb02",
+    "job_type": "seedance_2_0",
+    "min_result_url": null,
+    "params": {
+      "aspect_ratio": "16:9",
+      "bitrate_mode": "standard",
+      "duration": 5,
+      "generate_audio": false,
+      "genre": "auto",
+      "height": 1080,
+      "medias": [
+        {
+          "data": {
+            "id": "066dbf5c-52bd-47f7-b5cc-d5d1151b5fb1",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/066dbf5c-52bd-47f7-b5cc-d5d1151b5fb1.png"
+          },
+          "role": "start_image"
+        },
+        {
+          "data": {
+            "id": "8bef3023-6974-4b9c-853e-3e32cada0de8",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/8bef3023-6974-4b9c-853e-3e32cada0de8.png"
+          },
+          "role": "end_image"
+        }
+      ],
+      "mode": "std",
+      "model": "seedance_2_0",
+      "multi_prompt": [],
+      "multi_shot_mode": "custom",
+      "multi_shots": false,
+      "prompt": "The exact same technological seed remains perfectly preserved. The emerging internal pathways now become more organized and intelligent. Delicate internal structures begin arranging themselves into a coherent system. The object feels increasingly aware and purposeful. Intelligence is forming. Not connection. Not ecosystem. Not expansion. Only intelligence. The evolution remains internal. No external nodes. No network web. No infrastructure. No holograms. No interfaces. No particles drifting through space. The object remains dominant. Large negative space. Dark graphite environment. Premium cinematic push-in. Luxury enterprise aesthetic. Museum-quality presentation. Photorealistic materials. Subtle blue, purple and amber energy. Elegant reflections. The scene should feel like: An intelligent entity forming its internal architecture. No morphing. No deformation. No shape change. No generic AI orb. No sphere. No cube. No crystal ball. No text. No logo. No watermark. No dashboard. No cyberpunk. No visual clutter. No sudden motion. No camera shake. No dramatic effects. No explosion. No smoke. No fire. No chaotic movement.",
+      "prompt_language": "en",
+      "reference_elements": [],
+      "resolution": "1080p",
+      "speedramp": "auto",
+      "width": 1920
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_211649_eec9b722-1bed-4fb1-8885-fbe35bb9eb02.mp4",
+    "status": "completed",
+    "thumbnail_url": "https://cdn.higgsfield.ai/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_211649_eec9b722-1bed-4fb1-8885-fbe35bb9eb02_thumbnail.webp"
+  }
+]

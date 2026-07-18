@@ -1,0 +1,49 @@
+﻿[
+  {
+    "created_at": "2026-07-07T11:31:10.333928Z",
+    "display_name": "Seedance 2.0",
+    "id": "2d961e8f-9726-45ee-b3ee-de41c7542bbd",
+    "job_type": "seedance_2_0",
+    "min_result_url": null,
+    "params": {
+      "aspect_ratio": "16:9",
+      "bitrate_mode": "standard",
+      "duration": 5,
+      "generate_audio": false,
+      "genre": "auto",
+      "height": 1080,
+      "medias": [
+        {
+          "data": {
+            "id": "211751fa-cb66-46df-be82-b2efa63f146c",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/211751fa-cb66-46df-be82-b2efa63f146c.png"
+          },
+          "role": "start_image"
+        },
+        {
+          "data": {
+            "id": "6c18f968-51e3-42d3-a402-1f3a2873df7b",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/6c18f968-51e3-42d3-a402-1f3a2873df7b.png"
+          },
+          "role": "end_image"
+        }
+      ],
+      "mode": "std",
+      "model": "seedance_2_0",
+      "multi_prompt": [],
+      "multi_shot_mode": "custom",
+      "multi_shots": false,
+      "prompt": "Energy stabilizes across the ecosystem. The camera orbit slows to a complete stop. Network nodes gently settle into an ordered structure. The overall motion calms. The background warms subtly. The scene resolves into trust, confidence, stability, and purpose. The central core remains visually dominant. Motion is slow, elegant, premium, cinematic, and restrained. Corporate enterprise aesthetic. Luxury reflections. Photorealistic materials. Timeless technology symbolism. No sudden movement. No camera shake. No dramatic effects. No new objects. Without people, text, UI, dashboard, hologram, cyberpunk, smoke, fire, explosion, fast motion, motion blur, neon, generic AI orb, sphere, cube, watermark, logo, random particles, or chaotic movement.",
+      "prompt_language": "en",
+      "reference_elements": [],
+      "resolution": "1080p",
+      "speedramp": "auto",
+      "width": 1920
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_113110_2d961e8f-9726-45ee-b3ee-de41c7542bbd.mp4",
+    "status": "completed",
+    "thumbnail_url": "https://cdn.higgsfield.ai/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_113110_2d961e8f-9726-45ee-b3ee-de41c7542bbd_thumbnail.webp"
+  }
+]

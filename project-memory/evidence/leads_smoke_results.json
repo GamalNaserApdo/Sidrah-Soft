@@ -1,0 +1,234 @@
+{
+  "verdict": "PASS",
+  "passed": 26,
+  "total": 26,
+  "results": [
+    {
+      "step": "anonymous_leads_list_blocked",
+      "status": true,
+      "detail": {
+        "status": 403
+      }
+    },
+    {
+      "step": "csrf_cookie_set",
+      "status": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "step": "login_without_csrf_rejected",
+      "status": true,
+      "detail": {
+        "status": 403
+      }
+    },
+    {
+      "step": "support_login_success",
+      "status": true,
+      "detail": {
+        "cookies": [
+          "csrftoken",
+          "sessionid"
+        ]
+      }
+    },
+    {
+      "step": "current_user",
+      "status": true,
+      "detail": {
+        "id": 176,
+        "email": "smoke_support@example.test",
+        "first_name": "",
+        "last_name": "",
+        "display_name": "smoke_support",
+        "role": "support_agent",
+        "is_staff": false,
+        "is_superuser": false,
+        "is_active": true,
+        "capabilities": [
+          "contact.assign",
+          "contact.update",
+          "contact.view",
+          "dashboard.view"
+        ],
+        "permitted_modules": [
+          "contact",
+          "dashboard"
+        ]
+      }
+    },
+    {
+      "step": "editor_leads_list_blocked",
+      "status": true,
+      "detail": {
+        "status": 403
+      }
+    },
+    {
+      "step": "public_submission_english",
+      "status": true,
+      "detail": {
+        "success": true,
+        "public_id": "c0db95cb-388b-4d34-92bd-2954547e7dfb",
+        "status": "new",
+        "message": "Your inquiry has been received. We will be in touch soon."
+      }
+    },
+    {
+      "step": "public_submission_arabic",
+      "status": true,
+      "detail": {
+        "success": true,
+        "public_id": "8362ae41-beca-4da9-a366-679339691b84",
+        "status": "new",
+        "message": "Your inquiry has been received. We will be in touch soon."
+      }
+    },
+    {
+      "step": "submissions_saved_correctly",
+      "status": true,
+      "detail": {
+        "en_status": "new",
+        "ar_status": "new"
+      }
+    },
+    {
+      "step": "leads_list",
+      "status": true,
+      "detail": {
+        "count": 2
+      }
+    },
+    {
+      "step": "leads_stats",
+      "status": true,
+      "detail": {
+        "total": 2,
+        "new": 2,
+        "contacted": 0,
+        "in_progress": 0,
+        "closed": 0,
+        "spam": 0,
+        "archived": 0
+      }
+    },
+    {
+      "step": "leads_filter_status",
+      "status": true,
+      "detail": {
+        "count": 2
+      }
+    },
+    {
+      "step": "leads_search",
+      "status": true,
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "step": "leads_pagination",
+      "status": true,
+      "detail": {
+        "page_size": 1
+      }
+    },
+    {
+      "step": "lead_detail",
+      "status": true,
+      "detail": {
+        "id": 24
+      }
+    },
+    {
+      "step": "status_update",
+      "status": true,
+      "detail": {
+        "status": "contacted"
+      }
+    },
+    {
+      "step": "priority_update",
+      "status": true,
+      "detail": {
+        "priority": "high"
+      }
+    },
+    {
+      "step": "notes_update",
+      "status": true,
+      "detail": {
+        "internal_notes": "Smoke test internal note"
+      }
+    },
+    {
+      "step": "archive_action",
+      "status": true
+    },
+    {
+      "step": "spam_action",
+      "status": true
+    },
+    {
+      "step": "hard_delete_disabled",
+      "status": true,
+      "detail": {
+        "status": 405
+      }
+    },
+    {
+      "step": "activity_logs_created",
+      "status": true,
+      "detail": {
+        "found": [
+          "archived",
+          "email_notification_failed",
+          "email_notification_sent",
+          "internal_note_updated",
+          "lead_created",
+          "lead_login",
+          "lead_logout",
+          "marked_spam",
+          "priority_changed",
+          "status_changed",
+          "visitor_confirmation_sent"
+        ]
+      }
+    },
+    {
+      "step": "activity_logs_sanitized",
+      "status": true,
+      "detail": {
+        "leaked_fragments": []
+      }
+    },
+    {
+      "step": "session_invalidated_after_logout",
+      "status": true,
+      "detail": {
+        "status": 403
+      }
+    },
+    {
+      "step": "email_notification_evidence",
+      "status": true,
+      "detail": {
+        "backend_log_lines": [
+          "Subject: New SidrahSoft Lead =?utf-8?q?=E2=80=94_Website_Development_?=",
+          "New SidrahSoft Lead",
+          "Subject: Thank you for contacting SidrahSoft =?utf-8?b?4oCU?= Website",
+          "Thank you for contacting SidrahSoft"
+        ]
+      }
+    },
+    {
+      "step": "frontend_login_page",
+      "status": true,
+      "detail": {
+        "status": 200
+      }
+    }
+  ]
+}

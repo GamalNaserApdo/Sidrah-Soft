@@ -1,0 +1,210 @@
+/**
+ * SidrahSoft Typography System
+ *
+ * Font loading, type scale, heading styles, eyebrow, body text,
+ * and RTL-specific rules for Arabic typography.
+ *
+ * Fonts are loaded via Google Fonts in index.html (preconnect + display=swap).
+ * This file applies the font families, sizes, weights, line-heights, and
+ * letter-spacing rules using the tokens from tokens.css.
+ *
+ * Import order: after tokens.css, before global.css.
+ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Base font application
+   ─────────────────────────────────────────────────────────────────────────── */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+[dir='rtl'] body {
+  font-family: var(--font-body-ar);
+  line-height: var(--line-height-body-ar);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Display / Heading font application
+   Use .font-display or apply to heading elements via section styles.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+[dir='rtl'] .font-display {
+  font-family: var(--font-display-ar);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-display-ar);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Editorial heading scale
+   Applied via .section-heading or .font-display classes.
+   Not forced on existing headings — opt-in only.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  text-wrap: balance;
+}
+
+.text-h4 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.text-body-lg {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-lg);
+  line-height: var(--line-height-body);
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-normal);
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-normal);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   RTL heading overrides
+   ─────────────────────────────────────────────────────────────────────────── */
+
+[dir='rtl'] .text-display,
+[dir='rtl'] .text-h1,
+[dir='rtl'] .text-h2 {
+  font-family: var(--font-display-ar);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-display-ar);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+[dir='rtl'] .text-h3,
+[dir='rtl'] .text-h4 {
+  font-family: var(--font-display-ar);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-heading-ar);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+[dir='rtl'] .text-body-lg,
+[dir='rtl'] .text-body,
+[dir='rtl'] .text-body-sm,
+[dir='rtl'] .text-caption {
+  font-family: var(--font-body-ar);
+  line-height: var(--line-height-body-ar);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Eyebrow style
+   Small uppercase label above section headings.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.text-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--eyebrow-font-size);
+  font-weight: var(--eyebrow-font-weight);
+  letter-spacing: var(--eyebrow-letter-spacing);
+  text-transform: var(--eyebrow-text-transform);
+  color: var(--color-gold);
+  display: inline-block;
+}
+
+[dir='rtl'] .text-eyebrow {
+  font-family: var(--font-body-ar);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Section index number style
+   Large faded number for editorial section markers.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.text-section-index {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-thin);
+  color: var(--color-text-dim);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tight);
+  opacity: 0.5;
+}
+
+[dir='rtl'] .text-section-index {
+  font-family: var(--font-display-ar);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Selection styling
+   ─────────────────────────────────────────────────────────────────────────── */
+
+::selection {
+  background: rgba(201, 169, 110, 0.2);
+  color: var(--color-text-primary);
+}
+
+[dir='rtl'] ::selection {
+  background: rgba(201, 169, 110, 0.2);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Heading defaults (applied to raw h1-h4 only when .font-display is present)
+   We do NOT override raw heading tags globally to avoid breaking CMS/leads.
+   ─────────────────────────────────────────────────────────────────────────── */

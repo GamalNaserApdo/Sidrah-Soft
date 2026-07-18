@@ -1,0 +1,224 @@
+.public-website-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.public-route-content {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.cinematic-layers,
+.cinematic-ambient,
+.cinematic-glow,
+.cinematic-vignette,
+.cinematic-grain,
+.cinematic-progress {
+  pointer-events: none;
+}
+
+.cinematic-ambient,
+.cinematic-glow,
+.cinematic-vignette,
+.cinematic-grain {
+  position: fixed;
+  inset: 0;
+}
+
+.cinematic-ambient {
+  z-index: var(--z-base);
+  background-color: var(--cinematic-ambient-color, var(--section-bg-hero));
+  opacity: 0.98;
+  transition:
+    background-color var(--motion-duration-cinematic) var(--motion-ease-out),
+    opacity var(--motion-duration-normal) var(--motion-ease-out);
+  will-change: background-color;
+}
+
+.cinematic-glow {
+  z-index: var(--z-base);
+  background:
+    radial-gradient(
+      ellipse 58% 48% at var(--cinematic-glow-x, 50%) var(--cinematic-glow-y, 22%),
+      var(--cinematic-glow-color, rgba(139, 92, 166, 0.12)) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 42% 32% at var(--cinematic-glow-secondary-x, 74%) var(--cinematic-glow-secondary-y, 8%),
+      var(--cinematic-glow-secondary-color, transparent) 0%,
+      transparent 70%
+    );
+  opacity: var(--cinematic-glow-opacity, 0.45);
+  transition:
+    background var(--motion-duration-cinematic) var(--motion-ease-out),
+    opacity var(--motion-duration-normal) var(--motion-ease-out);
+}
+
+.cinematic-vignette {
+  z-index: var(--z-base);
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 65%, rgba(0, 0, 0, 0.25) 100%);
+  opacity: 0.42;
+}
+
+.cinematic-grain {
+  z-index: var(--z-base);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.5'/%3E%3C/svg%3E");
+  opacity: 0.022;
+}
+
+.cinematic-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-progress-bar);
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-purple));
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+[dir='rtl'] .cinematic-progress {
+  transform-origin: right center;
+}
+
+.cinematic-layers[data-ambient='hero'] {
+  --cinematic-ambient-color: var(--section-bg-hero);
+  --cinematic-glow-color: rgba(139, 92, 166, 0.16);
+  --cinematic-glow-secondary-color: rgba(201, 169, 110, 0.1);
+  --cinematic-glow-opacity: 0.52;
+  --cinematic-glow-x: 50%;
+  --cinematic-glow-y: 18%;
+  --cinematic-glow-secondary-x: 78%;
+  --cinematic-glow-secondary-y: 12%;
+}
+
+.cinematic-layers[data-ambient='foundation'] {
+  --cinematic-ambient-color: var(--section-bg-foundation);
+  --cinematic-glow-color: rgba(201, 169, 110, 0.13);
+  --cinematic-glow-opacity: 0.38;
+  --cinematic-glow-x: 42%;
+  --cinematic-glow-y: 20%;
+}
+
+.cinematic-layers[data-ambient='capabilities'],
+.cinematic-layers[data-ambient='services'] {
+  --cinematic-ambient-color: var(--section-bg-capabilities);
+  --cinematic-glow-color: rgba(139, 92, 166, 0.15);
+  --cinematic-glow-opacity: 0.42;
+  --cinematic-glow-x: 58%;
+  --cinematic-glow-y: 18%;
+}
+
+.cinematic-layers[data-ambient='services'] {
+  --cinematic-ambient-color: var(--section-bg-services);
+}
+
+.cinematic-layers[data-ambient='automation'] {
+  --cinematic-ambient-color: var(--section-bg-automation);
+  --cinematic-glow-color: rgba(74, 158, 255, 0.13);
+  --cinematic-glow-opacity: 0.4;
+  --cinematic-glow-x: 62%;
+  --cinematic-glow-y: 24%;
+}
+
+.cinematic-layers[data-ambient='industries'],
+.cinematic-layers[data-ambient='careers'] {
+  --cinematic-ambient-color: var(--section-bg-industries);
+  --cinematic-glow-color: rgba(184, 115, 51, 0.11);
+  --cinematic-glow-opacity: 0.36;
+  --cinematic-glow-x: 38%;
+  --cinematic-glow-y: 20%;
+}
+
+.cinematic-layers[data-ambient='careers'] {
+  --cinematic-ambient-color: var(--section-bg-careers);
+}
+
+.cinematic-layers[data-ambient='partners'] {
+  --cinematic-ambient-color: var(--section-bg-partners);
+  --cinematic-glow-color: rgba(201, 169, 110, 0.11);
+  --cinematic-glow-opacity: 0.35;
+  --cinematic-glow-x: 52%;
+  --cinematic-glow-y: 16%;
+}
+
+.cinematic-layers[data-ambient='casestudies'] {
+  --cinematic-ambient-color: var(--section-bg-casestudies);
+  --cinematic-glow-color: rgba(139, 92, 166, 0.13);
+  --cinematic-glow-secondary-color: rgba(201, 169, 110, 0.08);
+  --cinematic-glow-opacity: 0.43;
+  --cinematic-glow-x: 44%;
+  --cinematic-glow-y: 18%;
+  --cinematic-glow-secondary-x: 76%;
+  --cinematic-glow-secondary-y: 18%;
+}
+
+.cinematic-layers[data-ambient='insights'] {
+  --cinematic-ambient-color: var(--section-bg-insights);
+  --cinematic-glow-color: rgba(74, 158, 255, 0.1);
+  --cinematic-glow-opacity: 0.35;
+  --cinematic-glow-x: 60%;
+  --cinematic-glow-y: 16%;
+}
+
+.cinematic-layers[data-ambient='contact'] {
+  --cinematic-ambient-color: var(--section-bg-contact);
+  --cinematic-glow-color: rgba(139, 92, 166, 0.13);
+  --cinematic-glow-opacity: 0.35;
+  --cinematic-glow-x: 50%;
+  --cinematic-glow-y: 22%;
+}
+
+.cinematic-layers[data-ambient='footer'] {
+  --cinematic-ambient-color: var(--section-bg-footer);
+  --cinematic-glow-color: rgba(201, 169, 110, 0.07);
+  --cinematic-glow-opacity: 0.28;
+  --cinematic-glow-x: 50%;
+  --cinematic-glow-y: 85%;
+}
+
+@media (max-width: 767px) {
+  .cinematic-glow {
+    opacity: calc(var(--cinematic-glow-opacity, 0.45) * 0.7);
+  }
+
+  .cinematic-vignette {
+    opacity: 0.24;
+    background: radial-gradient(ellipse at center, transparent 0%, transparent 68%, rgba(0, 0, 0, 0.18) 100%);
+  }
+
+  .cinematic-grain {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-ambient,
+  .cinematic-glow {
+    transition: none;
+  }
+
+  .cinematic-progress {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .cinematic-glow,
+  .cinematic-grain {
+    display: none;
+  }
+
+  .cinematic-ambient {
+    opacity: 1;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .cinematic-vignette,
+  .cinematic-grain {
+    display: none;
+  }
+}

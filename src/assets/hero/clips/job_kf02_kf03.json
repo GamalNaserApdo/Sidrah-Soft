@@ -1,0 +1,49 @@
+﻿[
+  {
+    "created_at": "2026-07-07T21:06:32.207502Z",
+    "display_name": "Seedance 2.0",
+    "id": "33cba93b-9e6c-41d7-861e-f59fe47c7b92",
+    "job_type": "seedance_2_0",
+    "min_result_url": null,
+    "params": {
+      "aspect_ratio": "16:9",
+      "bitrate_mode": "standard",
+      "duration": 5,
+      "generate_audio": false,
+      "genre": "auto",
+      "height": 1080,
+      "medias": [
+        {
+          "data": {
+            "id": "6e52fc39-6989-4e1e-b69b-31c0733e7e37",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/6e52fc39-6989-4e1e-b69b-31c0733e7e37.png"
+          },
+          "role": "start_image"
+        },
+        {
+          "data": {
+            "id": "066dbf5c-52bd-47f7-b5cc-d5d1151b5fb1",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/066dbf5c-52bd-47f7-b5cc-d5d1151b5fb1.png"
+          },
+          "role": "end_image"
+        }
+      ],
+      "mode": "std",
+      "model": "seedance_2_0",
+      "multi_prompt": [],
+      "multi_shot_mode": "custom",
+      "multi_shots": false,
+      "prompt": "The exact same technological seed remains perfectly preserved. The awakening energy established previously now becomes more organized and visible. Tiny internal pathways begin forming inside the structure. The intelligence is emerging but remains incomplete. No external ecosystem. No network expansion. No environmental transformation. No visible infrastructure. No holograms. No interfaces. No particles floating in space. The change remains mostly internal. The camera continues a slow premium cinematic push-in. The object remains dominant. Large negative space. Dark graphite environment. Museum-quality presentation. Luxury enterprise aesthetic. Subtle purple, blue and amber highlights. Elegant reflections. The scene should feel like: An intelligence beginning to organize itself. No morphing. No deformation. No shape change. No generic AI orb. No sphere. No cube. No crystal ball. No text. No logo. No watermark. No dashboard. No cyberpunk. No visual clutter. No sudden motion. No camera shake. No dramatic effects. No explosion. No smoke. No fire. No chaotic movement.",
+      "prompt_language": "en",
+      "reference_elements": [],
+      "resolution": "1080p",
+      "speedramp": "auto",
+      "width": 1920
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_210632_33cba93b-9e6c-41d7-861e-f59fe47c7b92.mp4",
+    "status": "completed",
+    "thumbnail_url": "https://cdn.higgsfield.ai/user_3FvCisDJ9SsNMmADaRYpiR6hboB/hf_20260707_210632_33cba93b-9e6c-41d7-861e-f59fe47c7b92_thumbnail.webp"
+  }
+]
