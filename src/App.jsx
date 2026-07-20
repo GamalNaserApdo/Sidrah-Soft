@@ -17,6 +17,7 @@ import CareersSection from './components/sections/CareersSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/Footer';
 import TrainingPage from './components/pages/TrainingPage';
+import CourseDetailPage from './pages/CourseDetailPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import Header from './components/Header';
 import InsightsPage from './pages/InsightsPage';
@@ -108,7 +109,7 @@ function getPublicRouteMood(pathname) {
   if (pathname === '/case-studies') return 'casestudies';
   if (pathname === '/insights' || pathname.startsWith('/insights/')) return 'insights';
   if (pathname === '/careers') return 'careers';
-  if (pathname === '/training') return 'foundation';
+  if (pathname === '/training' || pathname.startsWith('/training/')) return 'foundation';
   return 'hero';
 }
 
@@ -133,6 +134,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PublicWebsiteShell><Home /></PublicWebsiteShell>} />
           <Route path="/training" element={<PublicWebsiteShell><TrainingPage /></PublicWebsiteShell>} />
+          <Route path="/training/:courseSlug" element={<PublicWebsiteShell><CourseDetailPage /></PublicWebsiteShell>} />
           <Route path="/case-studies" element={<PublicWebsiteShell><CaseStudiesPage /></PublicWebsiteShell>} />
           <Route path="/insights" element={<PublicWebsiteShell><InsightsPage /></PublicWebsiteShell>} />
           <Route path="/insights/:slug" element={<PublicWebsiteShell><InsightDetailPage /></PublicWebsiteShell>} />
