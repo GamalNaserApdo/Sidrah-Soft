@@ -263,7 +263,9 @@ if not DEBUG:
     # Trust the X-Forwarded-Proto header set by Railway's reverse proxy.
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # Enable these only on HTTPS deployments.
-    SECURE_SSL_REDIRECT = True
+    # SECURE_SSL_REDIRECT can be disabled for platforms like Railway where the edge
+    # terminates HTTPS and internal healthchecks reach the container over HTTP.
+    SECURE_SSL_REDIRECT = env_bool('SECURE_SSL_REDIRECT', default='True')
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
