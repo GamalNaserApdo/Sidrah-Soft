@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve --single --listen ${PORT:-3000} dist"
   },
   "dependencies": {
     "gsap": "^3.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.0"
+    "react-router-dom": "^7.6.0",
+    "serve": "^14.2.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.4.1",

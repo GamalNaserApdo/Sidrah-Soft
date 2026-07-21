@@ -1,0 +1,10 @@
+[build]
+builder = "nixpacks"
+
+[build.nixpacksPlan]
+providers = ["node"]
+
+[deploy]
+startCommand = "npm run start"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

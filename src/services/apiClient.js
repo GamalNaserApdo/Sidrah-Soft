@@ -1,8 +1,16 @@
 const DEFAULT_API_BASE_URL = 'http://localhost:8002';
 const DEFAULT_TIMEOUT = 10000;
 
-export const API_BASE_URL =
-  import.meta.env?.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;
+const envApiBaseUrl = import.meta.env?.VITE_API_BASE_URL;
+
+if (import.meta.env.PROD && !envApiBaseUrl) {
+  throw new Error(
+    '[SidrahSoft] VITE_API_BASE_URL is required in production builds. ' +
+      'Set it in your Railway Variables before building the frontend.',
+  );
+}
+
+export const API_BASE_URL = envApiBaseUrl || DEFAULT_API_BASE_URL;
 
 export class ApiError extends Error {
   constructor(status, statusText, data = null) {
