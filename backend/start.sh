@@ -4,6 +4,9 @@ set -euo pipefail
 echo "==> Running Django migrations..."
 python manage.py migrate --noinput
 
+echo "==> Seeding default inquiry types..."
+python manage.py seed_inquiry_types
+
 echo "==> Collecting static files..."
 python manage.py collectstatic --noinput
 
