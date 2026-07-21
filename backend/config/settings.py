@@ -6,6 +6,7 @@ For production deployments, copy `.env.example` to `.env` and fill in secure val
 from pathlib import Path
 
 from dotenv import load_dotenv
+import dj_database_url
 import os
 
 
@@ -23,11 +24,25 @@ def env_list(key, default=None, separator=','):
     return [item.strip() for item in value.split(separator) if item.strip()]
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+def env_prefixed(key, prefix='DJANGO_', fallback=None):
+    """Return a value, preferring DJANGO_ prefixed variable with a non-prefixed fallback."""
+    return os.environ.get(f'{prefix}{key}') or os.environ.get(key) or fallback
 
-DEBUG = os.environ.get('DEBUG', 'False').strip().lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+def env_bool(key, prefix='DJANGO_', default='False'):
+    """Return a boolean from a prefixed or non-prefixed env variable."""
+    value = env_prefixed(key, prefix=prefix, fallback=default)
+    return value.strip().lower() in ('true', '1', 'yes')
+
+
+SECRET_KEY = env_prefixed('SECRET_KEY')
+
+DEBUG = env_bool('DEBUG', default='False')
+
+ALLOWED_HOSTS = env_list(
+    'DJANGO_ALLOWED_HOSTS',
+    default=env_list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+)
 
 # Application definition
 
@@ -66,6 +81,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -100,10 +116,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get(
-            'DB_ENGINE',
-            'django.db.backends.postgresql',
-        ),
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME', 'sidrahsoft_db'),
         'USER': os.environ.get('DB_USER', 'sidrahsoft_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
@@ -114,6 +127,16 @@ DATABASES = {
         },
     }
 }
+
+# Railway / Heroku-style DATABASE_URL overrides local DB settings when present.
+# This preserves local development while enabling one-click PostgreSQL on Railway.
+database_url = env_prefixed('DATABASE_URL', prefix='', fallback=None)
+if database_url:
+    db_config = dj_database_url.parse(database_url, conn_max_age=600, ssl_require=False)
+    # Railway handles TLS at the connection level; keep SSL disabled unless explicitly required.
+    DATABASES['default'].update(db_config)
+    # Ensure ENGINE remains PostgreSQL if dj-database-url detection is ambiguous.
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
 
 # Password validation
 
@@ -159,6 +182,9 @@ USE_TZ = True
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# WhiteNoise storage backend for production static file serving.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -194,22 +220,28 @@ REST_FRAMEWORK = {
 # CORS
 
 CORS_ALLOWED_ORIGINS = env_list(
-    'CORS_ALLOWED_ORIGINS',
-    default=[
-        'http://localhost:5174',
-        'http://127.0.0.1:5174',
-    ],
+    'DJANGO_CORS_ALLOWED_ORIGINS',
+    default=env_list(
+        'CORS_ALLOWED_ORIGINS',
+        default=[
+            'http://localhost:5174',
+            'http://127.0.0.1:5174',
+        ],
+    ),
 )
 
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF trusted origins — must include the frontend origin for login/logout.
 CSRF_TRUSTED_ORIGINS = env_list(
-    'CSRF_TRUSTED_ORIGINS',
-    default=[
-        'http://localhost:5174',
-        'http://127.0.0.1:5174',
-    ],
+    'DJANGO_CSRF_TRUSTED_ORIGINS',
+    default=env_list(
+        'CSRF_TRUSTED_ORIGINS',
+        default=[
+            'http://localhost:5174',
+            'http://127.0.0.1:5174',
+        ],
+    ),
 )
 
 # Session and CSRF cookie configuration
@@ -228,6 +260,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
 if not DEBUG:
+    # Trust the X-Forwarded-Proto header set by Railway's reverse proxy.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # Enable these only on HTTPS deployments.
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 31536000
