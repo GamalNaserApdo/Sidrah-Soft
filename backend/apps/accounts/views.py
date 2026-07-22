@@ -38,8 +38,8 @@ class CSRFTokenView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        get_token(request)
-        return Response({'detail': 'CSRF cookie set.'})
+        token = get_token(request)
+        return Response({'detail': 'CSRF cookie set.', 'csrfToken': token})
 
 
 @method_decorator(csrf_protect, name='dispatch')

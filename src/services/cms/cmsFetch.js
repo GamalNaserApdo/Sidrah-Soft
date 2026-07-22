@@ -7,11 +7,8 @@
  */
 
 import { API_BASE_URL, ApiError } from '../apiClient';
+import { getCsrfToken } from '../authApi';
 
-function getCsrfToken() {
-  const match = document.cookie.match(/csrftoken=([^;]+)/);
-  return match ? match[1] : null;
-}
 
 /**
  * CMS fetch with CSRF, credentials, and JSON handling.

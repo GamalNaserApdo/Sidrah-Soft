@@ -79,6 +79,8 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    "django.middleware.common.CommonMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -246,12 +248,25 @@ CSRF_TRUSTED_ORIGINS = env_list(
 
 # Session and CSRF cookie configuration
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_AGE = int(os.environ.get('SESSION_COOKIE_AGE', '28800'))  # 8 hours
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 CSRF_COOKIE_HTTPONLY = False  # Frontend must read CSRF token from cookie.
-CSRF_COOKIE_SAMESITE = 'Lax'
+
+# SameSite values control cross-origin cookie behavior.
+# Use 'Lax' for same-origin/same-site deployments (local development).
+# Use 'None' for cross-origin production deployments (requires Secure=True).
+# Railway preview/production frontend/backend run on different origins.
+SESSION_COOKIE_SAMESITE = (
+    os.environ.get('DJANGO_SESSION_COOKIE_SAMESITE', '').strip()
+    or os.environ.get('SESSION_COOKIE_SAMESITE', '').strip()
+    or 'Lax'
+)
+CSRF_COOKIE_SAMESITE = (
+    os.environ.get('DJANGO_CSRF_COOKIE_SAMESITE', '').strip()
+    or os.environ.get('CSRF_COOKIE_SAMESITE', '').strip()
+    or 'None'
+)
 
 # Security headers placeholders for production
 

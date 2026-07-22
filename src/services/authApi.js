@@ -2,15 +2,18 @@
  * CMS Authentication API service.
  *
  * Uses credentials: 'include' for session cookies.
- * Reads CSRF token from cookie for unsafe requests.
+ * Obtains the CSRF token from the backend CSRF endpoint and caches it
+ * for unsafe requests. The token is not read from document.cookie because
+ * the backend cookie is owned by a different origin on Railway.
  * No tokens stored in localStorage.
  */
 
 import { API_BASE_URL } from './apiClient';
 
-function getCsrfToken() {
-  const match = document.cookie.match(/csrftoken=([^;]+)/);
-  return match ? match[1] : null;
+let cachedCsrfToken = null;
+
+export function getCsrfToken() {
+  return cachedCsrfToken;
 }
 
 async function authFetch(path, options = {}) {
@@ -51,10 +54,15 @@ async function authFetch(path, options = {}) {
 }
 
 /**
- * Ensure CSRF cookie is set (call before login).
+ * Fetch and cache the CSRF token from the backend.
+ * Call before login or any unsafe cross-origin request.
  */
 export async function fetchCsrf() {
-  return authFetch('/api/v1/auth/csrf/');
+  const data = await authFetch('/api/v1/auth/csrf/');
+  if (data?.csrfToken) {
+    cachedCsrfToken = data.csrfToken;
+  }
+  return data;
 }
 
 /**

@@ -15,9 +15,8 @@ class SiteSettingsView(APIView):
     def get(self, request):
         setting = SiteSetting.get_current()
         if not setting:
-            return Response(
-                {'detail': 'Site settings are not configured yet.'},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            # Return safe defaults so public pages never break when no record
+            # has been created yet. The CMS can still create/overwrite them.
+            setting = SiteSetting()
         serializer = SiteSettingSerializer(setting)
         return Response(serializer.data)
