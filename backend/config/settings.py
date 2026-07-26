@@ -260,12 +260,12 @@ CSRF_COOKIE_HTTPONLY = False  # Frontend must read CSRF token from cookie.
 SESSION_COOKIE_SAMESITE = (
     os.environ.get('DJANGO_SESSION_COOKIE_SAMESITE', '').strip()
     or os.environ.get('SESSION_COOKIE_SAMESITE', '').strip()
-    or 'Lax'
+    or ('Lax' if DEBUG else 'None')
 )
 CSRF_COOKIE_SAMESITE = (
     os.environ.get('DJANGO_CSRF_COOKIE_SAMESITE', '').strip()
     or os.environ.get('CSRF_COOKIE_SAMESITE', '').strip()
-    or 'None'
+    or ('Lax' if DEBUG else 'None')
 )
 
 # Security headers placeholders for production
