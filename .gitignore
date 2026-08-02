@@ -1,10 +1,25 @@
+﻿# ==================================================
+# SIDRAHSOFT — ROOT GITIGNORE
+# ==================================================
+
 # Environment variables and secrets
 .env
-backend/.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
 
-# Node
-node_modules/
-dist/
+# Secret and credential files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+secrets.*
+**/secrets/**
 
 # Python
 __pycache__/
@@ -13,23 +28,90 @@ __pycache__/
 *.so
 .Python
 venv/
+.venv/
 env/
+ENV/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # Django
-/staticfiles
-/media
 *.log
 local_settings.py
 db.sqlite3
-db_test.sqlite3
-db_check.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+backend/media/
+backend/staticfiles/
 
-# IDEs
+# PostgreSQL / database files
+*.sql
+*.dump
+*.backup
+*.bak
+pgdata/
+postgres-data/
+data/postgresql/
+
+# Node / React / Vite
+node_modules/
+dist/
+build/
+.vite/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local deployment and runtime files
+*.pid
+*.seed
+*.pid.lock
+tmp/
+temp/
+
+# IDEs and editors
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
+.history/
 
-# OS files
+# Windsurf / AI internal files
+.windsurf/
+.cursor/
+.claude/
+.codex/
+
+# Operating systems
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+screenshots/
+*.coverage
+
+# Local certificates
+certs/
+ssl/
+
+# Railway local metadata
+.railway/
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz

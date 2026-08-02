@@ -388,6 +388,14 @@
   }
 }
 
+.hero-poster-picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .hero-poster {
   position: absolute;
   inset: 0;
@@ -841,6 +849,14 @@
 
   .hero-poster-wrapper {
     transform: none !important;
+  }
+
+  .hero-smoke-wisp {
+    filter: blur(1.5rem);
+  }
+
+  .hero-aura-glow {
+    filter: blur(2rem);
   }
 }
 

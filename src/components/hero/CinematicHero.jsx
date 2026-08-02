@@ -10,25 +10,12 @@ import HeroSmoke from './HeroSmoke';
 import HeroLeaves from './HeroLeaves';
 import HeroScrollCue from './HeroScrollCue';
 
-import desktopPoster from '../../assets/hero/digital-sidrah/hero-digital-sidrah-desktop.webp';
-import mobilePoster from '../../assets/hero/digital-sidrah/hero-digital-sidrah-mobile.webp';
+import desktopPosterAvif from '../../assets/hero/digital-sidrah/hero-digital-sidrah-desktop.avif';
+import desktopPosterWebp from '../../assets/hero/digital-sidrah/hero-digital-sidrah-desktop.webp';
+import mobilePosterAvif from '../../assets/hero/digital-sidrah/hero-digital-sidrah-mobile.avif';
+import mobilePosterWebp from '../../assets/hero/digital-sidrah/hero-digital-sidrah-mobile.webp';
 
 gsap.registerPlugin(ScrollTrigger);
-
-function detectFrameSet() {
-  const viewportWidth = window.innerWidth;
-  const hardwareConcurrency = navigator.hardwareConcurrency || 8;
-  const deviceMemory = navigator.deviceMemory || 8;
-
-  const isMobileViewport = viewportWidth < 768;
-  const isLowEndCpu = hardwareConcurrency <= 4;
-  const isLowEndMemory = deviceMemory <= 4;
-
-  if (isMobileViewport || isLowEndCpu || isLowEndMemory) {
-    return 'mobile';
-  }
-  return 'desktop';
-}
 
 function CinematicHero() {
   const { t } = useI18n();
@@ -43,12 +30,6 @@ function CinematicHero() {
   const scrollTriggerRef = useRef(null);
 
   const [status, setStatus] = useState('loading');
-  const [posterSrc, setPosterSrc] = useState(desktopPoster);
-
-  useEffect(() => {
-    const detected = detectFrameSet();
-    setPosterSrc(detected === 'mobile' ? mobilePoster : desktopPoster);
-  }, []);
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -211,17 +192,42 @@ function CinematicHero() {
   return (
     <section id="home" ref={containerRef} className="cinematic-hero">
       <div ref={posterWrapperRef} className="hero-poster-wrapper">
-        <img
-          ref={posterRef}
-          src={posterSrc}
-          alt=""
-          aria-hidden="true"
-          className="hero-poster"
-          loading="eager"
-          decoding="async"
-          onLoad={handlePosterLoad}
-          onError={handlePosterError}
-        />
+        <picture className="hero-poster-picture">
+          <source
+            media="(max-width: 767px)"
+            type="image/avif"
+            srcSet={mobilePosterAvif}
+          />
+          <source
+            media="(max-width: 767px)"
+            type="image/webp"
+            srcSet={mobilePosterWebp}
+          />
+          <source
+            media="(min-width: 768px)"
+            type="image/avif"
+            srcSet={desktopPosterAvif}
+          />
+          <source
+            media="(min-width: 768px)"
+            type="image/webp"
+            srcSet={desktopPosterWebp}
+          />
+          <img
+            ref={posterRef}
+            src={desktopPosterWebp}
+            alt=""
+            aria-hidden="true"
+            className="hero-poster"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            width={1920}
+            height={1080}
+            onLoad={handlePosterLoad}
+            onError={handlePosterError}
+          />
+        </picture>
         <div className="hero-text-protection" />
         <HeroAura />
         <div ref={smokeRef} className="hero-smoke-container">
