@@ -35,6 +35,7 @@ export default function CMSSidebar({ open, onClose }) {
     { to: '/cms/homepage', module: 'site_settings', label: t('nav.homepage') },
     { to: '/cms/navigation', module: 'navigation', label: t('nav.navigation') },
     { to: '/cms/partners', module: 'partners', label: t('nav.partners') },
+    { to: '/cms/training', module: 'training', label: t('nav.training') },
     { to: '/cms/services', module: 'services', label: t('nav.services') },
     { to: '/cms/case-studies', module: 'case_studies', label: t('nav.caseStudies') },
     { to: '/cms/insights', module: 'insights', label: t('nav.insights') },
@@ -58,7 +59,7 @@ export default function CMSSidebar({ open, onClose }) {
         aria-label={t('a11y.cmsNavigation')}
       >
         <div style={styles.brand}>
-          <span style={styles.brandLogo}>Sidrah</span>
+          <img src="/assets/logo.png" alt="SidrahSoft" style={styles.brandLogoImg} />
           <span style={styles.brandCMS}>CMS</span>
           {open && (
             <button
@@ -125,7 +126,7 @@ const styles = {
   },
   brand: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'center',
     gap: '0.5rem',
     padding: '1.25rem 1.5rem',
     borderBottom: '1px solid #1e1e2e',
@@ -139,10 +140,10 @@ const styles = {
     fontSize: '1rem',
     padding: '0.25rem',
   },
-  brandLogo: {
-    fontSize: '1.25rem',
-    fontWeight: '700',
-    color: '#c9a96e',
+  brandLogoImg: {
+    width: '1.875rem',
+    height: '1.875rem',
+    borderRadius: '50%',
   },
   brandCMS: {
     fontSize: '0.6875rem',

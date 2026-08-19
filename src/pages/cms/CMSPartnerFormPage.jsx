@@ -34,7 +34,7 @@ export default function CMSPartnerFormPage() {
     description_en: '', description_ar: '',
     logo: null,
     website_url: '', open_in_new_tab: true,
-    partner_type: 'partner', display_order: 0,
+    partner_type: 'client', display_order: 0,
     is_featured: false, is_active: true,
   });
   const [loading, setLoading] = useState(isEdit);
@@ -53,7 +53,7 @@ export default function CMSPartnerFormPage() {
         description_en: data.description_en || '', description_ar: data.description_ar || '',
         logo: data.logo || null,
         website_url: data.website_url || '', open_in_new_tab: data.open_in_new_tab ?? true,
-        partner_type: data.partner_type || 'partner', display_order: data.display_order || 0,
+        partner_type: data.partner_type || 'client', display_order: data.display_order || 0,
         is_featured: data.is_featured ?? false, is_active: data.is_active ?? true,
       });
       setDirty(false);
@@ -150,10 +150,12 @@ export default function CMSPartnerFormPage() {
           <div className="cms-form-grid">
             <CMSInput label={t('form.websiteUrl')} value={formData.website_url} onChange={(e) => handleChange('website_url', e.target.value)} error={fieldErrors.website_url} />
             <CMSSelect label={t('form.partnerType')} value={formData.partner_type} onChange={(e) => handleChange('partner_type', e.target.value)} error={fieldErrors.partner_type}>
-              <option value="partner">Partner</option>
               <option value="client">Client</option>
-              <option value="technology">Technology Partner</option>
-              <option value="strategic">Strategic Partner</option>
+              <option value="strategic_partner">Strategic Partner</option>
+              <option value="academic_partner">Academic Partner</option>
+              <option value="technology_partner">Technology Partner</option>
+              <option value="training_partner">Training Partner</option>
+              <option value="other">Other</option>
             </CMSSelect>
             <CMSInput label={t('form.order')} type="number" value={formData.display_order} onChange={(e) => handleChange('display_order', parseInt(e.target.value) || 0)} error={fieldErrors.display_order} />
           </div>

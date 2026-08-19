@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -12,10 +11,6 @@ function CourseDetailPage() {
   const navigate = useNavigate();
   const isAr = lang === 'ar';
   const course = getCourseBySlug(courseSlug);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [courseSlug]);
 
   if (!course) {
     return (

@@ -16,4 +16,5 @@ urlpatterns = [
     path('contact/', include('apps.contact.cms_urls')),
     path('media/', include('apps.media_library.cms_urls')),
     path('homepage/', include('apps.homepage.cms_urls')),
+    path('training/', include('apps.training.cms_urls')),
 ]

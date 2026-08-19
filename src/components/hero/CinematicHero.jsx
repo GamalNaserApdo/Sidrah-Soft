@@ -1,35 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useI18n } from '../../i18n/I18nProvider.jsx';
 import HeroContent from './HeroContent';
 import HeroAura from './HeroAura';
 import HeroMotes from './HeroMotes';
 import HeroSheen from './HeroSheen';
-import HeroSmoke from './HeroSmoke';
-import HeroLeaves from './HeroLeaves';
 import HeroScrollCue from './HeroScrollCue';
-
-import desktopPosterAvif from '../../assets/hero/digital-sidrah/hero-digital-sidrah-desktop.avif';
-import desktopPosterWebp from '../../assets/hero/digital-sidrah/hero-digital-sidrah-desktop.webp';
-import mobilePosterAvif from '../../assets/hero/digital-sidrah/hero-digital-sidrah-mobile.avif';
-import mobilePosterWebp from '../../assets/hero/digital-sidrah/hero-digital-sidrah-mobile.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/**
+ * SidrahSoft Hero — lightweight technical-grid edition.
+ *
+ * The old golden-tree poster, smoke, and leaves have been removed.
+ * The Hero now exposes the global SidrahGridBackground through transparent
+ * layers, with Hero-specific static depth accents (aura, motes, sheen) and
+ * a subtle content-side grid emphasis for composition balance.
+ *
+ * GSAP scroll behavior is reduced to a gentle content fade + slight upward
+ * translate. No poster transforms, no parallax.
+ */
 function CinematicHero() {
-  const { t } = useI18n();
   const containerRef = useRef(null);
-  const posterWrapperRef = useRef(null);
-  const posterRef = useRef(null);
   const contentRef = useRef(null);
   const scrollCueRef = useRef(null);
-  const smokeRef = useRef(null);
-  const leavesRef = useRef(null);
   const motesRef = useRef(null);
   const scrollTriggerRef = useRef(null);
-
-  const [status, setStatus] = useState('loading');
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -58,52 +54,6 @@ function CinematicHero() {
           contentRef.current.style.opacity = String(1 - fadeProgress);
           contentRef.current.style.transform = `translateY(${-2 * fadeProgress}rem)`;
         }
-      }
-
-      if (posterWrapperRef.current) {
-        let scale = 1;
-        let translateY = 0;
-
-        if (progress <= 0.12) {
-          scale = 1;
-          translateY = 0;
-        } else if (progress <= 0.42) {
-          const p = (progress - 0.12) / (0.42 - 0.12);
-          scale = 1 + 0.035 * p;
-          translateY = -2 * p;
-        } else if (progress <= 0.85) {
-          const p = (progress - 0.42) / (0.85 - 0.42);
-          scale = 1.035 + 0.035 * p;
-          translateY = -2 - 3 * p;
-        } else {
-          scale = 1.07;
-          translateY = -5;
-        }
-
-        posterWrapperRef.current.style.transform = `scale(${scale}) translateY(${translateY}%)`;
-
-        const fadeProgress = Math.max(0, Math.min(1, (progress - 0.85) / 0.15));
-        posterWrapperRef.current.style.opacity = String(1 - fadeProgress);
-      }
-
-      if (smokeRef.current) {
-        let smokeOpacity = 1;
-        if (progress > 0.42) {
-          smokeOpacity = Math.max(0, 1 - (progress - 0.42) / 0.25);
-        }
-        smokeRef.current.style.opacity = String(smokeOpacity);
-      }
-
-      if (leavesRef.current) {
-        let leavesOpacity = 0;
-        if (progress > 0.08 && progress <= 0.50) {
-          leavesOpacity = (progress - 0.08) / (0.50 - 0.08);
-        } else if (progress > 0.50 && progress <= 0.85) {
-          leavesOpacity = 1;
-        } else if (progress > 0.85) {
-          leavesOpacity = Math.max(0, 1 - (progress - 0.85) / 0.15);
-        }
-        leavesRef.current.style.opacity = String(leavesOpacity);
       }
 
       if (motesRef.current) {
@@ -136,9 +86,6 @@ function CinematicHero() {
       if (contentRef.current) {
         contentRef.current.classList.add('is-revealed');
       }
-      if (posterWrapperRef.current) {
-        posterWrapperRef.current.style.transform = 'scale(1) translateY(0)';
-      }
     } else {
       setupScrollTrigger();
       requestAnimationFrame(() => {
@@ -151,91 +98,18 @@ function CinematicHero() {
       });
     }
 
-    const handleMouseMove = (e) => {
-      if (!containerRef.current || !posterWrapperRef.current) return;
-      const { clientX, clientY } = e;
-      const { width, height, left, top } = containerRef.current.getBoundingClientRect();
-
-      const mouseX = clientX - (left + width / 2);
-      const mouseY = clientY - (top + height / 2);
-
-      const posterDepth = 4;
-      const translateX = (mouseX / width) * posterDepth;
-      const translateY = (mouseY / height) * posterDepth;
-
-      posterWrapperRef.current.style.setProperty('--poster-parallax-x', `${translateX}px`);
-      posterWrapperRef.current.style.setProperty('--poster-parallax-y', `${translateY}px`);
-    };
-
-    const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    if (!isTouchDevice && !prefersReducedMotion) {
-      window.addEventListener('mousemove', handleMouseMove);
-    }
-
     return () => {
       if (scrollTriggerRef.current) {
         scrollTriggerRef.current.kill();
         scrollTriggerRef.current = null;
       }
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
-  const handlePosterLoad = () => {
-    setStatus('ready');
-  };
-
-  const handlePosterError = () => {
-    setStatus('error');
-  };
-
   return (
     <section id="home" ref={containerRef} className="cinematic-hero">
-      <div ref={posterWrapperRef} className="hero-poster-wrapper">
-        <picture className="hero-poster-picture">
-          <source
-            media="(max-width: 767px)"
-            type="image/avif"
-            srcSet={mobilePosterAvif}
-          />
-          <source
-            media="(max-width: 767px)"
-            type="image/webp"
-            srcSet={mobilePosterWebp}
-          />
-          <source
-            media="(min-width: 768px)"
-            type="image/avif"
-            srcSet={desktopPosterAvif}
-          />
-          <source
-            media="(min-width: 768px)"
-            type="image/webp"
-            srcSet={desktopPosterWebp}
-          />
-          <img
-            ref={posterRef}
-            src={desktopPosterWebp}
-            alt=""
-            aria-hidden="true"
-            className="hero-poster"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            width={1920}
-            height={1080}
-            onLoad={handlePosterLoad}
-            onError={handlePosterError}
-          />
-        </picture>
-        <div className="hero-text-protection" />
+      <div className="hero-stage">
         <HeroAura />
-        <div ref={smokeRef} className="hero-smoke-container">
-          <HeroSmoke />
-        </div>
-        <div ref={leavesRef} className="hero-leaves-container">
-          <HeroLeaves />
-        </div>
         <div ref={motesRef} className="hero-motes-container">
           <HeroMotes />
         </div>
@@ -249,16 +123,6 @@ function CinematicHero() {
         <div ref={scrollCueRef} className="hero-scroll-cue-wrapper">
           <HeroScrollCue />
         </div>
-        {status === 'loading' && (
-          <div className="cinematic-status">
-            <span>{t('hero.loadingText')}</span>
-          </div>
-        )}
-        {status === 'error' && (
-          <div className="cinematic-status cinematic-status--error">
-            <span>{t('hero.errorText')}</span>
-          </div>
-        )}
       </div>
     </section>
   );

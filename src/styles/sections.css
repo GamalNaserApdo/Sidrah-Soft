@@ -38,8 +38,8 @@
 
 /* ── Section background differentiation ── */
 .section--alt-bg {
-  background-color: var(--color-bg-elevated);
-  background-image: var(--gradient-section);
+  background-color: transparent;
+  background-image: none;
 }
 
 /* ============================================================
@@ -780,10 +780,8 @@
 .automation-showcase-section {
   position: relative;
   padding: var(--section-padding-y) var(--section-padding-x);
-  background-color: var(--section-bg-automation);
-  background-image:
-    radial-gradient(ellipse 50% 60% at 80% 20%, rgba(139, 92, 246, 0.06), transparent 70%),
-    radial-gradient(ellipse 40% 50% at 20% 80%, rgba(201, 169, 110, 0.04), transparent 70%);
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid var(--color-border-subtle);
   border-bottom: 1px solid var(--color-border-subtle);
   overflow: hidden;
@@ -1351,10 +1349,8 @@
 }
 
 .public-website-shell .foundation-section {
-  background-color: rgba(10, 11, 16, 0.92);
-  background-image:
-    radial-gradient(ellipse 58% 64% at 12% 12%, rgba(201, 169, 110, 0.1), transparent 72%),
-    linear-gradient(135deg, rgba(7, 8, 12, 0.18), rgba(10, 11, 16, 0.34));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(201, 169, 110, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -1363,15 +1359,7 @@
 .public-website-shell .foundation-section::before,
 .public-website-shell .services-section::before,
 .public-website-shell .industries-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.public-website-shell .foundation-section::before {
-  background: linear-gradient(90deg, rgba(201, 169, 110, 0.08), transparent 42%);
+  content: none;
 }
 
 .public-website-shell .foundation-content {
@@ -1462,17 +1450,15 @@
 }
 
 .public-website-shell .services-section {
-  background-color: rgba(12, 10, 20, 0.9);
-  background-image:
-    radial-gradient(ellipse 58% 58% at 88% 8%, rgba(139, 92, 166, 0.14), transparent 72%),
-    linear-gradient(145deg, rgba(10, 8, 18, 0.28), rgba(18, 16, 28, 0.32));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(139, 92, 166, 0.11);
   border-bottom: 1px solid rgba(139, 92, 166, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .services-section::before {
-  background: linear-gradient(135deg, transparent 25%, rgba(139, 92, 166, 0.05) 100%);
+  content: none;
 }
 
 .public-website-shell .services-content,
@@ -1657,18 +1643,15 @@
 }
 
 .public-website-shell .industries-section {
-  background-color: rgba(14, 12, 22, 0.89);
-  background-image:
-    radial-gradient(ellipse 54% 60% at 10% 10%, rgba(184, 115, 51, 0.11), transparent 74%),
-    radial-gradient(ellipse 36% 48% at 90% 90%, rgba(201, 169, 110, 0.07), transparent 74%),
-    linear-gradient(150deg, rgba(10, 8, 16, 0.2), rgba(18, 14, 22, 0.25));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(184, 115, 51, 0.12);
   border-bottom: 1px solid rgba(201, 169, 110, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .industries-section::before {
-  background: linear-gradient(90deg, rgba(184, 115, 51, 0.05), transparent 45%);
+  content: none;
 }
 
 .public-website-shell .industries-section .section-eyebrow,
@@ -1806,23 +1789,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: start;
-  background-color: rgba(12, 10, 20, 0.92);
-  background-image:
-    radial-gradient(ellipse 56% 60% at 82% 6%, rgba(141, 81, 160, 0.13), transparent 72%),
-    radial-gradient(ellipse 40% 50% at 8% 92%, rgba(139, 92, 166, 0.07), transparent 72%),
-    linear-gradient(140deg, rgba(10, 8, 18, 0.22), rgba(16, 14, 26, 0.3));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(141, 81, 160, 0.12);
   border-bottom: 1px solid rgba(141, 81, 160, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .capabilities-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(110deg, transparent 30%, rgba(141, 81, 160, 0.04) 100%);
+  content: none;
 }
 
 .public-website-shell .capabilities-content {
@@ -2027,22 +2002,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: center;
-  background-color: rgba(14, 12, 22, 0.9);
-  background-image:
-    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201, 169, 110, 0.08), transparent 72%),
-    linear-gradient(180deg, rgba(10, 8, 16, 0.2), rgba(16, 14, 22, 0.28));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(201, 169, 110, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .partners-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(201, 169, 110, 0.03), transparent 30%);
+  content: none;
 }
 
 .public-website-shell .partners-content {
@@ -2167,23 +2135,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: start;
-  background-color: rgba(13, 11, 21, 0.91);
-  background-image:
-    radial-gradient(ellipse 52% 58% at 15% 10%, rgba(141, 81, 160, 0.1), transparent 72%),
-    radial-gradient(ellipse 42% 50% at 85% 88%, rgba(201, 169, 110, 0.07), transparent 72%),
-    linear-gradient(135deg, rgba(10, 8, 18, 0.22), rgba(16, 14, 24, 0.3));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(141, 81, 160, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .case-studies-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(120deg, rgba(141, 81, 160, 0.04), transparent 40%, rgba(201, 169, 110, 0.03) 100%);
+  content: none;
 }
 
 .public-website-shell .case-studies-content {
@@ -2505,23 +2465,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: start;
-  background-color: rgba(12, 12, 22, 0.92);
-  background-image:
-    radial-gradient(ellipse 50% 55% at 20% 12%, rgba(74, 158, 255, 0.08), transparent 72%),
-    radial-gradient(ellipse 40% 48% at 80% 85%, rgba(141, 81, 160, 0.08), transparent 72%),
-    linear-gradient(135deg, rgba(10, 8, 18, 0.2), rgba(14, 14, 24, 0.28));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(74, 158, 255, 0.08);
   border-bottom: 1px solid rgba(141, 81, 160, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .insights-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(110deg, rgba(74, 158, 255, 0.03), transparent 45%, rgba(141, 81, 160, 0.03) 100%);
+  content: none;
 }
 
 .public-website-shell .insights-content {
@@ -2812,23 +2764,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: start;
-  background-color: rgba(14, 12, 18, 0.92);
-  background-image:
-    radial-gradient(ellipse 48% 52% at 18% 14%, rgba(184, 115, 51, 0.08), transparent 72%),
-    radial-gradient(ellipse 42% 48% at 82% 86%, rgba(201, 169, 110, 0.06), transparent 72%),
-    linear-gradient(135deg, rgba(12, 10, 16, 0.2), rgba(16, 14, 22, 0.28));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(184, 115, 51, 0.08);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .careers-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(115deg, rgba(184, 115, 51, 0.03), transparent 45%, rgba(201, 169, 110, 0.03) 100%);
+  content: none;
 }
 
 .public-website-shell .careers-content {
@@ -3206,23 +3150,15 @@
   isolation: isolate;
   overflow: hidden;
   text-align: start;
-  background-color: rgba(12, 10, 18, 0.94);
-  background-image:
-    radial-gradient(ellipse 46% 50% at 16% 18%, rgba(201, 169, 110, 0.07), transparent 72%),
-    radial-gradient(ellipse 40% 46% at 84% 82%, rgba(139, 92, 246, 0.06), transparent 72%),
-    linear-gradient(135deg, rgba(10, 8, 14, 0.2), rgba(14, 12, 20, 0.28));
+  background-color: transparent;
+  background-image: none;
   border-top: 1px solid rgba(201, 169, 110, 0.08);
   border-bottom: 1px solid rgba(139, 92, 246, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .public-website-shell .contact-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background: linear-gradient(115deg, rgba(201, 169, 110, 0.03), transparent 45%, rgba(139, 92, 246, 0.03) 100%);
+  content: none;
 }
 
 .public-website-shell .contact-content {

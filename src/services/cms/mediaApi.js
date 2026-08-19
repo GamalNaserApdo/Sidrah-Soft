@@ -6,18 +6,14 @@
  */
 
 import { API_BASE_URL } from '../apiClient';
-
-function getCsrfToken() {
-  const match = document.cookie.match(/csrftoken=([^;]+)/);
-  return match ? match[1] : null;
-}
+import { ensureCsrfToken } from '../authApi';
 
 async function mediaFetch(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
   const headers = { ...options.headers };
 
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes((options.method || '').toUpperCase())) {
-    const csrfToken = getCsrfToken();
+    const csrfToken = await ensureCsrfToken();
     if (csrfToken) {
       headers['X-CSRFToken'] = csrfToken;
     }

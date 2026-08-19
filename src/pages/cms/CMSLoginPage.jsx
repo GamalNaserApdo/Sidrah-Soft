@@ -58,7 +58,7 @@ export default function CMSLoginPage() {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.logo}>
-          <span style={styles.logoText}>Sidrah</span>
+          <img src="/assets/logo.png" alt="SidrahSoft" style={styles.logoImg} />
           <span style={styles.logoCms}>CMS</span>
         </div>
         <h1 style={styles.title}>Sign In</h1>
@@ -128,20 +128,21 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
   },
   logo: {
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.625rem',
     marginBottom: '1.5rem',
   },
-  logoText: {
-    fontSize: '1.75rem',
-    fontWeight: '700',
-    color: '#c9a96e',
-    letterSpacing: '0.02em',
+  logoImg: {
+    width: '2.75rem',
+    height: '2.75rem',
+    borderRadius: '50%',
   },
   logoCms: {
     fontSize: '0.875rem',
     fontWeight: '500',
     color: '#888',
-    marginLeft: '0.5rem',
     textTransform: 'uppercase',
     letterSpacing: '0.1em',
   },

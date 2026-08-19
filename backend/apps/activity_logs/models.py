@@ -61,6 +61,7 @@ class ActivityLog(TimeStampedModel):
     MODULE_MEDIA = 'media'
     MODULE_USERS = 'users'
     MODULE_ACTIVITY_LOGS = 'activity_logs'
+    MODULE_TRAINING = 'training'
 
     MODULE_CHOICES = [
         (MODULE_AUTH, 'Authentication'),
@@ -76,6 +77,7 @@ class ActivityLog(TimeStampedModel):
         (MODULE_MEDIA, 'Media'),
         (MODULE_USERS, 'Users'),
         (MODULE_ACTIVITY_LOGS, 'Activity Logs'),
+        (MODULE_TRAINING, 'Training'),
     ]
 
     user = models.ForeignKey(

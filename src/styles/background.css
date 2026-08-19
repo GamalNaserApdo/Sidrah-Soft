@@ -1,0 +1,204 @@
+/**
+ * SidrahSoft Lightweight Grid Background
+ *
+ * Replaces the previous global background system (InteractiveNetworkBackground
+ * Canvas, CinematicLayers mood system, MouseGlow) with a CSS-only grid +
+ * static ambient glow.
+ *
+ * Technique inspired by newstyle/styles.css (.hero::before) but re-tuned for
+ * SidrahSoft's dark-plum palette and brand accents (gold / purple / tech-blue).
+ *
+ * Performance: zero JavaScript, zero Canvas, zero requestAnimationFrame,
+ * zero continuous animation. The grid is a single composited pseudo-element;
+ * the ambient glows are static blurred divs. Everything is painted once.
+ */
+
+/* ───────────────────────────────────────────────────────────────────────
+   Shell — isolated stacking context so the negative z-index background
+   layers stay contained behind content. The .public-website-shell class
+   is preserved as a styling scope for sections.css selectors.
+   ─────────────────────────────────────────────────────────────────────── */
+.public-website-shell,
+.sidrah-grid-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.public-route-content {
+  position: relative;
+  z-index: var(--z-content, 1);
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Base — dark plum gradient (not pure black), with two very subtle
+   radial color spots for depth. Static.
+   ─────────────────────────────────────────────────────────────────────── */
+.sidrah-grid-base {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 78% 18%,
+      rgba(139, 92, 166, 0.10),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 14% 82%,
+      rgba(201, 169, 110, 0.05),
+      transparent 65%
+    ),
+    linear-gradient(
+      160deg,
+      #0a0b10 0%,
+      #0c0a14 45%,
+      #08090f 100%
+    );
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Grid — two layered linear-gradients tiled into a 72px grid, faded
+   vertically with a mask so it never hits the top/bottom edges harshly.
+   One pseudo-element, composited once.
+   ─────────────────────────────────────────────────────────────────────── */
+.sidrah-grid-lines {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, rgba(242, 242, 242, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(242, 242, 242, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Ambient glow — two static blurred radial blobs in SidrahSoft accents.
+   No animation, no drift. Composited once.
+   ─────────────────────────────────────────────────────────────────────── */
+.sidrah-grid-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sidrah-grid-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.3;
+}
+
+.sidrah-grid-glow--purple {
+  width: 22rem;
+  height: 22rem;
+  top: 10%;
+  right: 8%;
+  background: radial-gradient(circle, rgba(139, 92, 166, 0.18), transparent 65%);
+}
+
+.sidrah-grid-glow--gold {
+  width: 18rem;
+  height: 18rem;
+  bottom: 12%;
+  left: -3rem;
+  opacity: 0.2;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.12), transparent 65%);
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Scroll progress bar — preserved from the old cinematic system as an
+   independent, lightweight indicator. Scroll-driven (rAF only on scroll),
+   disabled under reduced motion.
+   ─────────────────────────────────────────────────────────────────────── */
+.sidrah-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-progress-bar, 600);
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-purple));
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+[dir='rtl'] .sidrah-scroll-progress {
+  transform-origin: right center;
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Mobile — keep the grid (it's nearly free), soften the ambient glows.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .sidrah-grid-lines {
+    background-size: 56px 56px;
+    opacity: 0.85;
+  }
+
+  .sidrah-grid-glow--purple {
+    width: 16rem;
+    height: 16rem;
+    opacity: 0.22;
+  }
+
+  .sidrah-grid-glow--gold {
+    display: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .sidrah-grid-glow--purple {
+    width: 13rem;
+    height: 13rem;
+    opacity: 0.18;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Reduced motion — the background is already fully static, so only the
+   progress bar needs gating.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sidrah-scroll-progress {
+    display: none;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Reduced transparency — drop the glows for users who prefer less.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-transparency: reduce) {
+  .sidrah-grid-glow {
+    display: none;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   High contrast — keep grid but remove glows that could reduce contrast.
+   ─────────────────────────────────────────────────────────────────────── */
+@media (prefers-contrast: more) {
+  .sidrah-grid-glow {
+    display: none;
+  }
+}

@@ -11,8 +11,23 @@
 import { API_BASE_URL } from './apiClient';
 
 let cachedCsrfToken = null;
+let csrfRequest = null;
 
 export function getCsrfToken() {
+  return cachedCsrfToken;
+}
+
+/**
+ * Return the cached CSRF token, fetching it first if the cache is empty
+ * (e.g. after a full page reload, where module state is reset).
+ * Concurrent callers share a single in-flight request.
+ */
+export async function ensureCsrfToken() {
+  if (cachedCsrfToken) return cachedCsrfToken;
+  if (!csrfRequest) {
+    csrfRequest = fetchCsrf().finally(() => { csrfRequest = null; });
+  }
+  await csrfRequest;
   return cachedCsrfToken;
 }
 
@@ -21,7 +36,7 @@ async function authFetch(path, options = {}) {
   const headers = { ...options.headers };
 
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes((options.method || '').toUpperCase())) {
-    const csrfToken = getCsrfToken();
+    const csrfToken = await ensureCsrfToken();
     if (csrfToken) {
       headers['X-CSRFToken'] = csrfToken;
     }
@@ -71,10 +86,14 @@ export async function fetchCsrf() {
  */
 export async function login(username, password) {
   await fetchCsrf();
-  return authFetch('/api/v1/auth/login/', {
+  const data = await authFetch('/api/v1/auth/login/', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   });
+  // Django rotates the CSRF token on login — refresh the cached token
+  // so subsequent unsafe requests (logout, CMS mutations) are not rejected.
+  await fetchCsrf();
+  return data;
 }
 
 /**

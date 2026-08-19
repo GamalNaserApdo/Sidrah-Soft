@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/v1/jobs/', include('apps.careers.urls')),
     path('api/v1/contact/', include('apps.contact.urls')),
     path('api/v1/homepage/', include('apps.homepage.urls')),
+    path('api/v1/training/', include('apps.training.urls')),
     path('api/v1/cms/', include('apps.core.cms_urls')),
     path('robots.txt', robots_txt, name='robots-txt'),
     path('sitemap.xml', sitemap_xml, name='sitemap-xml'),

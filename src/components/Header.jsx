@@ -5,7 +5,7 @@ import { useSiteSettings } from '../hooks/useSiteSettings';
 import { useHeaderNavigation } from '../hooks/useHeaderNavigation';
 import getBilingual from '../utils/getBilingual';
 import resolveMediaUrl from '../utils/resolveMediaUrl';
-import logo from '../assets/logo.svg';
+const publicLogo = '/assets/logo.png';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +16,7 @@ function Header() {
   const { settings } = useSiteSettings();
   const { links } = useHeaderNavigation();
 
-  const logoUrl = resolveMediaUrl(settings?.branding?.primary_logo_url) || logo;
+  const logoUrl = resolveMediaUrl(settings?.branding?.primary_logo_url) || publicLogo;
   const brandName = settings?.general?.site_name || 'Sidrah Soft';
 
   useEffect(() => {

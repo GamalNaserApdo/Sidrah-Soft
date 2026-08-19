@@ -7,7 +7,7 @@
  */
 
 import { API_BASE_URL, ApiError } from '../apiClient';
-import { getCsrfToken } from '../authApi';
+import { ensureCsrfToken } from '../authApi';
 
 
 /**
@@ -28,7 +28,7 @@ export async function cmsFetch(path, options = {}) {
 
   // CSRF for unsafe methods
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-    const csrfToken = getCsrfToken();
+    const csrfToken = await ensureCsrfToken();
     if (csrfToken) {
       headers['X-CSRFToken'] = csrfToken;
     }

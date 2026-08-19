@@ -74,6 +74,7 @@ LOCAL_APPS = [
     'apps.contact',
     'apps.activity_logs',
     'apps.homepage',
+    'apps.training',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

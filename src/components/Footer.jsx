@@ -4,29 +4,8 @@ import { useSiteSettings } from '../hooks/useSiteSettings';
 import companyLocation from '../data/company/companyLocation';
 import getBilingual from '../utils/getBilingual';
 import resolveMediaUrl from '../utils/resolveMediaUrl';
-import logo from '../assets/logo.svg';
-
-const SOCIAL_ICONS = {
-  whatsapp: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
-      <path d="M9 10a.5.5 0 0 0-1 0v.003a2.5 2.5 0 0 0 .662 1.786A5.5 5.5 0 0 0 13 14.5c.005 0 .008 0 .013 0a.5.5 0 0 0 .487-.5c0-.173-.08-.333-.214-.44l-1.26-1.052a.5.5 0 0 0-.632-.013 2.5 2.5 0 0 1-2.88-.366 2.5 2.5 0 0 1-.66-1.785.5.5 0 0 0-.5-.5H9" />
-    </svg>
-  ),
-  email: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="M2 7l10 7 10-7" />
-    </svg>
-  ),
-  linkedin: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
-  ),
-};
+import SocialIcons from './SocialIcons';
+const publicLogo = '/assets/logo.png';
 
 const companyLinks = [
   { key: 'about', target: 'foundation' },
@@ -57,7 +36,7 @@ function Footer() {
   const { t, lang } = useI18n();
   const { settings } = useSiteSettings();
 
-  const logoUrl = resolveMediaUrl(settings?.branding?.primary_logo_url) || logo;
+  const logoUrl = resolveMediaUrl(settings?.branding?.primary_logo_url) || publicLogo;
   const brandName = settings?.general?.site_name || 'Sidrah Soft';
 
   const contactEmail = settings?.contact?.contact_email || 'sidrahsoft@gmail.com';
@@ -77,11 +56,7 @@ function Footer() {
     ? ['الذكاء الاصطناعي', 'أنظمة ERP', 'الأتمتة', 'تطبيقات الجوال', 'تطوير الويب', 'تكامل الأنظمة']
     : ['AI', 'ERP', 'Automation', 'Mobile Apps', 'Web Development', 'System Integration'];
 
-  const socialLinks = [
-    { key: 'whatsapp', href: whatsappUrl, icon: SOCIAL_ICONS.whatsapp, label: lang === 'ar' ? 'واتساب' : 'WhatsApp' },
-    { key: 'email', href: `mailto:${contactEmail}`, icon: SOCIAL_ICONS.email, label: lang === 'ar' ? 'البريد الإلكتروني' : 'Email' },
-    { key: 'linkedin', href: linkedinUrl, icon: SOCIAL_ICONS.linkedin, label: lang === 'ar' ? 'لينكدإن' : 'LinkedIn' },
-  ];
+  // Social media icons are rendered via the SocialIcons component.
 
   const handleAnchorNav = (target) => {
     if (location.pathname !== '/') {
@@ -198,20 +173,11 @@ function Footer() {
               </div>
             </Link>
             <p className="footer-description">{t('footer.description')}</p>
-            <div className="footer-social">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.key}
-                  href={link.href}
-                  className="footer-social__link"
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  aria-label={link.label}
-                >
-                  <span className="footer-social__icon">{link.icon}</span>
-                </a>
-              ))}
-            </div>
+            <SocialIcons
+              className="footer-social"
+              linkClassName="footer-social__link"
+              iconClassName="footer-social__icon"
+            />
           </div>
 
           <div className="footer-column">
