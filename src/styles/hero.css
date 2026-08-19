@@ -71,6 +71,7 @@
 .hero-content {
   max-width: 42rem;
   width: 100%;
+  text-align: start;
 }
 
 .hero-eyebrow {
@@ -503,14 +504,15 @@
   }
 }
 
-/* ── RTL: center content for mobile ── */
+/* ── RTL: anchor content to the right (cross-axis start in RTL) ── */
 [dir='rtl'] .hero-content-overlay {
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 @media (max-width: 767px) {
   [dir='rtl'] .hero-content-overlay {
     align-items: center;
+    text-align: right;
   }
 }
 
