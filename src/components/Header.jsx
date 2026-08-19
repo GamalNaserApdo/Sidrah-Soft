@@ -5,7 +5,7 @@ import { useSiteSettings } from '../hooks/useSiteSettings';
 import { useHeaderNavigation } from '../hooks/useHeaderNavigation';
 import getBilingual from '../utils/getBilingual';
 import resolveMediaUrl from '../utils/resolveMediaUrl';
-const publicLogo = '/assets/logo.png';
+import publicLogo from '../assets/logo.png';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -8,6 +8,7 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import brandLogo from '../../../assets/logo.png';
 
 const MODULE_ICONS = {
   dashboard: '◆',
@@ -59,7 +60,7 @@ export default function CMSSidebar({ open, onClose }) {
         aria-label={t('a11y.cmsNavigation')}
       >
         <div style={styles.brand}>
-          <img src="/assets/logo.png" alt="SidrahSoft" style={styles.brandLogoImg} />
+          <img src={brandLogo} alt="SidrahSoft" style={styles.brandLogoImg} />
           <span style={styles.brandCMS}>CMS</span>
           {open && (
             <button
@@ -141,9 +142,9 @@ const styles = {
     padding: '0.25rem',
   },
   brandLogoImg: {
-    width: '1.875rem',
     height: '1.875rem',
-    borderRadius: '50%',
+    width: 'auto',
+    objectFit: 'contain',
   },
   brandCMS: {
     fontSize: '0.6875rem',

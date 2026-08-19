@@ -131,23 +131,8 @@ function CourseCard({ course, index, isVisible }) {
       style={{ transitionDelay: `${index * 80}ms` }}
       aria-label={`${ctaLabel}: ${title}`}
     >
-      <div className="training-course-card__image-wrapper">
-        {course.image ? (
-          <img
-            src={course.image}
-            alt={title}
-            className="training-course-card__image"
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <div className="training-course-card__image-fallback" aria-hidden="true">
-            <span className="training-course-card__image-fallback-text">{category}</span>
-          </div>
-        )}
-        <span className="training-course-card__category">{category}</span>
-      </div>
       <div className="training-course-card__body">
+        <span className="training-course-card__category-chip">{category}</span>
         <h3 className="training-course-card__title">{title}</h3>
         <p className="training-course-card__summary">{summary}</p>
         <span className="training-course-card__cta">

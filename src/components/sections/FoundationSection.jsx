@@ -26,22 +26,22 @@ function FoundationSection() {
   if (!isEnabled) return null;
 
   const headline = lang === 'ar'
-    ? (foundation?.heading_ar || 'شريك تقني للمؤسسات والجهات الحكومية')
-    : (foundation?.heading_en || 'Technology partner for institutions and enterprises.');
+    ? (foundation?.heading_ar || 'شركة واحدة. ثلاثة مسارات.')
+    : (foundation?.heading_en || 'One company. Three paths.');
 
   const subheadline = lang === 'ar'
-    ? (foundation?.description_ar || 'نبني برمجيات مخصصة وأنظمة ERP وذكاءً اصطناعياً وأتمتة تتوسع لتصبح منظومات رقمية مستقبلية.')
-    : (foundation?.description_en || 'We build custom software, ERP, AI, and automation systems that scale into future digital ecosystems.');
+    ? (foundation?.description_ar || 'سِدرة سوفت تبني البرمجيات، تؤهل المهنيين، وتدخل التقنية إلى تعليم الثانوية والبكالوريا.')
+    : (foundation?.description_en || 'Sidrah Soft builds software, trains professionals, and brings technology into secondary and baccalaureate education.');
 
   const proofPoints = lang === 'ar'
     ? (foundation?.proof_points_ar?.length ? foundation.proof_points_ar : FALLBACK_PROOF_POINTS_AR)
     : (foundation?.proof_points_en?.length ? foundation.proof_points_en : FALLBACK_PROOF_POINTS_EN);
 
   const ctaLabel = lang === 'ar'
-    ? (foundation?.cta_label_ar || 'استكشف الخدمات')
-    : (foundation?.cta_label_en || 'Explore Services');
+    ? (foundation?.cta_label_ar || 'اكتشف ما نبنيه')
+    : (foundation?.cta_label_en || 'Explore What We Build');
 
-  const ctaTarget = foundation?.cta_target || '#services';
+  const ctaTarget = foundation?.cta_target || '#capabilities';
 
   return (
     <section id="foundation" className="foundation-section" aria-labelledby="foundation-heading">
@@ -49,8 +49,6 @@ function FoundationSection() {
         <div className="foundation-statement motion-fade-up is-visible">
           <SectionHeading
             id="foundation-heading"
-            index="02"
-            eyebrow="SidrahSoft"
             title={headline}
             description={subheadline}
             as="h2"

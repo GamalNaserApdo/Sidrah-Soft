@@ -1,3 +1,5 @@
+import brandLogo from '../assets/logo.png';
+
 export const SITE = {
   name: 'Sidrah Soft',
   baseUrl: 'https://sidrahsoft.com',
@@ -9,10 +11,10 @@ export const SITE = {
   ogImage: '/assets/og-default.png',
   twitterCard: 'summary_large_image',
   email: 'sidrahsoft@gmail.com',
-  logo: '/assets/logo.svg',
+  logo: brandLogo,
   sameAs: [
-    'https://linkedin.com/company/PLACEHOLDER',
-    'https://wa.me/PLACEHOLDER',
+    'https://www.linkedin.com/sidrah.soft/',
+    'https://wa.me/201027285487',
   ],
 };
 

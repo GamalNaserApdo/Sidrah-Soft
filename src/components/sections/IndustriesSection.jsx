@@ -103,12 +103,12 @@ function IndustriesSection() {
   const { lang } = useI18n();
   const industriesData = config?.industries;
   const heading = lang === 'ar'
-    ? (industriesData?.heading_ar || 'حلول للمؤسسات والجهات والمنظمات المتنامية')
-    : (industriesData?.heading_en || 'Solutions for institutions, enterprises, and growing organizations.');
+    ? (industriesData?.heading_ar || 'قطاعات نعمل معها')
+    : (industriesData?.heading_en || 'Sectors We Work With');
 
   const description = lang === 'ar'
-    ? (industriesData?.description_ar || 'تبني SidrahSoft أنظمة للمؤسسات التي تحتاج بنية رقمية موثوقة وعمليات متصلة وأسساً تقنية قابلة للتوسع.')
-    : (industriesData?.description_en || 'SidrahSoft builds systems for organizations that need reliable digital infrastructure, connected operations, and scalable technology foundations.');
+    ? (industriesData?.description_ar || 'حلول برمجية للتعليم، والمؤسسات، والشركات النامية، والقطاع العام.')
+    : (industriesData?.description_en || 'Software solutions for education, enterprise, growing businesses, and the public sector.');
 
   const FALLBACK_BY_TITLE = {};
   FALLBACK_INDUSTRIES.forEach(f => { FALLBACK_BY_TITLE[f.title] = f; });
@@ -150,8 +150,6 @@ function IndustriesSection() {
       <div className="industries-content">
         <SectionHeading
           id="industries-heading"
-          index="06"
-          eyebrow={lang === 'ar' ? 'الصناعات والحلول' : 'Industries & Solutions'}
           title={heading}
           description={description}
           className="industries-heading-block motion-clip-reveal is-visible"

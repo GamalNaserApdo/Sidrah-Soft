@@ -21,12 +21,12 @@ function InsightsSection() {
 
   const insHeading = config?.headings?.insights;
   const heading = lang === 'ar'
-    ? (insHeading?.heading_ar || 'رؤى للنمو الرقمي')
-    : (insHeading?.heading_en || 'Insights for digital growth');
+    ? (insHeading?.heading_ar || 'رؤى تقنية')
+    : (insHeading?.heading_en || 'Technical Insights');
 
   const description = lang === 'ar'
-    ? (insHeading?.description_ar || 'وجهات نظر حول البرمجيات والأتمتة والذكاء الاصطناعي والأنظمة الرقمية القابلة للتوسع للمؤسسات التي تستعد للمستقبل.')
-    : (insHeading?.description_en || 'Perspectives on software, automation, AI, and scalable digital systems for organizations preparing for the future.');
+    ? (insHeading?.description_ar || 'أفكار حول البرمجيات، والأتمتة، والذكاء الاصطناعي، والأنظمة القابلة للتوسع.')
+    : (insHeading?.description_en || 'Thinking on software, automation, AI, and scalable systems.');
 
   const featuredInsight = useMemo(() => {
     const featured = allInsights.find((a) => a.featured || a.is_featured);
@@ -53,8 +53,6 @@ function InsightsSection() {
       <div className="insights-content">
         <SectionHeading
           id="insights-heading"
-          index="09"
-          eyebrow={lang === 'ar' ? 'رؤى' : 'Insights'}
           title={heading}
           description={description}
           className="insights-heading-block motion-clip-reveal is-visible"

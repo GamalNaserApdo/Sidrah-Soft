@@ -61,6 +61,10 @@
   --card-surface-glass-hover: rgba(242, 242, 242, 0.07);
   --card-surface-solid: #161420;
   --card-surface-solid-hover: #1c1730;
+
+  /* Section wash: a light solid tint that mutes the technical grid and creates
+     clear boundaries between sections without heavy backgrounds. */
+  --section-wash: rgba(10, 11, 16, 0.78);
   --card-surface-premium: linear-gradient(180deg, rgba(139, 92, 166, 0.04), rgba(242, 242, 242, 0.02));
   --card-surface-gold: linear-gradient(180deg, rgba(201, 169, 110, 0.03), rgba(242, 242, 242, 0.02));
 
@@ -158,13 +162,17 @@
      Typography — Font families
      ─────────────────────────────────────────────────────────────────────── */
 
+  /* Arabic typeface — single source of truth for the public website.
+     Changing this variable updates every Arabic display/body usage. */
+  --font-arabic: 'Cairo', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
   /* Display fonts for headings */
-  --font-display: 'Space Grotesk', 'El Messiri', system-ui, sans-serif;
-  --font-display-ar: 'El Messiri', 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-display-ar: var(--font-arabic);
 
   /* Body fonts for text */
-  --font-body: 'Inter', 'Tajawal', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body-ar: 'Tajawal', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body-ar: var(--font-arabic);
 
   /* Legacy font-family alias — points to body font for backward compat */
   --font-family: var(--font-body);

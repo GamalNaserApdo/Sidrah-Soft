@@ -32,6 +32,7 @@ const fallbackPartners = [
     name: 'Safa Invest',
     logo: safaLogo,
     website: 'https://safainvest.com/',
+    logoSurface: 'dark',
   },
   {
     name: 'Vision',
@@ -42,6 +43,7 @@ const fallbackPartners = [
     name: 'AlQalam Schools',
     logo: alqalamLogo,
     website: 'https://alqalamschools.com/',
+    logoSurface: 'dark',
   },
 ];
 
@@ -59,8 +61,8 @@ function PartnersTrustSection() {
     : (partnersHeading?.heading_en || 'Trusted by partners across education, enterprise, and global business.');
 
   const description = lang === 'ar'
-    ? (partnersHeading?.description_ar || 'تبني SidrahSoft أنظمة رقمية للمؤسسات التي تقدّر التقنية الموثوقة والمعمارية القابلة للتوسع والشراكات طويلة الأمد.')
-    : (partnersHeading?.description_en || 'SidrahSoft builds digital systems for organizations that value reliable technology, scalable architecture, and long-term partnerships.');
+    ? (partnersHeading?.description_ar || 'شراكات عملية مع مؤسسات تثق بسِدرة سوفت في بناء أنظمتها الرقمية.')
+    : (partnersHeading?.description_en || 'Working partnerships with organizations that trust Sidrah Soft to build their digital systems.');
 
   const handleLogoError = (key) => {
     setFailedLogos((prev) => new Set(prev).add(key));
@@ -71,8 +73,6 @@ function PartnersTrustSection() {
       <div className="partners-content">
         <SectionHeading
           id="partners-heading"
-          index="07"
-          eyebrow={lang === 'ar' ? 'شركاء موثوقون' : 'Trusted Partners'}
           title={heading}
           description={description}
           className="partners-heading-block motion-clip-reveal is-visible"
@@ -85,6 +85,7 @@ function PartnersTrustSection() {
             const websiteUrl = partner.websiteUrl || partner.website;
             const openInNewTab = partner.openInNewTab ?? true;
             const altText = getBilingual(partner.altText, lang) || name;
+            const logoSurface = partner.logoSurface || 'light';
             const key = partner.slug || name || index;
             const isFailed = failedLogos.has(key);
             const CardTag = websiteUrl ? 'a' : 'article';
@@ -104,7 +105,7 @@ function PartnersTrustSection() {
                 role="listitem"
                 {...linkProps}
               >
-                <div className="partner-logo-frame">
+                <div className={`partner-logo-frame ${logoSurface === 'dark' ? 'partner-logo-frame--dark' : ''}`}>
                   {!isFailed && logoUrl ? (
                     <img
                       src={logoUrl}

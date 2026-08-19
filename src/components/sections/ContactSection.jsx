@@ -84,13 +84,13 @@ function ContactSection() {
 
   const trustThemes = lang === 'ar'
     ? [
-        { title: 'تطوير البرمجيات', text: 'منصات ويب وتطبيقات مؤسسية مبنية لل масштаб.' },
+        { title: 'تطوير البرمجيات', text: 'تطبيقات ويب وتطبيقات مؤسسية مبنية للتوسع.' },
         { title: 'حلول الذكاء الاصطناعي', text: 'أنظمة ذكية وأتمتة مدعومة بالذكاء الاصطناعي.' },
         { title: 'أنظمة ERP', text: 'تكامل مؤسسي ومزامنة بيانات موثوقة.' },
         { title: 'الأتمتة', text: 'سير عمل ذكي يقلل العمل اليدوي ويزيد الكفاءة.' },
       ]
     : [
-        { title: 'Software Development', text: 'Web platforms and enterprise applications built to scale.' },
+        { title: 'Software Development', text: 'Web applications and enterprise applications built to scale.' },
         { title: 'AI Solutions', text: 'Intelligent systems and AI-powered automation.' },
         { title: 'ERP Systems', text: 'Enterprise integration and reliable data synchronization.' },
         { title: 'Automation', text: 'Smart workflows that reduce manual work and increase efficiency.' },
@@ -99,15 +99,15 @@ function ContactSection() {
   const contactInfo = lang === 'ar'
     ? [
         { label: 'البريد الإلكتروني', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
-        { label: 'الهاتف', value: '+966 50 000 0000', href: 'tel:+966500000000' },
-        { label: 'واتساب', value: '+966 50 000 0000', href: 'https://wa.me/966500000000' },
-        { label: 'الموقع', value: 'الرياض، المملكة العربية السعودية', href: null },
+        { label: 'الهاتف', value: '01027285487', href: 'tel:01027285487' },
+        { label: 'واتساب', value: '01027285487', href: 'https://wa.me/201027285487' },
+        { label: 'الموقع', value: 'جمهورية مصر العربية – محافظة البحيرة', href: null },
       ]
     : [
         { label: 'Email', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
-        { label: 'Phone', value: '+966 50 000 0000', href: 'tel:+966500000000' },
-        { label: 'WhatsApp', value: '+966 50 000 0000', href: 'https://wa.me/966500000000' },
-        { label: 'Location', value: 'Riyadh, Saudi Arabia', href: null },
+        { label: 'Phone', value: '01027285487', href: 'tel:01027285487' },
+        { label: 'WhatsApp', value: '01027285487', href: 'https://wa.me/201027285487' },
+        { label: 'Location', value: 'Beheira Governorate, Egypt', href: null },
       ];
 
   const handleChange = (e) => {

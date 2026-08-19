@@ -1,20 +1,14 @@
 import { useHomepageConfig } from '../../hooks/useHomepageConfig';
 import { useI18n } from '../../i18n/I18nProvider.jsx';
 import getBilingual from '../../utils/getBilingual';
-import WorkflowFlow from '../WorkflowFlow';
 import SectionHeading from '../ui/SectionHeading';
 
 const FALLBACK_CAPABILITIES = [
-  { title: 'Business Automation', title_ar: 'أتمتة الأعمال', description: 'Automate repetitive workflows and business processes.', description_ar: 'أتمتة سير العمل المتكرر والعمليات التجارية.' },
-  { title: 'ERP Systems', title_ar: 'أنظمة تخطيط الموارد', description: 'Centralized management for operations, finance, HR, and inventory.', description_ar: 'إدارة مركزية للعمليات والمالية والموارد البشرية والمخزون.' },
-  { title: 'AI Solutions', title_ar: 'حلول الذكاء الاصطناعي', description: 'Intelligent assistants, automation, and decision support.', description_ar: 'مساعدون أذكياء وأتمتة ودعم اتخاذ القرار.' },
-  { title: 'Web Development', title_ar: 'تطوير الويب', description: 'Modern scalable web platforms.', description_ar: 'منصات ويب حديثة قابلة للتوسع.' },
-  { title: 'Mobile Applications', title_ar: 'تطبيقات الجوال', description: 'Cross-platform mobile experiences.', description_ar: 'تجارب جوال عبر المنصات.' },
-  { title: 'System Integration', title_ar: 'تكامل الأنظمة', description: 'Connect multiple systems into one ecosystem.', description_ar: 'ربط أنظمة متعددة في منظومة واحدة.' },
-  { title: 'Data & Analytics', title_ar: 'البيانات والتحليلات', description: 'Business intelligence and reporting.', description_ar: 'ذكاء الأعمال والتقارير.' },
-  { title: 'Digital Transformation', title_ar: 'التحول الرقمي', description: 'Modernization of business operations.', description_ar: 'تحديث العمليات التجارية.' },
-  { title: 'Training Programs', title_ar: 'برامج التدريب', description: 'Professional technical education and workforce development.', description_ar: 'تعليم تقني مهني وتطوير القوى العاملة.' },
-  { title: 'Custom Software Development', title_ar: 'تطوير برمجيات مخصصة', description: 'Tailored software solutions for unique business requirements.', description_ar: 'حلول برمجية مخصصة لمتطلبات الأعمال الفريدة.' },
+  { title: 'Web Applications', title_ar: 'تطبيقات الويب', description: 'Scalable platforms built for real business use.', description_ar: 'منصات قابلة للتوسع مبنية لاستخدامات عملية.' },
+  { title: 'Mobile Applications', title_ar: 'تطبيقات الجوال', description: 'Native and cross-platform apps for iOS and Android.', description_ar: 'تطبيقات أصلية وعبر المنصات لنظامي iOS و Android.' },
+  { title: 'ERP / Business Systems', title_ar: 'أنظمة ERP والأعمال', description: 'Integrated systems that connect operations, finance, and data.', description_ar: 'أنظمة متكاملة تربط العمليات والمالية والبيانات.' },
+  { title: 'AI & Automation', title_ar: 'الذكاء الاصطناعي والأتمتة', description: 'Intelligent workflows that reduce manual work.', description_ar: 'سير عمل ذكي يقلل العمل اليدوي.' },
+  { title: 'Custom Software Solutions', title_ar: 'حلول برمجية مخصصة', description: 'Tailored software for specific requirements.', description_ar: 'برمجيات مخصصة لمتطلبات محددة.' },
 ];
 
 const FEATURED_INDEX = 0;
@@ -59,29 +53,11 @@ function CapabilitiesMarqueeSection() {
   const supporting = SUPPORTING_INDICES.map((i) => items[i]).filter(Boolean);
   const remaining = items.slice(5).slice(0, 5);
 
-  const workflowNodes = lang === 'ar'
-    ? [
-        { label: 'البيانات', sublabel: 'مدخلات', variant: 'gold' },
-        { label: 'الذكاء الاصطناعي', sublabel: 'معالجة', variant: 'ai' },
-        { label: 'سير العمل', sublabel: 'أتمتة', variant: 'accent' },
-        { label: 'ERP', sublabel: 'مزامنة' },
-        { label: 'النتيجة', sublabel: 'تسليم', variant: 'gold' },
-      ]
-    : [
-        { label: 'Data', sublabel: 'Input', variant: 'gold' },
-        { label: 'AI', sublabel: 'Process', variant: 'ai' },
-        { label: 'Workflow', sublabel: 'Automate', variant: 'accent' },
-        { label: 'ERP', sublabel: 'Sync' },
-        { label: 'Outcome', sublabel: 'Delivered', variant: 'gold' },
-      ];
-
   return (
     <section id="capabilities" className="capabilities-section" aria-labelledby="capabilities-heading">
       <div className="capabilities-content">
         <SectionHeading
           id="capabilities-heading"
-          index="03"
-          eyebrow={lang === 'ar' ? 'القدرات' : 'Capabilities'}
           title={heading}
           description={description}
           className="capabilities-heading-block motion-clip-reveal is-visible"
@@ -125,16 +101,6 @@ function CapabilitiesMarqueeSection() {
           </div>
         )}
 
-        <WorkflowFlow
-          className="capabilities-workflow motion-fade-in is-visible"
-          label={lang === 'ar' ? 'مسار الأتمتة' : 'Automation Pipeline'}
-          ariaLabel={lang === 'ar' ? 'مخطط مسار الأتمتة' : 'Automation pipeline diagram'}
-          nodes={workflowNodes}
-          variant="gradient"
-          caption={lang === 'ar'
-            ? 'من البيانات إلى النتائج — أنظمة ذكية تربط كل مرحلة من عملياتك.'
-            : 'From data to outcomes — intelligent systems connecting every stage of your operations.'}
-        />
       </div>
     </section>
   );

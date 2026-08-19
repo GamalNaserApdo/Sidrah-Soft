@@ -781,7 +781,7 @@
   position: relative;
   padding: var(--section-padding-y) var(--section-padding-x);
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-section-transition);
   border-top: 1px solid var(--color-border-subtle);
   border-bottom: 1px solid var(--color-border-subtle);
   overflow: hidden;
@@ -1350,7 +1350,7 @@
 
 .public-website-shell .foundation-section {
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-gold);
   border-top: 1px solid rgba(201, 169, 110, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -1451,7 +1451,7 @@
 
 .public-website-shell .services-section {
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-default);
   border-top: 1px solid rgba(139, 92, 166, 0.11);
   border-bottom: 1px solid rgba(139, 92, 166, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -1644,7 +1644,7 @@
 
 .public-website-shell .industries-section {
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-copper);
   border-top: 1px solid rgba(184, 115, 51, 0.12);
   border-bottom: 1px solid rgba(201, 169, 110, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -1790,7 +1790,7 @@
   overflow: hidden;
   text-align: start;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-default);
   border-top: 1px solid rgba(141, 81, 160, 0.12);
   border-bottom: 1px solid rgba(141, 81, 160, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -2003,7 +2003,7 @@
   overflow: hidden;
   text-align: center;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-gold);
   border-top: 1px solid rgba(201, 169, 110, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -2071,9 +2071,14 @@
   width: 100%;
   min-height: 4.5rem;
   padding: var(--space-4);
-  background: rgba(242, 242, 242, 0.03);
-  border: 1px solid rgba(201, 169, 110, 0.08);
+  background: #f8f8fa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-md);
+}
+
+.public-website-shell .partner-logo-frame--dark {
+  background: var(--color-bg);
+  border: 1px solid rgba(242, 242, 242, 0.08);
 }
 
 .public-website-shell .partner-logo {
@@ -2081,12 +2086,11 @@
   max-width: 100%;
   width: auto;
   object-fit: contain;
-  filter: brightness(1.15) contrast(1.05) drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.1));
-  transition: filter 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .public-website-shell .partner-card:hover .partner-logo {
-  filter: brightness(1.25) contrast(1.1) drop-shadow(0 0 0.5rem rgba(201, 169, 110, 0.15));
+  transform: scale(1.04);
 }
 
 .public-website-shell .partner-logo-fallback {
@@ -2136,7 +2140,7 @@
   overflow: hidden;
   text-align: start;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-default);
   border-top: 1px solid rgba(141, 81, 160, 0.1);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -2466,7 +2470,7 @@
   overflow: hidden;
   text-align: start;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-tech);
   border-top: 1px solid rgba(74, 158, 255, 0.08);
   border-bottom: 1px solid rgba(141, 81, 160, 0.08);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -2765,7 +2769,7 @@
   overflow: hidden;
   text-align: start;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-copper);
   border-top: 1px solid rgba(184, 115, 51, 0.08);
   border-bottom: 1px solid rgba(201, 169, 110, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -3151,7 +3155,7 @@
   overflow: hidden;
   text-align: start;
   background-color: transparent;
-  background-image: none;
+  background-image: var(--gradient-ambient-gold);
   border-top: 1px solid rgba(201, 169, 110, 0.08);
   border-bottom: 1px solid rgba(139, 92, 246, 0.06);
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -3429,22 +3433,22 @@
   padding: var(--space-4) var(--space-6);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(201, 169, 110, 0.14));
-  border: 1px solid rgba(139, 92, 246, 0.32);
+  color: var(--color-bg);
+  background: var(--color-gold);
+  border: 1px solid var(--color-gold);
   border-radius: var(--radius-md);
   cursor: pointer;
   text-decoration: none;
   opacity: 1;
   transform: none;
   animation: none;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
 .public-website-shell .contact-submit-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.28), rgba(201, 169, 110, 0.22));
-  border-color: rgba(139, 92, 246, 0.48);
-  box-shadow: 0 0.5rem 2rem rgba(139, 92, 246, 0.18);
+  background: var(--color-gold-hover);
+  border-color: var(--color-gold-hover);
+  transform: translateY(-0.125rem);
 }
 
 .public-website-shell .contact-submit-button:disabled {
@@ -3545,6 +3549,19 @@
 
 [dir='rtl'] .public-website-shell .contact-submit-button:hover:not(:disabled) .contact-submit-button__arrow {
   transform: scaleX(-1) translateX(0.25rem);
+}
+
+/* Section wash — applied to homepage content sections to separate them from the
+   technical grid and from each other without adding heavy backgrounds. */
+.public-website-shell .foundation-section,
+.public-website-shell .capabilities-section,
+.public-website-shell .industries-section,
+.public-website-shell .partners-section,
+.public-website-shell .case-studies-section,
+.public-website-shell .insights-section,
+.public-website-shell .careers-section,
+.public-website-shell .contact-section {
+  background-color: var(--section-wash);
 }
 
 @media (max-width: 1023px) {

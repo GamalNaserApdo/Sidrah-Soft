@@ -23,7 +23,10 @@ class Command(BaseCommand):
             supported_languages=['en', 'ar'],
             contact_email='sidrahsoft@gmail.com',
             recipient_email='sidrahsoft@gmail.com',
-            address='Riyadh, Saudi Arabia',
+            phone='01027285487',
+            whatsapp_url='https://wa.me/201027285487',
+            linkedin_url='https://www.linkedin.com/sidrah.soft/',
+            address='',
             working_hours='Sun - Thu, 9:00 AM - 5:00 PM',
             is_active=True,
         )

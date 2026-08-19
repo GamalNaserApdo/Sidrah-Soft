@@ -52,8 +52,8 @@ function CareersSection() {
     : (careersHeading?.heading_en || 'Build the future with SidrahSoft');
 
   const description = lang === 'ar'
-    ? (careersHeading?.description_ar || 'نبني أنظمة رقمية ومنصات تعليمية وحلول أتمتة للمؤسسات التي تستعد للمستقبل.')
-    : (careersHeading?.description_en || 'We are building digital systems, learning platforms, and automation solutions for organizations preparing for the future.');
+    ? (careersHeading?.description_ar || 'نبحث عن أشخاص يريدون بناء أنظمة وتعليم وتأثير حقيقي.')
+    : (careersHeading?.description_en || 'We look for people who want to build systems, teach, and create real impact.');
 
   const cultureStatement = lang === 'ar'
     ? 'نحن نبحث عن أشخاص يريدون أن يكون عملهم له معنى — مهندسون ومصممون ومفكرون يؤمنون بأن التكنولوجيا يجب أن تخدم الناس.'
@@ -105,8 +105,6 @@ function CareersSection() {
       <div className="careers-content">
         <SectionHeading
           id="careers-heading"
-          index="10"
-          eyebrow={lang === 'ar' ? 'وظائف' : 'Careers'}
           title={heading}
           description={description}
           className="careers-heading-block motion-clip-reveal is-visible"

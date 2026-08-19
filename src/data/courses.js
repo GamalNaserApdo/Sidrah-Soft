@@ -1,7 +1,14 @@
+import frontendImg from '../assets/training_images/frontend-development.png';
+import backendImg from '../assets/training_images/backend-development.png';
+import flutterImg from '../assets/training_images/flutter-development.png';
+import pythonImg from '../assets/training_images/python-programming.png';
+import cppImg from '../assets/training_images/cpp-programming.png';
+import devopsImg from '../assets/training_images/devops-engineering.png';
+
 const courses = [
   {
     slug: 'frontend-development',
-    image: '/assets/training_images/frontend-development.png',
+    image: frontendImg,
     categoryEn: 'Web Development',
     categoryAr: 'تطوير الويب',
     titleEn: 'Frontend Development',
@@ -97,7 +104,7 @@ const courses = [
   },
   {
     slug: 'backend-development',
-    image: '/assets/training_images/backend-development.png',
+    image: backendImg,
     categoryEn: 'Server & APIs',
     categoryAr: 'الخوادم و APIs',
     titleEn: 'Backend Development',
@@ -193,7 +200,7 @@ const courses = [
   },
   {
     slug: 'flutter-development',
-    image: '/assets/training_images/flutter-development.png',
+    image: flutterImg,
     categoryEn: 'Mobile Development',
     categoryAr: 'تطوير الجوال',
     titleEn: 'Flutter Development',
@@ -289,7 +296,7 @@ const courses = [
   },
   {
     slug: 'basic-python',
-    image: '/assets/training_images/python-programming.png',
+    image: pythonImg,
     categoryEn: 'Programming Fundamentals',
     categoryAr: 'أساسيات البرمجة',
     titleEn: 'Basic Python',
@@ -385,7 +392,7 @@ const courses = [
   },
   {
     slug: 'cpp-programming',
-    image: '/assets/training_images/cpp-programming.png',
+    image: cppImg,
     categoryEn: 'Programming Fundamentals',
     categoryAr: 'أساسيات البرمجة',
     titleEn: 'C++ Programming',
@@ -581,7 +588,7 @@ const courses = [
   },
   {
     slug: 'devops-engineering',
-    image: '/assets/training_images/devops-engineering.png',
+    image: devopsImg,
     categoryEn: 'Infrastructure & Deployment',
     categoryAr: 'البنية التحتية والنشر',
     titleEn: 'DevOps Engineering',

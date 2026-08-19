@@ -5,24 +5,24 @@ import companyLocation from '../data/company/companyLocation';
 import getBilingual from '../utils/getBilingual';
 import resolveMediaUrl from '../utils/resolveMediaUrl';
 import SocialIcons from './SocialIcons';
-const publicLogo = '/assets/logo.png';
+import publicLogo from '../assets/logo.png';
 
 const companyLinks = [
   { key: 'about', target: 'foundation' },
-  { key: 'services', target: 'services' },
-  { key: 'solutions', target: 'services' },
+  { key: 'services', target: 'capabilities' },
+  { key: 'solutions', target: 'capabilities' },
   { key: 'caseStudies', target: 'case-studies' },
   { key: 'insights', path: '/insights' },
   { key: 'careers', path: '/careers' },
 ];
 
 const serviceLinks = [
-  { key: 'businessAutomation', target: 'services' },
-  { key: 'erpSystems', target: 'services' },
-  { key: 'aiSolutions', target: 'services' },
-  { key: 'webDevelopment', target: 'services' },
-  { key: 'mobileApplications', target: 'services' },
-  { key: 'systemIntegration', target: 'services' },
+  { key: 'businessAutomation', target: 'capabilities' },
+  { key: 'erpSystems', target: 'capabilities' },
+  { key: 'aiSolutions', target: 'capabilities' },
+  { key: 'webDevelopment', target: 'capabilities' },
+  { key: 'mobileApplications', target: 'capabilities' },
+  { key: 'systemIntegration', target: 'capabilities' },
 ];
 
 const legalLinks = [
@@ -40,11 +40,12 @@ function Footer() {
   const brandName = settings?.general?.site_name || 'Sidrah Soft';
 
   const contactEmail = settings?.contact?.contact_email || 'sidrahsoft@gmail.com';
-  const whatsappUrl = settings?.contact?.whatsapp_url || 'https://wa.me/PLACEHOLDER';
-  const linkedinUrl = settings?.social?.linkedin_url || 'https://linkedin.com/company/PLACEHOLDER';
+  const whatsappUrl = settings?.contact?.whatsapp_url || 'https://wa.me/201027285487';
+  const linkedinUrl = settings?.social?.linkedin_url || 'https://www.linkedin.com/sidrah.soft/';
 
   const contactLinks = [
     { key: 'email', href: `mailto:${contactEmail}`, external: false },
+    { key: 'phone', href: 'tel:01027285487', external: false },
     { key: 'whatsapp', href: whatsappUrl, external: true },
     { key: 'linkedin', href: linkedinUrl, external: true },
   ];

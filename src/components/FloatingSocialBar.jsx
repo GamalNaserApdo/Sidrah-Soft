@@ -12,7 +12,7 @@ function FloatingSocialBar() {
     {
       key: 'whatsapp',
       label: lang === 'ar' ? 'واتساب' : 'WhatsApp',
-      href: contact.whatsapp_url || 'https://wa.me/PLACEHOLDER',
+      href: contact.whatsapp_url || 'https://wa.me/201027285487',
       icon: ICONS.whatsapp,
     },
     {

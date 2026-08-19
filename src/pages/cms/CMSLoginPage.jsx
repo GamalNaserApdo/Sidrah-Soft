@@ -8,6 +8,7 @@
 import { useCallback, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import brandLogo from '../../assets/logo.png';
 
 function getSafeNextPath(search) {
   const params = new URLSearchParams(search);
@@ -58,7 +59,7 @@ export default function CMSLoginPage() {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.logo}>
-          <img src="/assets/logo.png" alt="SidrahSoft" style={styles.logoImg} />
+          <img src={brandLogo} alt="SidrahSoft" style={styles.logoImg} />
           <span style={styles.logoCms}>CMS</span>
         </div>
         <h1 style={styles.title}>Sign In</h1>
@@ -135,9 +136,9 @@ const styles = {
     marginBottom: '1.5rem',
   },
   logoImg: {
-    width: '2.75rem',
     height: '2.75rem',
-    borderRadius: '50%',
+    width: 'auto',
+    objectFit: 'contain',
   },
   logoCms: {
     fontSize: '0.875rem',

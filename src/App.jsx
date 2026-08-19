@@ -2,13 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import ScrollToTop from './components/ScrollToTop';
 import SidrahGridBackground from './components/SidrahGridBackground';
-import FloatingSocialBar from './components/FloatingSocialBar';
 import SEO from './components/SEO';
 import CinematicHero from './components/hero/CinematicHero';
 import FoundationSection from './components/sections/FoundationSection';
 import CapabilitiesMarqueeSection from './components/sections/CapabilitiesMarqueeSection';
-import ServicesSection from './components/sections/ServicesSection';
-import AutomationShowcaseSection from './components/sections/AutomationShowcaseSection';
 import IndustriesSection from './components/sections/IndustriesSection';
 import TrainingEducationEntry from './components/sections/TrainingEducationEntry';
 import PartnersTrustSection from './components/sections/PartnersTrustSection';
@@ -51,8 +48,6 @@ const SECTION_COMPONENT_MAP = {
   hero: CinematicHero,
   foundation: FoundationSection,
   marquee: CapabilitiesMarqueeSection,
-  services: ServicesSection,
-  automation_showcase: AutomationShowcaseSection,
   industries: IndustriesSection,
   training_education: TrainingEducationEntry,
   partners: PartnersTrustSection,
@@ -66,8 +61,6 @@ const FALLBACK_SECTION_ORDER = [
   'hero',
   'foundation',
   'marquee',
-  'services',
-  'automation_showcase',
   'industries',
   'training_education',
   'partners',
@@ -76,6 +69,8 @@ const FALLBACK_SECTION_ORDER = [
   'careers',
   'contact',
 ];
+
+const HIDDEN_HOMEPAGE_SECTIONS = new Set(['services', 'automation_showcase']);
 
 const REQUIRED_SECTIONS = ['training_education'];
 
@@ -140,16 +135,18 @@ function HomeSections() {
 
   return (
     <>
-      {sections.map((s) => {
-        const Component = SECTION_COMPONENT_MAP[s.section_key];
-        if (!Component) return null;
-      if (s.section_key === 'hero') {
-        const heroConfig = config?.hero;
-        if (heroConfig?.enabled === false) return null;
-        return <Component key={s.section_key} />;
-      }
-      return <Component key={s.section_key} />;
-    })}
+      {sections
+        .filter((s) => !HIDDEN_HOMEPAGE_SECTIONS.has(s.section_key))
+        .map((s) => {
+          const Component = SECTION_COMPONENT_MAP[s.section_key];
+          if (!Component) return null;
+          if (s.section_key === 'hero') {
+            const heroConfig = config?.hero;
+            if (heroConfig?.enabled === false) return null;
+            return <Component key={s.section_key} />;
+          }
+          return <Component key={s.section_key} />;
+        })}
     </>
   );
 }
@@ -181,7 +178,6 @@ function App() {
       <ScrollToTop />
       <SidrahGridBackground />
       <div className="app-content">
-        <FloatingSocialBar />
         <Suspense fallback={<RouteFallback />}>
           <Routes>
           <Route path="/" element={<PublicWebsiteShell><Home /></PublicWebsiteShell>} />

@@ -8,18 +8,15 @@ function TrainingEducationEntry() {
   return (
     <section className="training-education-entry" id="training-education">
       <div className="training-education-entry__content">
-        <span className="training-education-entry__eyebrow">
-          {isAr ? 'التدريب والتعليم' : 'Training & Education'}
-        </span>
         <h2 className="training-education-entry__title">
           {isAr
-            ? 'نبني الكفاءات التقنية للمستقبل'
-            : 'We Build Technical Capabilities for the Future'}
+            ? 'نبني الكفاءات، ونعلم المبتدئين'
+            : 'We Build Capabilities. We Teach Learners.'}
         </h2>
         <p className="training-education-entry__text">
           {isAr
-            ? 'من تدريب المهنيين على أحدث التقنيات إلى إعداد طلاب الثانوية والبكالوريا داخل بيئة شركة برمجيات حقيقية.'
-            : 'From training professionals on the latest technologies to preparing secondary and baccalaureate students inside a real software company environment.'}
+            ? 'برامج تدريبية عملية للمهنيين، ومسارات تقنية لطلاب الثانوية والبكالوريا — ضمن بيئة شركة برمجيات حقيقية.'
+            : 'Practical training for professionals and technology pathways for secondary and baccalaureate students — inside a real software company environment.'}
         </p>
         <div className="training-education-entry__links">
           <Link to="/training" className="training-education-entry__link">

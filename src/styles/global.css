@@ -612,9 +612,14 @@ body {
   width: 100%;
   min-height: 3.5rem;
   padding: 0.75rem;
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border);
+  background: #f8f8fa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-md);
+}
+
+.partner-logo-frame--dark {
+  background: var(--color-bg);
+  border: 1px solid rgba(242, 242, 242, 0.08);
 }
 
 .partner-logo {
@@ -624,7 +629,6 @@ body {
   width: auto;
   object-fit: contain;
   opacity: 1;
-  filter: brightness(1.1) contrast(1.1) drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.12));
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
@@ -1357,6 +1361,12 @@ body {
   transform: translateY(0);
 }
 
+.insight-card,
+.insight-card:hover,
+.insight-card * {
+  text-decoration: none;
+}
+
 .insight-card:hover {
   border-color: var(--color-purple-soft-border);
   background-color: var(--color-surface-card-hover);
@@ -1615,8 +1625,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-bg);
-  background-image: var(--gradient-section);
+  background-color: transparent;
+  background-image: var(--gradient-ambient-gold);
   padding: 8rem 2rem 5rem;
   text-align: center;
 }
@@ -1662,8 +1672,8 @@ body {
 .training-courses {
   position: relative;
   z-index: 1;
-  background-color: var(--color-bg-elevated);
-  background-image: var(--gradient-section);
+  background-color: transparent;
+  background-image: var(--gradient-ambient-default);
   padding: 5rem 2rem 8rem;
   text-align: center;
 }
@@ -1720,7 +1730,7 @@ body {
   flex-direction: column;
   text-align: left;
   background-color: var(--card-surface-solid);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-solid);
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-decoration: none;
@@ -1750,72 +1760,30 @@ body {
   outline-offset: 2px;
 }
 
-.training-course-card__image-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(139, 92, 166, 0.12), rgba(201, 169, 110, 0.08));
-  border-bottom: 1px solid var(--color-border);
-  padding: 0.75rem;
-}
-
-.training-course-card__image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  display: block;
-  transition: transform 0.4s ease-out;
-}
-
-.training-course-card:hover .training-course-card__image {
-  transform: scale(1.03);
-}
-
-.training-course-card__image-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(139, 92, 166, 0.12), rgba(201, 169, 110, 0.06));
-}
-
-.training-course-card__image-fallback-text {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.training-course-card__category {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  padding: 0.25rem 0.625rem;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-  background: rgba(10, 11, 16, 0.75);
-  border: 1px solid var(--color-border);
-  border-radius: 0.25rem;
-  backdrop-filter: blur(4px);
-}
-
-[dir='rtl'] .training-course-card__category {
-  left: auto;
-  right: 0.75rem;
-}
-
 .training-course-card__body {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 1.75rem;
+}
+
+.training-course-card__category-chip {
+  align-self: flex-start;
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-purple);
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 0.25rem;
+}
+
+[dir='rtl'] .training-course-card__category-chip {
+  align-self: flex-start;
 }
 
 .training-course-card__title {
@@ -1858,7 +1826,7 @@ body {
 .training-cta {
   position: relative;
   z-index: 1;
-  background-color: var(--color-bg);
+  background-color: transparent;
   background-image: var(--gradient-section-gold);
   padding: 4rem 2rem 8rem;
   text-align: center;
@@ -1988,6 +1956,7 @@ body {
   grid-template-columns: 1.2fr 1fr;
   gap: 3rem;
   align-items: center;
+  background-image: var(--gradient-ambient-gold);
 }
 
 .course-detail-hero__content {
@@ -2114,10 +2083,13 @@ body {
   padding: 3.5rem 2rem;
   max-width: 64rem;
   margin: 0 auto;
+  background-color: transparent;
+  background-image: var(--gradient-ambient-default);
 }
 
 .course-detail-section--alt {
   background-color: transparent;
+  background-image: var(--gradient-ambient-copper);
 }
 
 .course-detail-section--ai {
@@ -2255,6 +2227,7 @@ body {
   padding: 4rem 2rem 6rem;
   text-align: center;
   background-color: transparent;
+  background-image: var(--gradient-section-gold);
 }
 
 .course-detail-cta__content {
@@ -2392,7 +2365,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .training-course-card__image {
+  .training-course-card__category-chip,
+  .training-course-card__cta-arrow {
     transition: none;
   }
 }
@@ -2811,20 +2785,20 @@ body {
   padding: var(--space-4) var(--space-8);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.20), rgba(201, 169, 110, 0.16));
-  border: 1px solid rgba(139, 92, 246, 0.36);
+  color: var(--color-bg);
+  background: var(--color-gold);
+  border: 1px solid var(--color-gold);
   border-radius: var(--radius-md);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
 .footer-cta-zone__button:hover {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.30), rgba(201, 169, 110, 0.24));
-  border-color: rgba(139, 92, 246, 0.52);
-  box-shadow: 0 0.5rem 2rem rgba(139, 92, 246, 0.20);
+  background: var(--color-gold-hover);
+  border-color: var(--color-gold-hover);
+  transform: translateY(-0.125rem);
 }
 
 .footer-cta-zone__button:focus-visible {

@@ -5,8 +5,8 @@ import { getHeaderNavigation } from '../services/navigationApi';
  * Hardcoded fallback matching the existing Header UI.
  */
 const FALLBACK_NAV_LINKS = [
-  { key: 'services', target: 'services' },
-  { key: 'solutions', target: 'services' },
+  { key: 'services', target: 'capabilities' },
+  { key: 'solutions', target: 'capabilities' },
   { key: 'caseStudies', target: 'case-studies' },
   { key: 'trainingCourses', path: '/training' },
   { key: 'insights', path: '/insights' },

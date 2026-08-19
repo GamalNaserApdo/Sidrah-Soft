@@ -20,12 +20,12 @@ function CaseStudiesSection() {
 
   const csHeading = config?.headings?.case_studies;
   const heading = lang === 'ar'
-    ? (csHeading?.heading_ar || 'مشاريع رقمية مختارة')
-    : (csHeading?.heading_en || 'Selected Digital Transformation Initiatives');
+    ? (csHeading?.heading_ar || 'أعمال مختارة')
+    : (csHeading?.heading_en || 'Selected Work');
 
   const description = lang === 'ar'
-    ? (csHeading?.description_ar || 'أمثلة على كيف تحل برامج الحوسبة الحديثة وأنظمة تخطيط الموارد والذكاء الاصطناعي والأتمتة تحديات التشغيل وتحقق نتائج أعمال قابلة للقياس.')
-    : (csHeading?.description_en || 'Examples of how modern software, ERP, AI, and automation solutions solve operational challenges and create measurable business outcomes.');
+    ? (csHeading?.description_ar || 'نظرة على أنظمة بنيناها لعملائنا في التعليم والمؤسسات والأعمال.')
+    : (csHeading?.description_en || 'A look at systems we have built for clients across education, enterprise, and business operations.');
 
   const featuredStudy = useMemo(() => {
     const featured = allStudies.find((s) => s.featured || s.is_featured);
@@ -64,8 +64,6 @@ function CaseStudiesSection() {
       <div className="case-studies-content">
         <SectionHeading
           id="case-studies-heading"
-          index="08"
-          eyebrow={lang === 'ar' ? 'دراسات الحالة' : 'Case Studies'}
           title={heading}
           description={description}
           className="case-studies-heading-block motion-clip-reveal is-visible"
