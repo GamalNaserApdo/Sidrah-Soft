@@ -1,0 +1,34 @@
+warning: in the working copy of 'backend/.env.example', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/config/settings.py', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/backend/.env.example b/backend/.env.example[m
+[1mindex 00d86bf..89807da 100644[m
+[1m--- a/backend/.env.example[m
+[1m+++ b/backend/.env.example[m
+[36m@@ -10,7 +10,7 @@[m [mDJANGO_CSRF_TRUSTED_ORIGINS=http://localhost:5174,http://127.0.0.1:5174[m
+ # Cross-origin cookie handling.[m
+ # Use 'None' for production when the frontend and backend are on different origins.[m
+ # 'None' requires Secure=True, which is enabled automatically in non-DEBUG mode.[m
+[31m-DJANGO_SESSION_COOKIE_SAMESITE=Lax[m
+[32m+[m[32mDJANGO_SESSION_COOKIE_SAMESITE=None[m
+ DJANGO_CSRF_COOKIE_SAMESITE=None[m
+ [m
+ # HTTPS redirect. Default is True in production. Set to False on Railway because the[m
+[1mdiff --git a/backend/config/settings.py b/backend/config/settings.py[m
+[1mindex 0092802..decfb30 100644[m
+[1m--- a/backend/config/settings.py[m
+[1m+++ b/backend/config/settings.py[m
+[36m@@ -260,12 +260,12 @@[m [mCSRF_COOKIE_HTTPONLY = False  # Frontend must read CSRF token from cookie.[m
+ SESSION_COOKIE_SAMESITE = ([m
+     os.environ.get('DJANGO_SESSION_COOKIE_SAMESITE', '').strip()[m
+     or os.environ.get('SESSION_COOKIE_SAMESITE', '').strip()[m
+[31m-    or 'Lax'[m
+[32m+[m[32m    or ('Lax' if DEBUG else 'None')[m
+ )[m
+ CSRF_COOKIE_SAMESITE = ([m
+     os.environ.get('DJANGO_CSRF_COOKIE_SAMESITE', '').strip()[m
+     or os.environ.get('CSRF_COOKIE_SAMESITE', '').strip()[m
+[31m-    or 'None'[m
+[32m+[m[32m    or ('Lax' if DEBUG else 'None')[m
+ )[m
+ [m
+ # Security headers placeholders for production[m
