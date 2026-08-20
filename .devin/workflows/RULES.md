@@ -89,10 +89,14 @@ Backend:
 - Django REST Framework
 
 Database:
-- MySQL
+- PostgreSQL
 
 Frontend:
-- Next.js
+- React
+- Vite
+
+Deployment:
+- Railway (frontend and backend services)
 
 CMS:
 - Custom CMS
@@ -351,3 +355,50 @@ Always follow:
 7. Document
 
 Never skip steps.
+
+---
+
+# 21. Repository Hygiene / Git Safety
+
+This section is permanent and mandatory for every future agent working in this repository.
+See also the root `AGENTS.md`, which contains the full, detailed hygiene ruleset. The rules
+below are the minimum non-negotiable checklist before any commit or push.
+
+Before every commit or push, an agent MUST:
+
+1. Review `git status --short` and account for every changed/untracked path.
+2. Review every untracked file individually — do not assume a file belongs in Git just
+   because it exists locally.
+3. Review `git diff --cached --name-status` before finalizing a commit or push.
+4. Never assume every local file belongs in Git.
+5. Never commit:
+   - local databases (`*.sqlite3`, dumps, backups)
+   - debug output or captured command transcripts
+   - temporary/progress screenshots
+   - generated diagnostic files (build logs, tool error output)
+   - secrets, credentials, tokens, or `.env` files
+   - one-off AI/tool artifacts (e.g. Higgsfield/Seedance experiment files)
+   - internal evidence reports containing real secrets or credentials
+6. Review `.gitignore` whenever a task creates a new category of local/generated artifact,
+   and verify new rules with `git check-ignore -v <file>` without hiding required source files.
+7. Avoid blind staging (`git add .` / `git add -A`); stage reviewed, intentional paths only.
+8. Validate every new dependency and file before adding it — confirm it is required by
+   production/runtime/build/deployment or is intentionally versioned documentation/config.
+9. Treat `project-memory/evidence/` as internal documentation that still requires secret
+   hygiene: never write live credentials, tokens, or non-placeholder passwords into it.
+10. Before deleting or untracking a suspicious file, search the repository for
+    runtime/build/import/config/script references (frontend, backend, Railway, CI/CD) —
+    production functionality always takes priority over cleanup convenience.
+
+## Known cleanup history
+
+- `SIDRAHSOFT-REPOSITORY-HYGIENE-AUDIT-001` and `SIDRAHSOFT-REPOSITORY-SAFE-CLEANUP-002`
+  removed accidental local artifacts (SQLite databases, stray shell-redirect files, an
+  abandoned `newstyle/` reference directory, regenerated `backend/staticfiles/` output, and
+  an unused ~136 MB hero frame/clip asset system) from `main` and redacted a local-only
+  PostgreSQL development password from tracked evidence reports.
+- These artifact classes still exist in Git history prior to the cleanup commit. A separate,
+  explicitly approved history-rewrite task (`git filter-repo` or BFG) is required if the
+  repository is ever made public and a fully clean history is needed.
+- `backend/media/uploads/` (CMS-uploaded media) remains tracked pending a future migration
+  to object storage (S3/Cloudflare R2); do not remove it from Git before that migration.

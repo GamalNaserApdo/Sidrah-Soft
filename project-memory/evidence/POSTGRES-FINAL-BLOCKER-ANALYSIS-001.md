@@ -48,7 +48,7 @@ After resolving the port conflict, authentication succeeds with the credentials 
 - Port: `5433`
 - Database: `sidrahsoft_db`
 - User: `sidrahsoft_user`
-- Password: `Postgres1234`
+- Password: `[REDACTED_LOCAL_DEV_PASSWORD]`
 
 Evidence:
 
@@ -177,7 +177,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 DB_ENGINE=django.db.backends.postgresql
 DB_NAME=sidrahsoft_db
 DB_USER=sidrahsoft_user
-DB_PASSWORD=Postgres1234
+DB_PASSWORD=[REDACTED_LOCAL_DEV_PASSWORD]
 DB_HOST=127.0.0.1
 DB_PORT=5433
 

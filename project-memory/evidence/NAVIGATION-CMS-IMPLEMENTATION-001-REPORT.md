@@ -209,7 +209,7 @@ Navigation seeded: 0 menus created, 0 items created.
 - The backend `.env` file was updated with the provided credentials:
   - `DB_HOST=127.0.0.1`
   - `DB_PORT=5433`
-  - `DB_PASSWORD=Postgres1234`
+  - `DB_PASSWORD=[REDACTED_LOCAL_DEV_PASSWORD]`
 - A UTF-8 BOM at the start of `.env` was removed; it had caused `SECRET_KEY` to be read as empty.
 - `backend/.env.example` and `backend/README.md` were updated to reflect the new navigation endpoints and seed commands.
 

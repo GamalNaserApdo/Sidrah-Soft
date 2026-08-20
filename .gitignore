@@ -44,6 +44,8 @@ htmlcov/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+db_*.sqlite3
+*.sqlite3
 media/
 staticfiles/
 backend/media/
@@ -75,6 +77,23 @@ pnpm-debug.log*
 *.pid.lock
 tmp/
 temp/
+
+# Local diagnostic / debug / one-off tool output
+build_output.txt
+*_error.txt
+higgsfield_*.txt
+seedance_*.json
+seedance_*.txt
+version.txt
+hero-progress-*.png
+
+# Abandoned reference/experiment directories
+newstyle/
+
+# Unused generated hero frame/clip sequences (if a frame-sequence hero
+# pipeline is reinstated, load frames from object storage/CDN instead of Git)
+src/assets/hero/frames*/
+src/assets/hero/clips/
 
 # IDEs and editors
 .vscode/

@@ -94,11 +94,11 @@ The root `.gitignore` is generally adequate for a clean project:
 
 ### Historical secret exposure
 
-`git log --all --oneline -S 'Postgres1234'` identified commit `20986d8` (Initial production-ready SidrahSoft website) as the commit where the local PostgreSQL password was introduced into the evidence reports. The value is for local development only, but it is now in Git history and on `origin/main`.
+A local PostgreSQL development password (referred to here as `[REDACTED_LOCAL_DEV_PASSWORD]`) was found to have been introduced into the evidence reports in commit `20986d8` (Initial production-ready SidrahSoft website). The value was for local development only (local `sidrahsoft_db` on `127.0.0.1:5433`), but it was present in Git history and on `origin/main`.
 
 **Recommendation:**
-- If `Postgres1234` was ever used for production or any non-throwaway environment, rotate it immediately.
-- If it was only used for the original local `sidrahsoft_db`, delete the reports or redact the line in a future cleanup task and consider a `git filter-repo` or `git filter-branch` pass if the repository becomes public.
+- If this local password was ever reused for production or any non-throwaway environment, rotate it immediately.
+- It has been redacted from the current tracked files as of `SIDRAHSOFT-REPOSITORY-SAFE-CLEANUP-002`. The original value still exists in Git history prior to that cleanup commit and requires a separate, explicitly approved `git filter-repo`/BFG history-rewrite task if the repository is made public.
 
 ---
 
