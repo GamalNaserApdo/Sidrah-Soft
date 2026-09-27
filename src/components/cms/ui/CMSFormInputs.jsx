@@ -44,7 +44,7 @@ const hintStyle = {
 
 const requiredMark = {
   color: 'var(--cms-danger)',
-  marginLeft: '0.125rem',
+  marginInlineStart: '0.125rem',
 };
 
 export const CMSInput = forwardRef(function CMSInput(

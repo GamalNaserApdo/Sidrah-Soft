@@ -1,4 +1,6 @@
 """URL configuration for SidrahSoft CMS backend."""
+import os
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -6,8 +8,16 @@ from django.conf.urls.static import static
 
 from apps.core.seo_views import robots_txt, sitemap_xml
 
+# Django admin is served from a non-default path to reduce discoverability.
+# This is NOT a complete security solution — it is one layer of defense.
+# The admin still requires staff/superuser authentication, CSRF, and HTTPS in production.
+# The path can be overridden via the DJANGO_ADMIN_URL environment variable.
+ADMIN_URL_PATH = os.environ.get('DJANGO_ADMIN_URL', 'sidrah-management/').strip().strip('/')
+if not ADMIN_URL_PATH:
+    ADMIN_URL_PATH = 'sidrah-management/'
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(f'{ADMIN_URL_PATH}/', admin.site.urls),
     path('api/v1/', include('apps.core.urls')),
     path('api/v1/', include('apps.site_settings.urls')),
     path('api/v1/auth/', include('apps.accounts.urls')),
@@ -22,6 +32,9 @@ urlpatterns = [
     path('api/v1/contact/', include('apps.contact.urls')),
     path('api/v1/homepage/', include('apps.homepage.urls')),
     path('api/v1/training/', include('apps.training.urls')),
+    path('api/v1/', include('apps.ai_automation.urls')),
+    path('api/v1/', include('apps.site_settings.static_seo_urls')),
+    path('api/v1/', include('apps.forms.urls')),
     path('api/v1/cms/', include('apps.core.cms_urls')),
     path('robots.txt', robots_txt, name='robots-txt'),
     path('sitemap.xml', sitemap_xml, name='sitemap-xml'),

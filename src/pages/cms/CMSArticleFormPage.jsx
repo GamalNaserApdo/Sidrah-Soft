@@ -189,6 +189,6 @@ export default function CMSArticleFormPage() {
 const styles = {
   form: { display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '800px' },
   checkboxes: { display: 'flex', gap: '1.5rem', flexWrap: 'wrap' },
-  section: { background: '#12121e', border: '1px solid #1e1e2e', borderRadius: '8px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' },
-  sectionTitle: { fontSize: '0.75rem', fontWeight: '600', color: '#c9a96e', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 },
+  section: { background: 'var(--cms-bg-surface)', border: '1px solid var(--cms-border-default)', borderRadius: 'var(--cms-radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' },
+  sectionTitle: { fontSize: '0.75rem', fontWeight: '600', color: 'var(--cms-accent)', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 },
 };

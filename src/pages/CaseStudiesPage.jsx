@@ -4,7 +4,7 @@ import CaseStudyCard from '../components/caseStudies/CaseStudyCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import SEO from '../components/SEO';
-import { PAGES } from '../config/seo';
+import { useStaticPageSEO } from '../hooks/useStaticPageSEO';
 import { useCaseStudies } from '../hooks/useCaseStudies';
 import {
   CASE_STUDY_INDUSTRIES,
@@ -20,6 +20,7 @@ function CaseStudiesPage() {
   );
   const { caseStudies: cmsCaseStudies } = useCaseStudies();
   const { t, lang, dir } = useI18n();
+  const { seo } = useStaticPageSEO('case_studies', lang);
 
   const industries = useMemo(
     () =>
@@ -38,7 +39,7 @@ function CaseStudiesPage() {
 
   return (
     <>
-      <SEO {...PAGES.caseStudies} breadcrumbItems={[
+      <SEO {...seo} breadcrumbItems={[
         { name: lang === 'ar' ? 'الرئيسية' : 'Home', url: '/' },
         { name: t('caseStudies.pageTitle'), url: '/case-studies' },
       ]} />

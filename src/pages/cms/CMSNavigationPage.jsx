@@ -119,7 +119,7 @@ function MenusTab({ canCreate, canUpdate, canDelete, t }) {
             {list.items.map((menu) => (
               <CMSTableRow key={menu.id}>
                 <CMSTableCell>{menu.name}</CMSTableCell>
-                <CMSTableCell><code style={styles.slug}>{menu.slug}</code></CMSTableCell>
+                <CMSTableCell><code className="cms-slug">{menu.slug}</code></CMSTableCell>
                 <CMSTableCell><CMSBadge type="default" size="xs">{menu.location}</CMSBadge></CMSTableCell>
                 <CMSTableCell align="center">{menu.item_count}</CMSTableCell>
                 <CMSTableCell><StatusBadge status={menu.is_active ? 'active' : 'inactive'} /></CMSTableCell>
@@ -260,7 +260,11 @@ function ItemsTab({ canCreate, canUpdate, canDelete, t }) {
                 <CMSTableCell><CMSBadge type="default" size="xs">{item.link_type}</CMSBadge></CMSTableCell>
                 <CMSTableCell>{item.url || item.route_name || item.anchor || item.email || item.phone || '—'}</CMSTableCell>
                 <CMSTableCell align="center">{item.order}</CMSTableCell>
-                <CMSTableCell align="center">{item.is_visible ? '✓' : '✕'}</CMSTableCell>
+                <CMSTableCell align="center">
+                  <CMSBadge type={item.is_visible ? 'success' : 'default'} size="xs">
+                    {item.is_visible ? t('form.visible') : t('form.active')}
+                  </CMSBadge>
+                </CMSTableCell>
                 <CMSTableCell align="right">
                   {canUpdate && <TableActionButton onClick={() => openEdit(item)}>{t('action.edit')}</TableActionButton>}
                   {canDelete && <TableActionButton onClick={() => setDeleteTarget(item)} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>}
@@ -324,10 +328,9 @@ function ItemsTab({ canCreate, canUpdate, canDelete, t }) {
 }
 
 const styles = {
-  tabs: { display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid #1e1e2e' },
-  tab: { padding: '0.625rem 1rem', background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', fontSize: '0.8125rem', fontWeight: '500', borderBottom: '2px solid transparent', fontFamily: 'inherit' },
-  tabActive: { color: '#c9a96e', borderBottomColor: '#c9a96e' },
-  slug: { fontSize: '0.6875rem', background: '#1a1a2e', padding: '0.125rem 0.375rem', borderRadius: '3px', color: '#888' },
+  tabs: { display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--cms-border-default)' },
+  tab: { padding: '0.625rem 1rem', background: 'transparent', border: 'none', color: 'var(--cms-text-muted)', cursor: 'pointer', fontSize: '0.8125rem', fontWeight: '500', borderBottom: '2px solid transparent', fontFamily: 'inherit' },
+  tabActive: { color: 'var(--cms-accent)', borderBottomColor: 'var(--cms-accent)' },
   form: { display: 'flex', flexDirection: 'column', gap: '1rem' },
   checkboxes: { display: 'flex', gap: '1.5rem', flexWrap: 'wrap' },
 };

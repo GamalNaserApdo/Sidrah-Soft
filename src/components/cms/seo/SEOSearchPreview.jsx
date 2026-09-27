@@ -44,23 +44,23 @@ function SEOSearchPreview({ title, description, url, siteName }) {
 
 const styles = {
   preview: {
-    background: '#0d0d15',
-    border: '1px solid #1e1e2e',
-    borderRadius: '8px',
+    background: 'var(--cms-bg-input)',
+    border: '1px solid var(--cms-border-subtle)',
+    borderRadius: 'var(--cms-radius-md)',
     padding: '1rem',
     marginBottom: '1rem',
   },
   previewLabel: {
     fontSize: '0.7rem',
     fontWeight: '600',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     textTransform: 'uppercase',
     letterSpacing: '0.04em',
     marginBottom: '0.75rem',
   },
   googleResult: {
     background: '#fff',
-    borderRadius: '8px',
+    borderRadius: 'var(--cms-radius-md)',
     padding: '0.75rem 1rem',
   },
   googleUrl: {
@@ -102,10 +102,10 @@ const styles = {
     fontSize: '0.7rem',
   },
   charOk: {
-    color: '#6b7280',
+    color: 'var(--cms-text-muted)',
   },
   charWarn: {
-    color: '#f59e0b',
+    color: 'var(--cms-warning, #f59e0b)',
     fontWeight: 500,
   },
 };

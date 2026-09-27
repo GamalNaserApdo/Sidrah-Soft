@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useCaseStudies } from '../../hooks/useCaseStudies';
 import { useHomepageConfig } from '../../hooks/useHomepageConfig';
 import { useI18n } from '../../i18n/I18nProvider.jsx';
@@ -157,6 +158,15 @@ function CaseStudiesSection() {
             })}
           </div>
         </div>
+
+        <Link
+          to="/case-studies"
+          className="case-studies-view-all motion-fade-in is-visible"
+          aria-label={lang === 'ar' ? 'عرض جميع دراسات الحالة' : 'View all case studies'}
+        >
+          {lang === 'ar' ? 'عرض جميع دراسات الحالة' : 'View all case studies'}
+          <span aria-hidden="true"> →</span>
+        </Link>
       </div>
     </section>
   );

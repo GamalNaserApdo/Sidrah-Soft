@@ -3,46 +3,103 @@
  *
  * Accessible, responsive data table with sortable headers.
  * Wraps in overflow-x container for mobile.
+ *
+ * Uses premium .cms-table-wrapper CSS classes from cms.css.
+ *
+ * TableActionButton supports two usage patterns:
+ *  - Icon mode (preferred): <TableActionButton icon="edit" label="Edit" onClick={...} />
+ *  - Legacy text mode:       <TableActionButton onClick={...}>Edit</TableActionButton>
  */
 
-import { forwardRef } from 'react';
+import CmsIcon from './CmsIcon';
 
-const CMSButton = ({ children, onClick, disabled, active, style, title, ...rest }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    title={title}
-    style={{
-      background: active ? 'var(--cms-accent-bg)' : 'transparent',
-      border: 'none',
-      color: active ? 'var(--cms-accent)' : 'var(--cms-text-muted)',
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      fontSize: 'var(--font-size-xs)',
-      padding: 'var(--space-1) var(--space-2)',
-      opacity: disabled ? 0.3 : 1,
-      ...style,
-    }}
-    {...rest}
-  >
-    {children}
-  </button>
-);
+/**
+ * TableActionButton — row action button.
+ * variant: 'default' | 'accent' | 'danger'
+ *
+ * If `icon` prop is provided, renders an icon-only button (preferred).
+ * Otherwise renders children as the button label (legacy text mode).
+ */
+export function TableActionButton({
+  icon,
+  label,
+  onClick,
+  disabled,
+  variant = 'default',
+  active,
+  title,
+  children,
+  style,
+  ...rest
+}) {
+  const resolvedTitle = title || label;
+  const isIconMode = Boolean(icon);
+
+  if (isIconMode) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        title={resolvedTitle}
+        aria-label={label || resolvedTitle}
+        className={`cms-table-action ${variant !== 'default' ? variant : ''}`}
+        style={{
+          opacity: disabled ? 0.3 : 1,
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          ...(disabled ? { pointerEvents: 'none' } : {}),
+          ...style,
+        }}
+        {...rest}
+      >
+        <CmsIcon name={icon} size={16} />
+      </button>
+    );
+  }
+
+  // Legacy text-children mode (preserves existing call sites).
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      title={resolvedTitle}
+      className={`cms-table-action-text ${variant !== 'default' ? variant : ''}`}
+      style={{
+        background: active ? 'var(--cms-accent-bg)' : 'transparent',
+        border: 'none',
+        color:
+          variant === 'danger'
+            ? 'var(--cms-danger)'
+            : active
+              ? 'var(--cms-accent)'
+              : 'var(--cms-text-muted)',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        fontSize: 'var(--font-size-xs)',
+        padding: 'var(--space-1) var(--space-2)',
+        opacity: disabled ? 0.3 : 1,
+        ...style,
+      }}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
 
 export function CMSTable({ columns, children }) {
   return (
-    <div className="cms-table-wrapper" style={styles.wrapper}>
-      <table style={styles.table}>
+    <div className="cms-table-wrapper">
+      <table>
         <thead>
           <tr>
             {columns.map((col) => (
               <th
                 key={col.key}
                 style={{
-                  ...styles.th,
                   ...(col.width ? { width: col.width } : {}),
                   ...(col.align === 'center' ? { textAlign: 'center' } : {}),
-                  ...(col.align === 'right' ? { textAlign: 'right' } : {}),
+                  ...(col.align === 'right' ? { textAlign: 'end' } : {}),
                 }}
                 scope="col"
               >
@@ -62,7 +119,6 @@ export function CMSTableRow({ children, onClick, style }) {
     <tr
       onClick={onClick}
       style={{
-        ...styles.tr,
         ...(onClick ? { cursor: 'pointer' } : {}),
         ...style,
       }}
@@ -76,9 +132,8 @@ export function CMSTableCell({ children, align, style, colSpan }) {
   return (
     <td
       style={{
-        ...styles.td,
         ...(align === 'center' ? { textAlign: 'center' } : {}),
-        ...(align === 'right' ? { textAlign: 'right' } : {}),
+        ...(align === 'right' ? { textAlign: 'end' } : {}),
         ...style,
       }}
       colSpan={colSpan}
@@ -87,40 +142,3 @@ export function CMSTableCell({ children, align, style, colSpan }) {
     </td>
   );
 }
-
-const styles = {
-  wrapper: {
-    overflowX: 'auto',
-    background: 'var(--cms-bg-surface)',
-    borderRadius: 'var(--cms-radius-lg)',
-    border: '1px solid var(--cms-border-subtle)',
-    WebkitOverflowScrolling: 'touch',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    fontSize: 'var(--font-size-md)',
-  },
-  th: {
-    padding: 'var(--space-2) var(--space-3)',
-    textAlign: 'left',
-    borderBottom: '1px solid var(--cms-border-default)',
-    color: 'var(--cms-accent)',
-    fontWeight: '500',
-    whiteSpace: 'nowrap',
-    fontSize: 'var(--font-size-sm)',
-    textTransform: 'uppercase',
-    letterSpacing: 'var(--letter-spacing-wide)',
-  },
-  tr: {
-    borderBottom: '1px solid var(--cms-border-subtle)',
-    transition: 'background var(--cms-transition-fast)',
-  },
-  td: {
-    padding: 'var(--space-2) var(--space-3)',
-    color: 'var(--cms-text-primary)',
-    verticalAlign: 'middle',
-  },
-};
-
-export { CMSButton as TableActionButton };

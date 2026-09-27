@@ -5,6 +5,7 @@
  */
 
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import CmsIcon from './CmsIcon';
 
 export function CMSLoadingState({ message }) {
   const { t } = useCMSLang();
@@ -20,7 +21,7 @@ export function CMSErrorState({ message, onRetry }) {
   const { t } = useCMSLang();
   return (
     <div style={styles.errorBox} role="alert">
-      <span style={styles.errorIcon}>⚠</span>
+      <span style={styles.errorIcon}><CmsIcon name="alert" size={18} /></span>
       <span style={styles.errorText}>{message || t('state.error')}</span>
       {onRetry && (
         <button type="button" onClick={onRetry} style={styles.retryBtn}>
@@ -35,7 +36,7 @@ export function CMSEmptyState({ message, action }) {
   const { t } = useCMSLang();
   return (
     <div style={styles.center}>
-      <div style={styles.emptyIcon}>📋</div>
+      <span style={styles.emptyIcon}><CmsIcon name="folder" size={36} /></span>
       <p style={styles.emptyText}>{message || t('state.empty')}</p>
       {action}
     </div>
@@ -46,7 +47,7 @@ export function CMSForbiddenState({ message, onBack }) {
   const { t } = useCMSLang();
   return (
     <div style={styles.center}>
-      <div style={styles.forbiddenIcon}>🔒</div>
+      <span style={styles.forbiddenIcon}><CmsIcon name="lock" size={36} /></span>
       <h2 style={styles.forbiddenTitle}>{t('state.forbidden')}</h2>
       <p style={styles.forbiddenText}>{message}</p>
       {onBack && (
@@ -92,7 +93,7 @@ const styles = {
     fontSize: 'var(--font-size-md)',
     marginBottom: 'var(--space-4)',
   },
-  errorIcon: { fontSize: 'var(--font-size-xl)', flexShrink: 0 },
+  errorIcon: { flexShrink: 0, color: 'var(--cms-danger)' },
   errorText: { flex: 1, lineHeight: 1.4 },
   retryBtn: {
     background: 'transparent',
@@ -104,9 +105,9 @@ const styles = {
     cursor: 'pointer',
     fontFamily: 'inherit',
   },
-  emptyIcon: { fontSize: 'var(--font-size-4xl)', opacity: 0.3 },
+  emptyIcon: { opacity: 0.3, color: 'var(--cms-text-muted)' },
   emptyText: { color: 'var(--cms-text-muted)', fontSize: 'var(--font-size-base)' },
-  forbiddenIcon: { fontSize: 'var(--font-size-4xl)', opacity: 0.3 },
+  forbiddenIcon: { opacity: 0.3, color: 'var(--cms-text-muted)' },
   forbiddenTitle: { color: 'var(--cms-accent)', fontSize: 'var(--font-size-2xl)', margin: 0 },
   forbiddenText: { color: 'var(--cms-text-muted)', fontSize: 'var(--font-size-base)', maxWidth: '400px' },
   backBtn: {

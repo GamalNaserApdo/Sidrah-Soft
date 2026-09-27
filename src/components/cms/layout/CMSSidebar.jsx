@@ -1,67 +1,101 @@
 /**
- * CMS Sidebar — capability-aware navigation.
+ * CMS Sidebar — premium capability-aware navigation.
  *
- * Shows only modules the user has access to.
- * Collapsible on mobile with overlay.
+ * Features:
+ * - Section grouping (Overview, Content, Training, System)
+ * - SVG icons via CmsIcon
+ * - Active state with accent border
+ * - Collapsible on mobile with overlay
+ * - RTL-aware
  */
 
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import CmsIcon from '../ui/CmsIcon';
 import brandLogo from '../../../assets/logo.png';
 
-const MODULE_ICONS = {
-  dashboard: '◆',
-  site_settings: '⚙',
-  homepage: '🏠',
-  navigation: '☰',
-  partners: '🤝',
-  services: '✦',
-  case_studies: '📋',
-  insights: '💡',
-  careers: '💼',
-  contact: '✉',
-  media: '🖼',
-  users: '👤',
-  activity_logs: '📜',
-};
+const NAV_SECTIONS = [
+  {
+    labelKey: 'nav.sectionOverview',
+    items: [
+      { to: '/cms', module: 'dashboard', icon: 'dashboard', labelKey: 'nav.dashboard', end: true },
+    ],
+  },
+  {
+    labelKey: 'nav.sectionContent',
+    items: [
+      { to: '/cms/homepage', module: 'site_settings', icon: 'home', labelKey: 'nav.homepage' },
+      { to: '/cms/navigation', module: 'navigation', icon: 'navigation', labelKey: 'nav.navigation' },
+      { to: '/cms/partners', module: 'partners', icon: 'partners', labelKey: 'nav.partners' },
+      { to: '/cms/services', module: 'services', icon: 'services', labelKey: 'nav.services' },
+      { to: '/cms/case-studies', module: 'case_studies', icon: 'caseStudies', labelKey: 'nav.caseStudies' },
+      { to: '/cms/insights', module: 'insights', icon: 'insights', labelKey: 'nav.insights' },
+      { to: '/cms/careers', module: 'careers', icon: 'careers', labelKey: 'nav.careers' },
+      { to: '/cms/ai-automation', module: 'ai_automation', icon: 'services', labelKey: 'nav.aiAutomation' },
+      { to: '/cms/forms', module: 'forms', icon: 'contact', labelKey: 'nav.forms' },
+      { to: '/cms/contact', module: 'contact', icon: 'contact', labelKey: 'nav.contact' },
+    ],
+  },
+  {
+    labelKey: 'nav.sectionTraining',
+    items: [
+      { to: '/cms/training', module: 'training', icon: 'training', labelKey: 'nav.training' },
+      { to: '/cms/training/offers', module: 'training', icon: 'training', labelKey: 'nav.offers' },
+      { to: '/cms/training/starter-form', module: 'training', icon: 'training', labelKey: 'nav.starterForm' },
+      { to: '/cms/training/starter-landing', module: 'training', icon: 'training', labelKey: 'nav.starterLanding' },
+      { to: '/cms/training/registrations', module: 'training_registrations', capability: 'training_registrations.view', icon: 'registrations', labelKey: 'nav.trainingRegistrations' },
+      { to: '/cms/training/certificates', module: 'certificates', capability: 'certificates.view', icon: 'certificates', labelKey: 'nav.trainingCertificates' },
+    ],
+  },
+  {
+    labelKey: 'nav.sectionSystem',
+    items: [
+      { to: '/cms/media', module: 'media', icon: 'media', labelKey: 'nav.media' },
+      { to: '/cms/users', module: 'users', icon: 'users', labelKey: 'nav.users' },
+      { to: '/cms/activity-logs', module: 'activity_logs', icon: 'activity', labelKey: 'nav.activityLogs' },
+      { to: '/cms/site-settings', module: 'site_settings', icon: 'settings', labelKey: 'nav.siteSettings' },
+      { to: '/cms/static-seo', module: 'site_settings', icon: 'settings', labelKey: 'nav.staticSeo' },
+    ],
+  },
+];
 
-export default function CMSSidebar({ open, onClose }) {
-  const { user, hasModuleAccess } = useAuth();
+export default function CMSSidebar({ open, onClose, expanded = true, onExpandedChange }) {
+  const { user, hasModuleAccess, hasCapability } = useAuth();
   const { t } = useCMSLang();
 
-  const navItems = [
-    { to: '/cms', module: 'dashboard', label: t('nav.dashboard'), end: true },
-    { to: '/cms/site-settings', module: 'site_settings', label: t('nav.siteSettings') },
-    { to: '/cms/homepage', module: 'site_settings', label: t('nav.homepage') },
-    { to: '/cms/navigation', module: 'navigation', label: t('nav.navigation') },
-    { to: '/cms/partners', module: 'partners', label: t('nav.partners') },
-    { to: '/cms/training', module: 'training', label: t('nav.training') },
-    { to: '/cms/services', module: 'services', label: t('nav.services') },
-    { to: '/cms/case-studies', module: 'case_studies', label: t('nav.caseStudies') },
-    { to: '/cms/insights', module: 'insights', label: t('nav.insights') },
-    { to: '/cms/careers', module: 'careers', label: t('nav.careers') },
-    { to: '/cms/contact', module: 'contact', label: t('nav.contact') },
-    { to: '/cms/media', module: 'media', label: t('nav.media') },
-    { to: '/cms/users', module: 'users', label: t('nav.users') },
-    { to: '/cms/activity-logs', module: 'activity_logs', label: t('nav.activityLogs') },
-  ];
+  const isItemVisible = (item) =>
+    user?.is_superuser ||
+    hasModuleAccess(item.module) ||
+    (item.capability && hasCapability(item.capability));
 
-  const visibleItems = navItems.filter(
-    (item) => user?.is_superuser || hasModuleAccess(item.module),
-  );
+  const toggleExpanded = () => {
+    onExpandedChange?.(!expanded);
+  };
 
   return (
     <>
       {open && <div style={styles.backdrop} onClick={onClose} aria-hidden="true" />}
       <aside
-        className={`cms-sidebar ${open ? 'open' : ''}`}
+        className={`cms-sidebar ${open ? 'open' : ''} ${expanded ? '' : 'collapsed'}`}
         style={styles.sidebar}
         aria-label={t('a11y.cmsNavigation')}
       >
-        <div style={styles.brand}>
-          <img src={brandLogo} alt="SidrahSoft" style={styles.brandLogoImg} />
-          <span style={styles.brandCMS}>CMS</span>
+        <div className="cms-sidebar-brand" style={styles.brand}>
+          <img src={brandLogo} alt="SidrahSoft" className="cms-sidebar-brand-logo" style={styles.brandLogoImg} />
+          <span className="cms-sidebar-brand-text" style={styles.brandCMS}>CMS</span>
+          {/* Desktop collapse/expand toggle */}
+          <button
+            type="button"
+            className="cms-sidebar-collapse-btn"
+            onClick={toggleExpanded}
+            aria-label={expanded ? t('sidebar.collapse') : t('sidebar.expand')}
+            title={expanded ? t('sidebar.collapse') : t('sidebar.expand')}
+            style={styles.collapseBtn}
+          >
+            <CmsIcon name={expanded ? 'chevronLeft' : 'chevronRight'} size={16} />
+          </button>
+          {/* Mobile close */}
           {open && (
             <button
               type="button"
@@ -70,31 +104,47 @@ export default function CMSSidebar({ open, onClose }) {
               aria-label={t('a11y.closeDialog')}
               style={styles.closeBtn}
             >
-              ✕
+              <CmsIcon name="close" size={16} />
             </button>
           )}
         </div>
+
         <nav style={styles.nav}>
-          {visibleItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              onClick={onClose}
-              style={({ isActive }) => ({
-                ...styles.navItem,
-                ...(isActive ? styles.navItemActive : {}),
-              })}
-            >
-              <span style={styles.navIcon} aria-hidden="true">
-                {MODULE_ICONS[item.module] || '•'}
-              </span>
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
+          {NAV_SECTIONS.map((section) => {
+            const visibleItems = section.items.filter(isItemVisible);
+            if (visibleItems.length === 0) return null;
+
+            return (
+              <div key={section.labelKey}>
+                <div className="cms-sidebar-section-label">
+                  {t(section.labelKey)}
+                </div>
+                {visibleItems.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    onClick={onClose}
+                    className={({ isActive }) =>
+                      `cms-sidebar-nav-item ${isActive ? 'active' : ''}`
+                    }
+                    title={t(item.labelKey)}
+                    aria-label={t(item.labelKey)}
+                    data-label={t(item.labelKey)}
+                  >
+                    <span className="cms-sidebar-nav-item-icon">
+                      <CmsIcon name={item.icon} size={18} />
+                    </span>
+                    <span className="cms-sidebar-nav-item-label">{t(item.labelKey)}</span>
+                  </NavLink>
+                ))}
+              </div>
+            );
+          })}
         </nav>
+
         <div style={styles.footer}>
-          <span style={styles.version}>v1.0</span>
+          <span style={styles.version}>Sidrah CMS v1.0</span>
         </div>
       </aside>
     </>
@@ -108,18 +158,16 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'rgba(0,0,0,0.5)',
+    background: 'rgba(0,0,0,0.55)',
     zIndex: 1000,
     display: 'none',
   },
   sidebar: {
     position: 'fixed',
     top: 0,
-    left: 0,
     bottom: 0,
-    width: '240px',
-    background: '#12121e',
-    borderRight: '1px solid #1e1e2e',
+    width: 'var(--cms-sidebar-width, 248px)',
+    background: 'var(--cms-bg-page)',
     display: 'flex',
     flexDirection: 'column',
     zIndex: 1001,
@@ -128,67 +176,59 @@ const styles = {
   brand: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
+    gap: '0.625rem',
     padding: '1.25rem 1.5rem',
-    borderBottom: '1px solid #1e1e2e',
+    borderBottom: '1px solid var(--cms-border-subtle)',
+  },
+  collapseBtn: {
+    marginInlineStart: 'auto',
+    background: 'transparent',
+    border: '1px solid var(--cms-border-subtle)',
+    borderRadius: 'var(--cms-radius-md)',
+    color: 'var(--cms-text-muted)',
+    cursor: 'pointer',
+    padding: '0.25rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all var(--cms-transition-fast)',
   },
   closeBtn: {
-    marginLeft: 'auto',
+    marginInlineStart: '0.5rem',
     background: 'none',
     border: 'none',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     cursor: 'pointer',
-    fontSize: '1rem',
     padding: '0.25rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   brandLogoImg: {
-    height: '1.875rem',
+    height: '2rem',
     width: 'auto',
     objectFit: 'contain',
   },
   brandCMS: {
     fontSize: '0.6875rem',
-    fontWeight: '500',
-    color: '#888',
+    fontWeight: 600,
+    color: 'var(--cms-accent)',
     textTransform: 'uppercase',
     letterSpacing: '0.1em',
   },
   nav: {
     flex: 1,
-    padding: '0.75rem 0',
+    padding: '0.5rem 0 1rem',
     display: 'flex',
     flexDirection: 'column',
     gap: '0.125rem',
   },
-  navItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.625rem',
-    padding: '0.5rem 1.5rem',
-    color: '#888',
-    textDecoration: 'none',
-    fontSize: '0.8125rem',
-    fontWeight: '500',
-    transition: '150ms ease',
-    borderLeft: '2px solid transparent',
-  },
-  navItemActive: {
-    color: '#c9a96e',
-    background: 'rgba(201, 169, 110, 0.08)',
-    borderLeftColor: '#c9a96e',
-  },
-  navIcon: {
-    fontSize: '0.875rem',
-    width: '1.25rem',
-    textAlign: 'center',
-    flexShrink: 0,
-  },
   footer: {
     padding: '1rem 1.5rem',
-    borderTop: '1px solid #1e1e2e',
+    borderTop: '1px solid var(--cms-border-subtle)',
   },
   version: {
     fontSize: '0.6875rem',
-    color: '#555',
+    color: 'var(--cms-text-dim)',
   },
 };

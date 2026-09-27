@@ -29,6 +29,8 @@ class ActivityLog(TimeStampedModel):
     ACTION_ASSIGN = 'assign'
     ACTION_EXPORT = 'export'
     ACTION_SETTINGS_CHANGE = 'settings_change'
+    ACTION_ISSUE = 'issue'
+    ACTION_REVOKE = 'revoke'
 
     ACTION_CHOICES = [
         (ACTION_LOGIN, 'Login'),
@@ -45,6 +47,8 @@ class ActivityLog(TimeStampedModel):
         (ACTION_ASSIGN, 'Assign'),
         (ACTION_EXPORT, 'Export'),
         (ACTION_SETTINGS_CHANGE, 'Settings Change'),
+        (ACTION_ISSUE, 'Issue'),
+        (ACTION_REVOKE, 'Revoke'),
     ]
 
     # Module identifiers
@@ -62,6 +66,9 @@ class ActivityLog(TimeStampedModel):
     MODULE_USERS = 'users'
     MODULE_ACTIVITY_LOGS = 'activity_logs'
     MODULE_TRAINING = 'training'
+    MODULE_TRAINING_REGISTRATIONS = 'training_registrations'
+    MODULE_CERTIFICATES = 'certificates'
+    MODULE_FORMS = 'forms'
 
     MODULE_CHOICES = [
         (MODULE_AUTH, 'Authentication'),
@@ -78,6 +85,9 @@ class ActivityLog(TimeStampedModel):
         (MODULE_USERS, 'Users'),
         (MODULE_ACTIVITY_LOGS, 'Activity Logs'),
         (MODULE_TRAINING, 'Training'),
+        (MODULE_TRAINING_REGISTRATIONS, 'Training Registrations'),
+        (MODULE_CERTIFICATES, 'Certificates'),
+        (MODULE_FORMS, 'Forms'),
     ]
 
     user = models.ForeignKey(

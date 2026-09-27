@@ -1,0 +1,13 @@
+Dear {{ applicant_name }},
+
+{{ heading }}
+
+{{ message }}
+
+{% if cta_label and cta_url %}{{ cta_label }}: {{ cta_url }}{% endif %}
+
+{{ footer }}
+
+{{ site_name }}
+{{ site_url }}
+{{ support_email }}

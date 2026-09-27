@@ -7,6 +7,7 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import CmsIcon from './CmsIcon';
 
 export default function CMSDialog({
   open,
@@ -105,7 +106,7 @@ export default function CMSDialog({
                 style={styles.closeBtn}
                 aria-label={t('a11y.closeDialog')}
               >
-                ✕
+                <CmsIcon name="close" size={16} />
               </button>
             )}
           </div>
@@ -128,56 +129,59 @@ const styles = {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    zIndex: 1000,
+    zIndex: 1200,
     padding: '2rem 1rem',
     overflowY: 'auto',
   },
   modal: {
-    background: '#12121e',
-    borderRadius: '10px',
-    border: '1px solid #2a2a3e',
+    background: 'var(--cms-bg-surface)',
+    borderRadius: 'var(--cms-radius-lg)',
+    border: '1px solid var(--cms-border-default)',
     width: '100%',
     maxHeight: '90vh',
     overflowY: 'auto',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+    boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '1rem 1.5rem',
-    borderBottom: '1px solid #1e1e2e',
+    padding: 'var(--space-4) var(--space-6)',
+    borderBottom: '1px solid var(--cms-border-subtle)',
     position: 'sticky',
     top: 0,
-    background: '#12121e',
+    background: 'var(--cms-bg-surface)',
     zIndex: 1,
   },
   title: {
-    fontSize: '1rem',
+    fontSize: 'var(--font-size-lg)',
     fontWeight: '600',
-    color: '#c9a96e',
+    color: 'var(--cms-text-primary)',
     margin: 0,
   },
   closeBtn: {
     background: 'none',
     border: 'none',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     cursor: 'pointer',
-    fontSize: '1rem',
-    padding: '0.25rem',
-    borderRadius: '4px',
+    padding: 'var(--space-1)',
+    borderRadius: 'var(--cms-radius-sm)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'color var(--cms-transition-fast)',
   },
   body: {
-    padding: '1.5rem',
+    padding: 'var(--space-6)',
   },
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: '0.75rem',
-    padding: '1rem 1.5rem',
-    borderTop: '1px solid #1e1e2e',
+    gap: 'var(--space-3)',
+    padding: 'var(--space-4) var(--space-6)',
+    borderTop: '1px solid var(--cms-border-subtle)',
     position: 'sticky',
     bottom: 0,
-    background: '#12121e',
+    background: 'var(--cms-bg-surface)',
   },
 };

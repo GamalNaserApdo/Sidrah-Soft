@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import InsightCard from '../components/insights/InsightCard';
 import SEO from '../components/SEO';
-import { PAGES } from '../config/seo';
+import { useStaticPageSEO } from '../hooks/useStaticPageSEO';
 import { useInsights } from '../hooks/useInsights';
 import { INSIGHT_CATEGORIES, getBilingualInsightCategory } from '../data/insights/insightsData.js';
 import {
@@ -16,6 +16,7 @@ function InsightsPage() {
   const [activeCategory, setActiveCategory] = useState(INSIGHT_CATEGORIES.all);
   const { articles: cmsInsights } = useInsights();
   const { t, lang, dir } = useI18n();
+  const { seo } = useStaticPageSEO('insights', lang);
 
   const categories = useMemo(
     () => Object.values(INSIGHT_CATEGORIES),
@@ -38,7 +39,7 @@ function InsightsPage() {
 
   return (
     <>
-      <SEO {...PAGES.insights} breadcrumbItems={[
+      <SEO {...seo} breadcrumbItems={[
         { name: lang === 'ar' ? 'الرئيسية' : 'Home', url: '/' },
         { name: t('insights.pageTitle'), url: '/insights' },
       ]} />

@@ -54,7 +54,7 @@ export default function CMSConfirmDialog({
         </>
       }
     >
-      <p style={{ fontSize: '0.875rem', color: '#ccc', lineHeight: 1.5 }}>{message}</p>
+      <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--cms-text-secondary)', lineHeight: 1.5 }}>{message}</p>
     </CMSDialog>
   );
 }

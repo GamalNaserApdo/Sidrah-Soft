@@ -13,6 +13,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { listMedia, uploadMedia } from '../../../services/cms/mediaApi';
+import CmsIcon from '../ui/CmsIcon';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
 import MediaGrid from './MediaGrid';
 
@@ -130,7 +131,7 @@ export default function MediaAssetPicker({
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div style={styles.header}>
           <h2 style={styles.title}>{t('media.select')}</h2>
-          <button style={styles.closeBtn} onClick={onClose} aria-label={t('media.closePicker')}>✕</button>
+          <button style={styles.closeBtn} onClick={onClose} aria-label={t('media.closePicker')}><CmsIcon name="close" size={16} /></button>
         </div>
 
         <div style={styles.toolbar}>
@@ -193,7 +194,7 @@ export default function MediaAssetPicker({
               onClick={() => handlePageChange(page - 1)}
               disabled={!previous}
             >
-              ← {t('action.previousPage')}
+              <CmsIcon name="chevronLeft" size={14} /> {t('action.previousPage')}
             </button>
             <span style={styles.pageInfo}>{t('media.pageOf', { page, total: Math.ceil(count / 12) || 1 })}</span>
             <button
@@ -201,7 +202,7 @@ export default function MediaAssetPicker({
               onClick={() => handlePageChange(page + 1)}
               disabled={!next}
             >
-              {t('action.nextPage')} →
+              {t('action.nextPage')} <CmsIcon name="chevronRight" size={14} />
             </button>
           </div>
         )}
@@ -217,27 +218,27 @@ const styles = {
     justifyContent: 'center', zIndex: 1000,
   },
   modal: {
-    background: '#12121e', borderRadius: '10px', border: '1px solid #2a2a3e',
+    background: 'var(--cms-bg-surface)', borderRadius: '10px', border: '1px solid #2a2a3e',
     width: '90%', maxWidth: '720px', maxHeight: '90vh', overflowY: 'auto',
   },
   header: {
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
     padding: '1rem 1.5rem', borderBottom: '1px solid #1e1e2e',
   },
-  title: { fontSize: '1rem', fontWeight: '600', color: '#c9a96e', margin: 0 },
-  closeBtn: { background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: '1rem', padding: '0.25rem' },
+  title: { fontSize: '1rem', fontWeight: '600', color: 'var(--cms-accent)', margin: 0 },
+  closeBtn: { background: 'none', border: 'none', color: 'var(--cms-text-muted)', cursor: 'pointer', fontSize: '1rem', padding: '0.25rem' },
   toolbar: {
     display: 'flex', gap: '0.5rem', padding: '1rem 1.5rem',
     borderBottom: '1px solid #1e1e2e',
   },
   searchInput: {
-    flex: 1, padding: '0.5rem 0.75rem', background: '#0a0a14',
-    border: '1px solid #2a2a3e', borderRadius: '6px', color: '#e0e0e0',
+    flex: 1, padding: '0.5rem 0.75rem', background: 'var(--cms-bg-input)',
+    border: '1px solid #2a2a3e', borderRadius: '6px', color: 'var(--cms-text-primary)',
     fontSize: '0.8125rem', outline: 'none',
   },
   uploadToggleBtn: {
     padding: '0.5rem 1rem', borderRadius: '6px', border: '1px solid #c9a96e',
-    background: 'transparent', color: '#c9a96e', fontSize: '0.75rem',
+    background: 'transparent', color: 'var(--cms-accent)', fontSize: '0.75rem',
     cursor: 'pointer', whiteSpace: 'nowrap',
   },
   uploadToggleActive: {
@@ -248,32 +249,32 @@ const styles = {
     display: 'flex', flexDirection: 'column', gap: '0.5rem',
   },
   fileInput: {
-    color: '#e0e0e0', fontSize: '0.8125rem',
+    color: 'var(--cms-text-primary)', fontSize: '0.8125rem',
   },
-  uploadFileInfo: { fontSize: '0.75rem', color: '#888' },
-  uploadError: { fontSize: '0.75rem', color: '#e05050' },
+  uploadFileInfo: { fontSize: '0.75rem', color: 'var(--cms-text-muted)' },
+  uploadError: { fontSize: '0.75rem', color: 'var(--cms-danger)' },
   uploadBtn: {
     padding: '0.5rem 1.25rem', borderRadius: '6px', border: '1px solid #c9a96e',
-    background: 'rgba(201, 169, 110, 0.1)', color: '#c9a96e',
+    background: 'rgba(201, 169, 110, 0.1)', color: 'var(--cms-accent)',
     fontSize: '0.8125rem', cursor: 'pointer', fontWeight: '500', alignSelf: 'flex-start',
   },
   uploadBtnDisabled: { opacity: 0.4, cursor: 'not-allowed' },
   body: { padding: '1.5rem', minHeight: '200px' },
-  loading: { color: '#888', textAlign: 'center', padding: '2rem' },
+  loading: { color: 'var(--cms-text-muted)', textAlign: 'center', padding: '2rem' },
   error: {
     background: 'rgba(220, 50, 50, 0.1)', border: '1px solid rgba(220, 50, 50, 0.3)',
-    borderRadius: '6px', padding: '0.625rem 0.75rem', color: '#e05050',
+    borderRadius: '6px', padding: '0.625rem 0.75rem', color: 'var(--cms-danger)',
     fontSize: '0.8125rem', marginBottom: '0.5rem',
   },
-  empty: { color: '#888', textAlign: 'center', padding: '2rem', fontSize: '0.875rem' },
+  empty: { color: 'var(--cms-text-muted)', textAlign: 'center', padding: '2rem', fontSize: '0.875rem' },
   pagination: {
     display: 'flex', justifyContent: 'center', alignItems: 'center',
     gap: '1rem', padding: '1rem 1.5rem', borderTop: '1px solid #1e1e2e',
   },
   pageBtn: {
     padding: '0.375rem 0.75rem', borderRadius: '6px', border: '1px solid #333',
-    background: 'transparent', color: '#aaa', fontSize: '0.75rem', cursor: 'pointer',
+    background: 'transparent', color: 'var(--cms-text-secondary)', fontSize: '0.75rem', cursor: 'pointer',
   },
   pageBtnDisabled: { opacity: 0.3, cursor: 'not-allowed' },
-  pageInfo: { fontSize: '0.75rem', color: '#888' },
+  pageInfo: { fontSize: '0.75rem', color: 'var(--cms-text-muted)' },
 };

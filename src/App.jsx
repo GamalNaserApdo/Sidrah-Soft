@@ -3,11 +3,14 @@ import { lazy, Suspense } from 'react';
 import ScrollToTop from './components/ScrollToTop';
 import SidrahGridBackground from './components/SidrahGridBackground';
 import SEO from './components/SEO';
+import AnalyticsManager from './components/AnalyticsManager';
+import { AnalyticsProvider } from './contexts/AnalyticsContext';
 import CinematicHero from './components/hero/CinematicHero';
 import FoundationSection from './components/sections/FoundationSection';
 import CapabilitiesMarqueeSection from './components/sections/CapabilitiesMarqueeSection';
 import IndustriesSection from './components/sections/IndustriesSection';
 import TrainingEducationEntry from './components/sections/TrainingEducationEntry';
+import TrainingOffersSection from './components/sections/TrainingOffersSection';
 import PartnersTrustSection from './components/sections/PartnersTrustSection';
 import CaseStudiesSection from './components/sections/CaseStudiesSection';
 import InsightsSection from './components/sections/InsightsSection';
@@ -15,22 +18,33 @@ import CareersSection from './components/sections/CareersSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import { PAGES } from './config/seo';
+import { PAGES, resolvePageSEO } from './config/seo';
 import { AuthProvider } from './contexts/AuthContext';
 import { CMSLanguageProvider } from './contexts/CMSLanguageContext';
 import { CMSToastProvider } from './contexts/CMSToastContext';
 import { useHomepageConfig } from './hooks/useHomepageConfig';
+import { useI18n } from './i18n/I18nProvider.jsx';
+import { useStaticPageSEO } from './hooks/useStaticPageSEO';
+import PrivateRouteMeta from './components/PrivateRouteMeta';
 
 const TrainingPage = lazy(() => import('./components/pages/TrainingPage'));
 const CourseDetailPage = lazy(() => import('./pages/CourseDetailPage'));
 const SecondaryEducationPage = lazy(() => import('./pages/SecondaryEducationPage'));
 const SecondaryProgramDetailPage = lazy(() => import('./pages/SecondaryProgramDetailPage'));
+const StarterCoursesPage = lazy(() => import('./pages/StarterCoursesPage'));
+const StarterCampaignPage = lazy(() => import('./pages/StarterCampaignPage'));
+const OffersPage = lazy(() => import('./pages/OffersPage'));
+const CertificateVerifyPage = lazy(() => import('./pages/CertificateVerifyPage'));
 const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
 const InsightsPage = lazy(() => import('./pages/InsightsPage'));
 const InsightDetailPage = lazy(() => import('./pages/InsightDetailPage'));
 const CareersPage = lazy(() => import('./pages/CareersPage'));
+const AIAutomationPage = lazy(() => import('./components/pages/AIAutomationPage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const LeadsRoutes = lazy(() => import('./components/leads/LeadsRoutes'));
 const CMSRoutes = lazy(() => import('./components/cms/layout/CMSRoutes'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function RouteFallback() {
   return (
@@ -50,6 +64,7 @@ const SECTION_COMPONENT_MAP = {
   marquee: CapabilitiesMarqueeSection,
   industries: IndustriesSection,
   training_education: TrainingEducationEntry,
+  training_offers: TrainingOffersSection,
   partners: PartnersTrustSection,
   case_studies: CaseStudiesSection,
   insights: InsightsSection,
@@ -63,6 +78,7 @@ const FALLBACK_SECTION_ORDER = [
   'marquee',
   'industries',
   'training_education',
+  'training_offers',
   'partners',
   'case_studies',
   'insights',
@@ -70,9 +86,9 @@ const FALLBACK_SECTION_ORDER = [
   'contact',
 ];
 
-const HIDDEN_HOMEPAGE_SECTIONS = new Set(['services', 'automation_showcase']);
+const HIDDEN_HOMEPAGE_SECTIONS = new Set(['services', 'automation_showcase', 'careers']);
 
-const REQUIRED_SECTIONS = ['training_education'];
+const REQUIRED_SECTIONS = ['training_education', 'training_offers'];
 
 function mergeWithFallback(configSections = []) {
   // Preserve the CMS section ordering, but ensure newly required sections
@@ -152,9 +168,11 @@ function HomeSections() {
 }
 
 function Home() {
+  const { lang } = useI18n();
+  const { seo } = useStaticPageSEO('home', lang);
   return (
     <>
-      <SEO {...PAGES.home} />
+      <SEO {...seo} />
       <Header />
       <main>
         <HomeSections />
@@ -174,25 +192,35 @@ function PublicWebsiteShell({ children }) {
 
 function App() {
   return (
-    <>
+    <AnalyticsProvider>
       <ScrollToTop />
+      <AnalyticsManager />
       <SidrahGridBackground />
       <div className="app-content">
         <Suspense fallback={<RouteFallback />}>
           <Routes>
           <Route path="/" element={<PublicWebsiteShell><Home /></PublicWebsiteShell>} />
           <Route path="/training" element={<PublicWebsiteShell><TrainingPage /></PublicWebsiteShell>} />
+          <Route path="/training/offers" element={<PublicWebsiteShell><OffersPage /></PublicWebsiteShell>} />
+          <Route path="/training/starter/register" element={<PublicWebsiteShell><StarterCampaignPage /></PublicWebsiteShell>} />
           <Route path="/training/:courseSlug" element={<PublicWebsiteShell><CourseDetailPage /></PublicWebsiteShell>} />
+          <Route path="/training/starter" element={<PublicWebsiteShell><StarterCoursesPage /></PublicWebsiteShell>} />
           <Route path="/training/secondary" element={<PublicWebsiteShell><SecondaryEducationPage /></PublicWebsiteShell>} />
           <Route path="/training/secondary/:programSlug" element={<PublicWebsiteShell><SecondaryProgramDetailPage /></PublicWebsiteShell>} />
+          <Route path="/certificates/verify" element={<PublicWebsiteShell><CertificateVerifyPage /></PublicWebsiteShell>} />
+          <Route path="/certificates/verify/:reference" element={<PublicWebsiteShell><CertificateVerifyPage /></PublicWebsiteShell>} />
           <Route path="/case-studies" element={<PublicWebsiteShell><CaseStudiesPage /></PublicWebsiteShell>} />
           <Route path="/insights" element={<PublicWebsiteShell><InsightsPage /></PublicWebsiteShell>} />
           <Route path="/insights/:slug" element={<PublicWebsiteShell><InsightDetailPage /></PublicWebsiteShell>} />
           <Route path="/careers" element={<PublicWebsiteShell><CareersPage /></PublicWebsiteShell>} />
+          <Route path="/services" element={<PublicWebsiteShell><ServicesPage /></PublicWebsiteShell>} />
+          <Route path="/services/ai-automation" element={<PublicWebsiteShell><AIAutomationPage /></PublicWebsiteShell>} />
+          <Route path="/services/:slug" element={<PublicWebsiteShell><ServiceDetailPage /></PublicWebsiteShell>} />
           <Route path="/leads/*" element={
             <AuthProvider>
               <CMSLanguageProvider>
                 <CMSToastProvider>
+                  <PrivateRouteMeta />
                   <LeadsRoutes />
                 </CMSToastProvider>
               </CMSLanguageProvider>
@@ -202,15 +230,17 @@ function App() {
             <AuthProvider>
               <CMSLanguageProvider>
                 <CMSToastProvider>
+                  <PrivateRouteMeta />
                   <CMSRoutes />
                 </CMSToastProvider>
               </CMSLanguageProvider>
             </AuthProvider>
           } />
+          <Route path="*" element={<PublicWebsiteShell><NotFoundPage /></PublicWebsiteShell>} />
           </Routes>
         </Suspense>
       </div>
-    </>
+    </AnalyticsProvider>
   );
 }
 

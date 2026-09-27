@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import SEO from '../components/SEO';
 import { useI18n } from '../i18n/I18nProvider';
+import { useStaticPageSEO } from '../hooks/useStaticPageSEO';
 import { useJobs } from '../hooks/useJobs';
 import getBilingualField from '../utils/getBilingualField';
 
@@ -143,6 +144,7 @@ function getBadgeLabel(labels, value, lang) {
 function CareersPage() {
   const { jobs, loading } = useJobs();
   const { lang, t, dir } = useI18n();
+  const { seo } = useStaticPageSEO('careers', lang);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -175,12 +177,12 @@ function CareersPage() {
   return (
     <>
       <SEO
-        title={t('careers.pageTitle')}
-        description={t('careers.pageIntro')}
-        canonical="/careers"
+        {...seo}
+        robotsIndex={false}
+        robotsFollow={true}
         breadcrumbItems={[
-          { name: 'Home', url: '/' },
-          { name: 'Careers', url: '/careers' },
+          { name: lang === 'ar' ? 'الرئيسية' : 'Home', url: '/' },
+          { name: lang === 'ar' ? 'الوظائف' : 'Careers', url: '/careers' },
         ]}
       />
       <Header />

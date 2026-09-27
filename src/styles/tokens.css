@@ -364,6 +364,17 @@
   --gradient-section-transition: linear-gradient(180deg, transparent, rgba(139, 92, 166, 0.02), transparent);
 
   /* ───────────────────────────────────────────────────────────────────────
+     Public header height — used by public pages to clear the fixed navbar.
+     The fixed header is ~92px unscrolled (1rem header padding + 0.625rem
+     inner padding + 40px logo + 0.625rem inner padding + 1rem header padding)
+     and ~80px scrolled. We expose a single token so pages can build
+     structural clearance + visual breathing room without magic numbers.
+     ─────────────────────────────────────────────────────────────────────── */
+
+  --public-header-height: 5.75rem; /* 92px — unscrolled header height */
+  --public-header-height-scrolled: 5rem; /* 80px — scrolled header height */
+
+  /* ───────────────────────────────────────────────────────────────────────
      Z-index scale
      ─────────────────────────────────────────────────────────────────────── */
 
@@ -388,6 +399,7 @@
      ─────────────────────────────────────────────────────────────────────── */
 
   --cms-bg-page: var(--color-bg-input);
+  --cms-bg-card: var(--color-bg-elevated);
   --cms-bg-surface: var(--color-bg-elevated);
   --cms-bg-surface-alt: var(--color-bg-raised);
   --cms-bg-input: var(--color-bg-input);

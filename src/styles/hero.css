@@ -145,6 +145,12 @@
   margin: var(--space-5) 0 0 0;
 }
 
+/* H1 semantics on the slogan: reset any default user-agent heading margins */
+h1.hero-slogan,
+.hero-heading {
+  margin: var(--space-5) 0 0 0;
+}
+
 [dir='rtl'] .hero-slogan {
   font-family: var(--font-body-ar);
   letter-spacing: var(--letter-spacing-normal);

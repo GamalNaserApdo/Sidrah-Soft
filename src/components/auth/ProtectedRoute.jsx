@@ -12,7 +12,7 @@ import { useCMSLang } from '../../contexts/CMSLanguageContext';
 
 export default function ProtectedRoute({
   children,
-  redirectTo = '/leads/login',
+  redirectTo = '/cms/login',
   requiredModule = null,
 }) {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -26,9 +26,9 @@ export default function ProtectedRoute({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        color: '#c9a96e',
+        color: 'var(--cms-accent, #c9a96e)',
         fontFamily: 'system-ui, sans-serif',
-        background: '#0a0a14',
+        background: 'var(--cms-bg-page, #0a0a14)',
       }}>
         {t('common.loading')}
       </div>
@@ -52,13 +52,13 @@ export default function ProtectedRoute({
           alignItems: 'center',
           justifyContent: 'center',
           height: '100vh',
-          color: '#e74c3c',
+          color: 'var(--cms-danger, #e74c3c)',
           fontFamily: 'system-ui, sans-serif',
-          background: '#0a0a14',
+          background: 'var(--cms-bg-page, #0a0a14)',
           textAlign: 'center',
           padding: '2rem',
         }}>
-          <h1 style={{ color: '#c9a96e', marginBottom: '1rem' }}>{t('common.accessDenied')}</h1>
+          <h1 style={{ color: 'var(--cms-accent, #c9a96e)', marginBottom: '1rem' }}>{t('common.accessDenied')}</h1>
           <p>{t('common.accessDeniedText')}</p>
           <p style={{ opacity: 0.6, marginTop: '0.5rem' }}>
             {t('common.contactAdmin')}

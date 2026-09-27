@@ -31,6 +31,7 @@ class SiteSettingSerializer(serializers.ModelSerializer):
             'site_tagline',
             'default_language',
             'supported_languages',
+            'campaign_pricing_mode',
             'contact_email',
             'phone',
             'whatsapp_url',
@@ -40,6 +41,7 @@ class SiteSettingSerializer(serializers.ModelSerializer):
             'instagram_url',
             'youtube_url',
             'x_url',
+            'tiktok_url',
             'address',
             'google_maps_url',
             'map_embed_url',
@@ -58,6 +60,15 @@ class SiteSettingSerializer(serializers.ModelSerializer):
             'primary_logo_url',
             'secondary_logo_url',
             'favicon_url',
+            'meta_pixel_enabled',
+            'meta_pixel_id',
+            'google_tag_manager_enabled',
+            'google_tag_manager_container_id',
+            'google_analytics_enabled',
+            'google_analytics_measurement_id',
+            'google_search_console_verification_method',
+            'google_search_console_verification_token',
+            'google_search_console_sitemap_url',
         ]
 
     def get_default_og_image_url(self, obj):
@@ -80,6 +91,7 @@ class SiteSettingSerializer(serializers.ModelSerializer):
                 'site_tagline': flat['site_tagline'],
                 'default_language': flat['default_language'],
                 'supported_languages': flat['supported_languages'],
+                'campaign_pricing_mode': flat['campaign_pricing_mode'],
             },
             'contact': {
                 'contact_email': flat['contact_email'],
@@ -93,6 +105,7 @@ class SiteSettingSerializer(serializers.ModelSerializer):
                 'instagram_url': flat['instagram_url'],
                 'youtube_url': flat['youtube_url'],
                 'x_url': flat['x_url'],
+                'tiktok_url': flat['tiktok_url'],
             },
             'location': {
                 'address': flat['address'],
@@ -117,5 +130,25 @@ class SiteSettingSerializer(serializers.ModelSerializer):
                 'primary_logo_url': flat['primary_logo_url'],
                 'secondary_logo_url': flat['secondary_logo_url'],
                 'favicon_url': flat['favicon_url'],
+            },
+            'analytics': {
+                'meta_pixel': {
+                    'enabled': flat['meta_pixel_enabled'],
+                    'pixel_id': flat['meta_pixel_id'],
+                },
+                'google_tag_manager': {
+                    'enabled': flat['google_tag_manager_enabled'],
+                    'container_id': flat['google_tag_manager_container_id'],
+                },
+                'google_analytics': {
+                    'enabled': flat['google_analytics_enabled'],
+                    'measurement_id': flat['google_analytics_measurement_id'],
+                },
+                'google_search_console': {
+                    'verification_method': flat['google_search_console_verification_method'],
+                    'sitemap_url': flat['google_search_console_sitemap_url'],
+                    # verification_token is intentionally excluded from public API
+                    # because it is only needed for administrative verification setup.
+                },
             },
         }

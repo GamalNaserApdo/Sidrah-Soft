@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useI18n } from '../../i18n/I18nProvider.jsx';
 import { useHomepageConfig } from '../../hooks/useHomepageConfig';
+import { useSiteSettings } from '../../hooks/useSiteSettings';
 import getBilingual from '../../utils/getBilingual';
 import { useInquiryTypes } from '../../hooks/useInquiryTypes';
 import { submitContactForm } from '../../services/contactApi';
@@ -61,9 +62,26 @@ function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
+  const [relatedService, setRelatedService] = useState(null);
   const { t, lang } = useI18n();
   const { inquiryTypes: cmsInquiryTypes, loading: typesLoading } = useInquiryTypes();
   const { config } = useHomepageConfig();
+  const { settings } = useSiteSettings();
+
+  // Read ?service=<slug> from the URL hash/query to preselect a service.
+  // This enables service detail pages to hand off to Contact with attribution.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash || '';
+    // The contact CTA uses /#contact?service=<slug> — parse the query portion.
+    const queryStart = hash.indexOf('?');
+    if (queryStart === -1) return;
+    const params = new URLSearchParams(hash.slice(queryStart + 1));
+    const serviceSlug = params.get('service');
+    if (serviceSlug) {
+      setRelatedService(serviceSlug);
+    }
+  }, []);
 
   const inquiryTypes = cmsInquiryTypes || FALLBACK_INQUIRY_TYPES;
 
@@ -82,32 +100,52 @@ function ContactSection() {
     ? 'سواء كنت تبدأ من الصفر أو تطور نظاماً قائماً، نحن نساعد المؤسسات على البناء بثقة — برمجيات، ذكاء اصطناعي، أتمتة، وأنظمة تخطيط موارد.'
     : 'Whether you are starting from scratch or evolving an existing system, we help organizations build with confidence — software, AI, automation, and ERP systems.';
 
-  const trustThemes = lang === 'ar'
-    ? [
-        { title: 'تطوير البرمجيات', text: 'تطبيقات ويب وتطبيقات مؤسسية مبنية للتوسع.' },
-        { title: 'حلول الذكاء الاصطناعي', text: 'أنظمة ذكية وأتمتة مدعومة بالذكاء الاصطناعي.' },
-        { title: 'أنظمة ERP', text: 'تكامل مؤسسي ومزامنة بيانات موثوقة.' },
-        { title: 'الأتمتة', text: 'سير عمل ذكي يقلل العمل اليدوي ويزيد الكفاءة.' },
-      ]
-    : [
-        { title: 'Software Development', text: 'Web applications and enterprise applications built to scale.' },
-        { title: 'AI Solutions', text: 'Intelligent systems and AI-powered automation.' },
-        { title: 'ERP Systems', text: 'Enterprise integration and reliable data synchronization.' },
-        { title: 'Automation', text: 'Smart workflows that reduce manual work and increase efficiency.' },
-      ];
+  // Contact info — CMS SiteSettings is authoritative; existing hardcoded
+  // values are retained only as safe fallbacks when CMS fields are empty.
+  // This avoids breaking the public page during CMS API failure or before
+  // staff populate the CMS. Once CMS is populated, fallbacks are unused.
+  const cmsEmail = settings?.contact?.contact_email || '';
+  const cmsPhone = settings?.contact?.phone || '';
+  const cmsWhatsapp = settings?.contact?.whatsapp_url || '';
+  const cmsAddress = settings?.location?.address || '';
+  const cmsMapsUrl = settings?.location?.google_maps_url || '';
+  const cmsWorkingHours = settings?.location?.working_hours || '';
+
+  // Derive tel: href safely from CMS phone (strip non-numeric except leading +).
+  const telHref = cmsPhone
+    ? `tel:${cmsPhone.replace(/[^\d+]/g, '')}`
+    : '';
 
   const contactInfo = lang === 'ar'
     ? [
-        { label: 'البريد الإلكتروني', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
-        { label: 'الهاتف', value: '01027285487', href: 'tel:01027285487' },
-        { label: 'واتساب', value: '01027285487', href: 'https://wa.me/201027285487' },
-        { label: 'الموقع', value: 'جمهورية مصر العربية – محافظة البحيرة', href: null },
+        cmsEmail
+          ? { label: 'البريد الإلكتروني', value: cmsEmail, href: `mailto:${cmsEmail}` }
+          : { label: 'البريد الإلكتروني', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
+        cmsPhone
+          ? { label: 'الهاتف', value: cmsPhone, href: telHref }
+          : { label: 'الهاتف', value: '01027285487', href: 'tel:01027285487' },
+        cmsWhatsapp
+          ? { label: 'واتساب', value: cmsWhatsapp, href: cmsWhatsapp }
+          : { label: 'واتساب', value: '01027285487', href: 'https://wa.me/201027285487' },
+        cmsAddress
+          ? { label: 'الموقع', value: cmsAddress, href: cmsMapsUrl || null }
+          : { label: 'الموقع', value: 'جمهورية مصر العربية – محافظة البحيرة', href: null },
+        ...(cmsWorkingHours ? [{ label: 'ساعات العمل', value: cmsWorkingHours, href: null }] : []),
       ]
     : [
-        { label: 'Email', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
-        { label: 'Phone', value: '01027285487', href: 'tel:01027285487' },
-        { label: 'WhatsApp', value: '01027285487', href: 'https://wa.me/201027285487' },
-        { label: 'Location', value: 'Beheira Governorate, Egypt', href: null },
+        cmsEmail
+          ? { label: 'Email', value: cmsEmail, href: `mailto:${cmsEmail}` }
+          : { label: 'Email', value: 'sidrahsoft@gmail.com', href: 'mailto:sidrahsoft@gmail.com' },
+        cmsPhone
+          ? { label: 'Phone', value: cmsPhone, href: telHref }
+          : { label: 'Phone', value: '01027285487', href: 'tel:01027285487' },
+        cmsWhatsapp
+          ? { label: 'WhatsApp', value: cmsWhatsapp, href: cmsWhatsapp }
+          : { label: 'WhatsApp', value: '01027285487', href: 'https://wa.me/201027285487' },
+        cmsAddress
+          ? { label: 'Location', value: cmsAddress, href: cmsMapsUrl || null }
+          : { label: 'Location', value: 'Beheira Governorate, Egypt', href: null },
+        ...(cmsWorkingHours ? [{ label: 'Working Hours', value: cmsWorkingHours, href: null }] : []),
       ];
 
   const handleChange = (e) => {
@@ -140,6 +178,7 @@ function ContactSection() {
     company: formData.company,
     message: formData.message,
     privacy_consent: formData.privacyConsent,
+    related_service: relatedService || undefined,
     source_page: typeof window !== 'undefined'
       ? window.location.pathname + window.location.search
       : '',
@@ -212,23 +251,6 @@ function ContactSection() {
             <p className="contact-conversion__statement motion-fade-up is-visible">
               {conversionStatement}
             </p>
-
-            <div className="contact-trust">
-              <h3 className="contact-trust__heading motion-fade-up is-visible">
-                {lang === 'ar' ? 'لماذا تختار الشركات Sidrah' : 'Why companies choose Sidrah'}
-              </h3>
-              <div className="contact-trust__grid">
-                {trustThemes.map((theme, idx) => (
-                  <div
-                    key={theme.title}
-                    className={`contact-trust__item card-base card-surface-solid card-edge-gold card-hover-lift card-padding-md motion-fade-up is-visible stagger-${Math.min(idx + 1, 6)}`}
-                  >
-                    <span className="contact-trust__item-title">{theme.title}</span>
-                    <span className="contact-trust__item-text">{theme.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className="contact-info">
               {contactInfo.map((info, idx) => (

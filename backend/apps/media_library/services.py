@@ -47,6 +47,7 @@ def _build_usage_registry():
     from apps.insights.models import Article
     from apps.navigation.models import NavigationItem
     from apps.site_settings.models import SiteSetting
+    from apps.training.models import Program
 
     _USAGE_REGISTRY = [
         ('partners', Partner, 'logo'),
@@ -60,6 +61,7 @@ def _build_usage_registry():
         ('site_settings', SiteSetting, 'primary_logo'),
         ('site_settings', SiteSetting, 'secondary_logo'),
         ('site_settings', SiteSetting, 'favicon'),
+        ('training', Program, 'image'),
     ]
     return _USAGE_REGISTRY
 

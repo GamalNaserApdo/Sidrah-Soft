@@ -17,6 +17,7 @@
 import { useState } from 'react';
 import { CMSInput, CMSTextarea, CMSCheckbox } from '../ui/CMSFormInputs';
 import CMSMediaField from '../ui/CMSMediaField';
+import CmsIcon from '../ui/CmsIcon';
 import SEOSearchPreview from './SEOSearchPreview';
 
 function SEOSection({
@@ -37,7 +38,7 @@ function SEOSection({
   const previewTitle = seoTitle || formData.title_en || '';
   const previewDesc = seoDescription || formData.excerpt_en || formData.short_description_en || '';
 
-  const arrow = expanded ? '▼' : '▶';
+  const arrowIcon = expanded ? 'chevronDown' : 'chevronRight';
 
   return (
     <div style={styles.section}>
@@ -46,7 +47,7 @@ function SEOSection({
         style={styles.header}
         onClick={() => setExpanded(!expanded)}
       >
-        <span style={styles.arrow}>{arrow}</span>
+        <CmsIcon name={arrowIcon} size={14} />
         <span>{t('form.seo')}</span>
       </button>
 
@@ -184,9 +185,9 @@ function SEOSection({
 
 const styles = {
   section: {
-    background: '#12121e',
-    border: '1px solid #1e1e2e',
-    borderRadius: '8px',
+    background: 'var(--cms-bg-surface)',
+    border: '1px solid var(--cms-border-default)',
+    borderRadius: 'var(--cms-radius-lg)',
     overflow: 'hidden',
   },
   header: {
@@ -197,13 +198,13 @@ const styles = {
     padding: '1rem 1.25rem',
     background: 'transparent',
     border: 'none',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     fontSize: '0.75rem',
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: '0.04em',
     cursor: 'pointer',
-    textAlign: 'left',
+    textAlign: 'start',
   },
   arrow: {
     fontSize: '0.6rem',
@@ -219,13 +220,13 @@ const styles = {
     flexDirection: 'column',
     gap: '1rem',
     paddingTop: '0.5rem',
-    borderTop: '1px solid #1e1e2e',
+    borderTop: '1px solid var(--cms-border-subtle)',
     marginTop: '0.5rem',
   },
   subTitle: {
     fontSize: '0.7rem',
     fontWeight: '600',
-    color: '#8b8b9e',
+    color: 'var(--cms-text-muted)',
     textTransform: 'uppercase',
     letterSpacing: '0.04em',
     margin: 0,

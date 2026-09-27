@@ -127,6 +127,7 @@ function SEO({
           settings?.social?.facebook_url,
           settings?.social?.instagram_url,
           settings?.social?.youtube_url,
+          settings?.social?.tiktok_url,
         ].filter(Boolean),
       }
     : getOrganizationJsonLd();
@@ -190,7 +191,9 @@ function SEO({
 
     setLink('canonical', absoluteUrl);
 
-    const jsonLdItems = [combinedJsonLd];
+    // Normalize combinedJsonLd to a flat array of schema objects
+    const baseItems = Array.isArray(combinedJsonLd) ? combinedJsonLd : [combinedJsonLd];
+    const jsonLdItems = [...baseItems];
     if (breadcrumbJsonLd) jsonLdItems.push(breadcrumbJsonLd);
 
     setJsonLd(jsonLdItems.length > 1 ? jsonLdItems : combinedJsonLd);

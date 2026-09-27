@@ -62,21 +62,21 @@ export default function CMSInsightsPage() {
       />
       <CMSToolbar search={list.search} onSearchChange={list.setSearch} onSearchSubmit={() => list.refresh()}>
         <CMSSelect value={list.filters.status || ''} onChange={(e) => list.setFilter('status', e.target.value)}>
-          <option value="">All statuses</option>
-          <option value="draft">Draft</option>
-          <option value="published">Published</option>
-          <option value="archived">Archived</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="draft">{t('filter.draft')}</option>
+          <option value="published">{t('filter.published')}</option>
+          <option value="archived">{t('filter.archived')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.content_type || ''} onChange={(e) => list.setFilter('content_type', e.target.value)}>
-          <option value="">All types</option>
-          <option value="insight">Insight</option>
-          <option value="article">Article</option>
-          <option value="news">News</option>
-          <option value="announcement">Announcement</option>
+          <option value="">{t('filter.allTypes')}</option>
+          <option value="insight">{t('filter.insight')}</option>
+          <option value="article">{t('filter.article')}</option>
+          <option value="news">{t('filter.news')}</option>
+          <option value="announcement">{t('filter.announcement')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.featured || ''} onChange={(e) => list.setFilter('featured', e.target.value)}>
-          <option value="">All</option>
-          <option value="true">Featured</option>
+          <option value="">{t('filter.all')}</option>
+          <option value="true">{t('filter.featured')}</option>
         </CMSSelect>
       </CMSToolbar>
 
@@ -103,7 +103,7 @@ export default function CMSInsightsPage() {
                 <CMSTableCell>
                   <div style={styles.badges}>
                     <StatusBadge status={article.status} />
-                    {article.is_featured && <CMSBadge type="accent" size="xs">Featured</CMSBadge>}
+                    {article.is_featured && <CMSBadge type="accent" size="xs">{t('badge.featured')}</CMSBadge>}
                   </div>
                 </CMSTableCell>
                 <CMSTableCell>{article.published_at ? new Date(article.published_at).toLocaleDateString() : '—'}</CMSTableCell>
@@ -111,16 +111,16 @@ export default function CMSInsightsPage() {
                   <div style={styles.actions}>
                     {canUpdate && <Link to={`/cms/insights/${article.id}`}><TableActionButton>{t('action.edit')}</TableActionButton></Link>}
                     {canPublish && article.status === 'draft' && (
-                      <TableActionButton onClick={() => setConfirmDialog({ action: 'publish', article })} style={{ color: '#22c55e' }}>{t('action.publish')}</TableActionButton>
+                      <TableActionButton variant="accent" onClick={() => setConfirmDialog({ action: 'publish', article })}>{t('action.publish')}</TableActionButton>
                     )}
                     {canPublish && article.status === 'published' && (
                       <TableActionButton onClick={() => setConfirmDialog({ action: 'unpublish', article })}>{t('action.unpublish')}</TableActionButton>
                     )}
                     {canPublish && article.status !== 'archived' && (
-                      <TableActionButton onClick={() => setConfirmDialog({ action: 'archive', article })} style={{ color: '#f59e0b' }}>{t('action.archive')}</TableActionButton>
+                      <TableActionButton onClick={() => setConfirmDialog({ action: 'archive', article })}>{t('action.archive')}</TableActionButton>
                     )}
                     {canDelete && (
-                      <TableActionButton onClick={() => setConfirmDialog({ action: 'delete', article })} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>
+                      <TableActionButton variant="danger" onClick={() => setConfirmDialog({ action: 'delete', article })}>{t('action.delete')}</TableActionButton>
                     )}
                   </div>
                 </CMSTableCell>
@@ -152,7 +152,7 @@ export default function CMSInsightsPage() {
 }
 
 const styles = {
-  thumb: { width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', marginRight: '0.5rem', verticalAlign: 'middle' },
+  thumb: { width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px', marginInlineEnd: '0.5rem', verticalAlign: 'middle' },
   badges: { display: 'flex', gap: '0.375rem' },
   actions: { display: 'flex', gap: '0.25rem', justifyContent: 'flex-end', flexWrap: 'wrap' },
 };

@@ -101,10 +101,10 @@ export default function CMSPartnerFormPage() {
   };
 
   if (isEdit && !canUpdate && !loading) {
-    return <CMSLayout><CMSErrorState message="You do not have permission to edit partners." /></CMSLayout>;
+    return <CMSLayout><CMSErrorState message={t('common.accessDeniedText') || 'You do not have permission to edit partners.'} /></CMSLayout>;
   }
   if (!isEdit && !canCreate && !loading) {
-    return <CMSLayout><CMSErrorState message="You do not have permission to create partners." /></CMSLayout>;
+    return <CMSLayout><CMSErrorState message={t('common.accessDeniedText') || 'You do not have permission to create partners.'} /></CMSLayout>;
   }
 
   return (
@@ -133,7 +133,7 @@ export default function CMSPartnerFormPage() {
             <CMSInput label={`${t('form.name')} (${t('form.arabic')})`} value={formData.name_ar} onChange={(e) => handleChange('name_ar', e.target.value)} error={fieldErrors.name_ar} dir="rtl" />
           </div>
 
-          <CMSInput label={t('form.slug')} required value={formData.slug} onChange={(e) => handleChange('slug', e.target.value)} error={fieldErrors.slug} hint="URL-friendly identifier" />
+          <CMSInput label={t('form.slug')} required value={formData.slug} onChange={(e) => handleChange('slug', e.target.value)} error={fieldErrors.slug} hint={t('form.slugHint')} />
 
           <div className="cms-bilingual-row">
             <CMSTextarea label={`${t('form.description')} (${t('form.english')})`} value={formData.description_en} onChange={(e) => handleChange('description_en', e.target.value)} error={fieldErrors.description_en} rows={3} />

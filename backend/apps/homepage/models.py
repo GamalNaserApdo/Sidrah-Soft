@@ -85,6 +85,38 @@ class HomepageSettings(TimeStampedModel):
     careers_description_en = models.TextField(blank=True)
     careers_description_ar = models.TextField(blank=True)
 
+    # Training Education entry section (homepage)
+    training_heading_en = models.CharField(
+        max_length=200, blank=True,
+        help_text='Heading for the Training homepage section (English).',
+    )
+    training_heading_ar = models.CharField(
+        max_length=200, blank=True,
+        help_text='Heading for the Training homepage section (Arabic).',
+    )
+    training_description_en = models.TextField(
+        blank=True,
+        help_text='Description for the Training homepage section (English).',
+    )
+    training_description_ar = models.TextField(
+        blank=True,
+        help_text='Description for the Training homepage section (Arabic).',
+    )
+    training_cta_label_en = models.CharField(max_length=60, blank=True)
+    training_cta_label_ar = models.CharField(max_length=60, blank=True)
+    training_cta_target = models.CharField(
+        max_length=255, blank=True,
+        help_text='Internal path (e.g. /training) or anchor.',
+    )
+    # Structured training path cards: list of {key, label_en, label_ar,
+    # description_en, description_ar, cta_label_en, cta_label_ar, url}.
+    training_paths = models.JSONField(
+        default=list, blank=True,
+        help_text='Training path cards for the homepage section. '
+                  'Each item: {key, label_en, label_ar, description_en, '
+                  'description_ar, cta_label_en, cta_label_ar, url}.',
+    )
+
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -161,6 +193,8 @@ HOMEPAGE_SECTION_KEYS = [
     ('marquee', 'What We Build'),
     ('services', 'Services'),
     ('industries', 'Industries / Solutions'),
+    ('training_education', 'Training Education'),
+    ('training_offers', 'Training Offers'),
     ('partners', 'Partners'),
     ('case_studies', 'Case Studies'),
     ('insights', 'Insights'),

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "generate-sitemap": "node scripts/generate-sitemap.mjs",
     "preview": "vite preview",
     "start": "serve --single --listen ${PORT:-3000} dist"
   },

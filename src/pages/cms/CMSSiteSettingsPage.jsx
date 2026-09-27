@@ -12,6 +12,7 @@ import { CMSLoadingState, CMSErrorState } from '../../components/cms/ui/CMSState
 import CMSButton from '../../components/cms/ui/CMSButton';
 import { CMSInput, CMSTextarea, CMSCheckbox, CMSSelect } from '../../components/cms/ui/CMSFormInputs';
 import CMSMediaField from '../../components/cms/ui/CMSMediaField';
+import AnalyticsSection from '../../components/cms/settings/AnalyticsSection';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCMSLang } from '../../contexts/CMSLanguageContext';
 import { useToast } from '../../contexts/CMSToastContext';
@@ -69,7 +70,7 @@ export default function CMSSiteSettingsPage() {
         'site_name', 'site_tagline', 'default_language', 'supported_languages',
         'contact_email', 'recipient_email', 'phone',
         'whatsapp_url', 'telegram_url',
-        'facebook_url', 'linkedin_url', 'instagram_url', 'youtube_url', 'x_url',
+        'facebook_url', 'linkedin_url', 'instagram_url', 'youtube_url', 'x_url', 'tiktok_url',
         'address', 'google_maps_url', 'map_embed_url',
         'latitude', 'longitude', 'working_hours',
         'default_meta_title', 'default_meta_description',
@@ -78,6 +79,24 @@ export default function CMSSiteSettingsPage() {
         'twitter_card_type', 'canonical_base_url',
         'robots_index', 'organization_description',
         'primary_logo_id', 'secondary_logo_id', 'favicon_id',
+        'meta_pixel_enabled', 'meta_pixel_id',
+        'google_tag_manager_enabled', 'google_tag_manager_container_id',
+        'google_analytics_enabled', 'google_analytics_measurement_id',
+        'google_search_console_verification_method',
+        'google_search_console_verification_token',
+        'google_search_console_sitemap_url',
+        // Training confirmation email — CMS-managed business configuration.
+        'training_confirmation_email_enabled',
+        'training_confirmation_sender_name',
+        'training_confirmation_reply_to',
+        'training_confirmation_subject_en', 'training_confirmation_heading_en',
+        'training_confirmation_message_en',
+        'training_confirmation_cta_label_en', 'training_confirmation_cta_url',
+        'training_confirmation_footer_en',
+        'training_confirmation_subject_ar', 'training_confirmation_heading_ar',
+        'training_confirmation_message_ar',
+        'training_confirmation_cta_label_ar',
+        'training_confirmation_footer_ar',
         'is_active',
       ];
       for (const field of writableFields) {
@@ -160,6 +179,7 @@ export default function CMSSiteSettingsPage() {
               <CMSInput label={`Instagram ${t('form.url')}`} value={formData.instagram_url || ''} onChange={(e) => handleChange('instagram_url', e.target.value)} error={fieldErrors.instagram_url} disabled={!canEdit} />
               <CMSInput label={`YouTube ${t('form.url')}`} value={formData.youtube_url || ''} onChange={(e) => handleChange('youtube_url', e.target.value)} error={fieldErrors.youtube_url} disabled={!canEdit} />
               <CMSInput label={`X (Twitter) ${t('form.url')}`} value={formData.x_url || ''} onChange={(e) => handleChange('x_url', e.target.value)} error={fieldErrors.x_url} disabled={!canEdit} />
+              <CMSInput label={`TikTok ${t('form.url')}`} value={formData.tiktok_url || ''} onChange={(e) => handleChange('tiktok_url', e.target.value)} error={fieldErrors.tiktok_url} disabled={!canEdit} />
             </div>
           </Section>
 
@@ -239,6 +259,159 @@ export default function CMSSiteSettingsPage() {
             </div>
           </Section>
 
+          {/* Analytics & Integrations */}
+          <Section title={t('siteSettings.analytics')}>
+            <AnalyticsSection
+              formData={formData}
+              fieldErrors={fieldErrors}
+              canEdit={canEdit}
+              onChange={handleChange}
+              t={t}
+            />
+          </Section>
+
+          {/* Training Confirmation Email */}
+          <Section title={t('siteSettings.trainingEmail') || 'Training Confirmation Email'}>
+            <div className="cms-form-grid">
+              <CMSCheckbox
+                label={t('siteSettings.trainingEmailEnabled') || 'Enable confirmation emails'}
+                checked={formData.training_confirmation_email_enabled ?? true}
+                onChange={(e) => handleChange('training_confirmation_email_enabled', e.target.checked)}
+                disabled={!canEdit}
+              />
+            </div>
+            <div className="cms-form-grid" style={{ marginTop: '1rem' }}>
+              <CMSInput
+                label={t('siteSettings.trainingEmailSenderName') || 'Sender display name'}
+                value={formData.training_confirmation_sender_name || ''}
+                onChange={(e) => handleChange('training_confirmation_sender_name', e.target.value)}
+                error={fieldErrors.training_confirmation_sender_name}
+                disabled={!canEdit}
+              />
+              <CMSInput
+                label={t('siteSettings.trainingEmailReplyTo') || 'Reply-To email'}
+                type="email"
+                value={formData.training_confirmation_reply_to || ''}
+                onChange={(e) => handleChange('training_confirmation_reply_to', e.target.value)}
+                error={fieldErrors.training_confirmation_reply_to}
+                disabled={!canEdit}
+              />
+            </div>
+            <p style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)', marginTop: '0.5rem' }}>
+              {t('siteSettings.trainingEmailNote') || 'The authenticated sender address (noreply@sidrahsoft.com) is infrastructure-controlled and cannot be changed here. SMTP secrets are managed via environment variables.'}
+            </p>
+
+            {/* English content */}
+            <h4 style={{ marginTop: '1.5rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: 'var(--cms-accent)' }}>
+              {t('form.english') || 'English'}
+            </h4>
+            <div className="cms-form-grid">
+              <CMSInput
+                label={t('siteSettings.trainingEmailSubject') || 'Subject'}
+                value={formData.training_confirmation_subject_en || ''}
+                onChange={(e) => handleChange('training_confirmation_subject_en', e.target.value)}
+                error={fieldErrors.training_confirmation_subject_en}
+                disabled={!canEdit}
+              />
+              <CMSInput
+                label={t('siteSettings.trainingEmailHeading') || 'Heading'}
+                value={formData.training_confirmation_heading_en || ''}
+                onChange={(e) => handleChange('training_confirmation_heading_en', e.target.value)}
+                error={fieldErrors.training_confirmation_heading_en}
+                disabled={!canEdit}
+              />
+            </div>
+            <div style={{ marginTop: '0.75rem' }}>
+              <CMSTextarea
+                label={t('siteSettings.trainingEmailMessage') || 'Main message'}
+                value={formData.training_confirmation_message_en || ''}
+                onChange={(e) => handleChange('training_confirmation_message_en', e.target.value)}
+                error={fieldErrors.training_confirmation_message_en}
+                disabled={!canEdit}
+                rows={4}
+              />
+            </div>
+            <p style={{ fontSize: '0.7rem', color: 'var(--cms-text-muted)', marginTop: '0.25rem' }}>
+              {t('siteSettings.trainingEmailPlaceholders') || 'Safe placeholders: {{applicant_name}}, {{program_name}}'}
+            </p>
+            <div className="cms-form-grid" style={{ marginTop: '0.75rem' }}>
+              <CMSInput
+                label={t('siteSettings.trainingEmailCtaLabel') || 'CTA label'}
+                value={formData.training_confirmation_cta_label_en || ''}
+                onChange={(e) => handleChange('training_confirmation_cta_label_en', e.target.value)}
+                error={fieldErrors.training_confirmation_cta_label_en}
+                disabled={!canEdit}
+              />
+              <CMSInput
+                label={t('siteSettings.trainingEmailCtaUrl') || 'CTA URL'}
+                value={formData.training_confirmation_cta_url || ''}
+                onChange={(e) => handleChange('training_confirmation_cta_url', e.target.value)}
+                error={fieldErrors.training_confirmation_cta_url}
+                disabled={!canEdit}
+              />
+            </div>
+            <div style={{ marginTop: '0.75rem' }}>
+              <CMSTextarea
+                label={t('siteSettings.trainingEmailFooter') || 'Footer'}
+                value={formData.training_confirmation_footer_en || ''}
+                onChange={(e) => handleChange('training_confirmation_footer_en', e.target.value)}
+                error={fieldErrors.training_confirmation_footer_en}
+                disabled={!canEdit}
+                rows={2}
+              />
+            </div>
+
+            {/* Arabic content */}
+            <h4 style={{ marginTop: '1.5rem', marginBottom: '0.75rem', fontSize: '0.8rem', color: 'var(--cms-accent)' }}>
+              {t('form.arabic') || 'Arabic'}
+            </h4>
+            <div className="cms-form-grid">
+              <CMSInput
+                label={t('siteSettings.trainingEmailSubject') || 'Subject'}
+                value={formData.training_confirmation_subject_ar || ''}
+                onChange={(e) => handleChange('training_confirmation_subject_ar', e.target.value)}
+                error={fieldErrors.training_confirmation_subject_ar}
+                disabled={!canEdit}
+              />
+              <CMSInput
+                label={t('siteSettings.trainingEmailHeading') || 'Heading'}
+                value={formData.training_confirmation_heading_ar || ''}
+                onChange={(e) => handleChange('training_confirmation_heading_ar', e.target.value)}
+                error={fieldErrors.training_confirmation_heading_ar}
+                disabled={!canEdit}
+              />
+            </div>
+            <div style={{ marginTop: '0.75rem' }}>
+              <CMSTextarea
+                label={t('siteSettings.trainingEmailMessage') || 'Main message'}
+                value={formData.training_confirmation_message_ar || ''}
+                onChange={(e) => handleChange('training_confirmation_message_ar', e.target.value)}
+                error={fieldErrors.training_confirmation_message_ar}
+                disabled={!canEdit}
+                rows={4}
+              />
+            </div>
+            <div className="cms-form-grid" style={{ marginTop: '0.75rem' }}>
+              <CMSInput
+                label={t('siteSettings.trainingEmailCtaLabel') || 'CTA label'}
+                value={formData.training_confirmation_cta_label_ar || ''}
+                onChange={(e) => handleChange('training_confirmation_cta_label_ar', e.target.value)}
+                error={fieldErrors.training_confirmation_cta_label_ar}
+                disabled={!canEdit}
+              />
+            </div>
+            <div style={{ marginTop: '0.75rem' }}>
+              <CMSTextarea
+                label={t('siteSettings.trainingEmailFooter') || 'Footer'}
+                value={formData.training_confirmation_footer_ar || ''}
+                onChange={(e) => handleChange('training_confirmation_footer_ar', e.target.value)}
+                error={fieldErrors.training_confirmation_footer_ar}
+                disabled={!canEdit}
+                rows={2}
+              />
+            </div>
+          </Section>
+
           {/* Status */}
           <Section title={t('form.status')}>
             <CMSCheckbox
@@ -254,7 +427,7 @@ export default function CMSSiteSettingsPage() {
               <CMSButton variant="primary" onClick={handleSave} loading={saving} disabled={!dirty}>
                 {t('action.save')}
               </CMSButton>
-              {dirty && <span style={styles.dirtyIndicator}>● {t('msg.unsavedIndicator')}</span>}
+              {dirty && <span style={styles.dirtyIndicator}>{t('msg.unsavedIndicator')}</span>}
             </div>
           )}
         </div>
@@ -275,16 +448,16 @@ function Section({ title, children }) {
 const styles = {
   formContainer: { maxWidth: '800px' },
   section: {
-    background: '#12121e',
-    border: '1px solid #1e1e2e',
-    borderRadius: '8px',
+    background: 'var(--cms-bg-surface)',
+    border: '1px solid var(--cms-border-default)',
+    borderRadius: 'var(--cms-radius-lg)',
     padding: '1.25rem',
     marginBottom: '1rem',
   },
   sectionTitle: {
     fontSize: '0.75rem',
     fontWeight: '600',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     marginBottom: '1rem',
     textTransform: 'uppercase',
     letterSpacing: '0.04em',
@@ -297,6 +470,6 @@ const styles = {
   },
   dirtyIndicator: {
     fontSize: '0.75rem',
-    color: '#f59e0b',
+    color: 'var(--cms-warning, #f59e0b)',
   },
 };

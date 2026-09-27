@@ -20,6 +20,8 @@ import { parseApiError } from '../../services/cms/cmsFetch';
 const BRANCH_LABELS = {
   professional: 'Professional Training',
   secondary: 'Secondary / Baccalaureate',
+  starter: 'Sidrah Starter Courses',
+  summer: 'Summer Training',
 };
 
 const STATUS_CLASSES = {
@@ -74,6 +76,8 @@ export default function CMSTrainingPage() {
           <option value="">{t('training.branch.all') || 'All branches'}</option>
           <option value="professional">{BRANCH_LABELS.professional}</option>
           <option value="secondary">{BRANCH_LABELS.secondary}</option>
+          <option value="starter">{BRANCH_LABELS.starter}</option>
+          <option value="summer">{BRANCH_LABELS.summer}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.status || ''} onChange={(e) => list.setFilter('status', e.target.value)}>
           <option value="">{t('training.status.all') || 'All statuses'}</option>
@@ -108,7 +112,7 @@ export default function CMSTrainingPage() {
                   )}
                   <span>{program.title_en || program.title_ar}</span>
                 </CMSTableCell>
-                <CMSTableCell><code style={styles.slug}>{program.slug}</code></CMSTableCell>
+                <CMSTableCell><code className="cms-slug">{program.slug}</code></CMSTableCell>
                 <CMSTableCell>{BRANCH_LABELS[program.branch] || program.branch}</CMSTableCell>
                 <CMSTableCell align="center">{program.display_order}</CMSTableCell>
                 <CMSTableCell>
@@ -116,14 +120,19 @@ export default function CMSTrainingPage() {
                 </CMSTableCell>
                 <CMSTableCell align="right">
                   {canUpdate && (
+                    <Link to={`/cms/training/${program.id}/landing`}>
+                      <TableActionButton>{t('action.view')}</TableActionButton>
+                    </Link>
+                  )}
+                  {canUpdate && (
                     <Link to={`/cms/training/${program.id}`}>
                       <TableActionButton>{t('action.edit')}</TableActionButton>
                     </Link>
                   )}
                   {canDelete && (
                     <TableActionButton
+                      variant="danger"
                       onClick={() => setDeleteTarget(program)}
-                      style={{ color: '#ef4444' }}
                     >
                       {t('action.delete')}
                     </TableActionButton>
@@ -157,15 +166,8 @@ const styles = {
     width: '28px',
     height: '28px',
     objectFit: 'cover',
-    borderRadius: '4px',
-    marginRight: '0.5rem',
+    borderRadius: 'var(--cms-radius-sm)',
+    marginInlineEnd: '0.5rem',
     verticalAlign: 'middle',
-  },
-  slug: {
-    fontSize: '0.6875rem',
-    background: '#1a1a2e',
-    padding: '0.125rem 0.375rem',
-    borderRadius: '3px',
-    color: '#888',
   },
 };

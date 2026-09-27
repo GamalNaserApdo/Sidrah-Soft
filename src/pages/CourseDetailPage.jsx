@@ -1,26 +1,136 @@
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
 import { useI18n } from '../i18n/I18nProvider';
-import { getCourseBySlug } from '../data/courses';
+import { getProgramBySlug, getProgramPreview, resolveRegistrationUrl } from '../services/trainingApi';
+import { transformProgramData } from '../utils/transformProgramData';
+
+import {
+  CourseHero,
+  CourseIntroVideo,
+  CourseOverview,
+  CourseLearningOutcomes,
+  CourseCurriculum,
+  CourseDetails,
+  CourseTargetAudience,
+  CourseTools,
+  CoursePractical,
+  CourseTrainingExperience,
+  CourseInstructors,
+  CourseTestimonials,
+  CoursePricing,
+  CourseFAQ,
+  CourseRegistrationForm,
+  CourseFinalCTA,
+  StickyRegisterBar,
+  CourseBreadcrumb,
+  CourseMiniCTA,
+} from '../components/courseLanding';
 
 function CourseDetailPage() {
   const { courseSlug } = useParams();
   const { lang, dir } = useI18n();
-  const navigate = useNavigate();
   const isAr = lang === 'ar';
-  const course = getCourseBySlug(courseSlug);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  if (!course) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [notFound, setNotFound] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setNotFound(false);
+    try {
+      // Check for preview token (from CMS preview button)
+      const previewToken = searchParams.get('preview');
+      let apiData;
+      if (previewToken) {
+        apiData = await getProgramPreview(courseSlug, previewToken);
+        // Clean the preview token from the URL after successful load
+        // (security: don't leave the token in the address bar)
+        setSearchParams({}, { replace: true });
+      } else {
+        apiData = await getProgramBySlug(courseSlug);
+      }
+      const transformed = transformProgramData(apiData);
+      if (!transformed) {
+        setNotFound(true);
+      } else {
+        setData(transformed);
+      }
+    } catch (err) {
+      if (err.status === 404) {
+        setNotFound(true);
+      } else {
+        setError(err.message || (isAr ? 'تعذر تحميل البيانات' : 'Failed to load data'));
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [courseSlug, searchParams, isAr]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  // Loading state
+  if (loading) {
     return (
       <>
         <SEO
-          title={isAr ? 'الكورس غير موجود | SidrahSoft' : 'Course Not Found | SidrahSoft'}
-          description={isAr ? 'لم يتم العثور على هذا الكورس.' : 'This course was not found.'}
+          title={isAr ? 'تحميل... | SidrahSoft' : 'Loading... | SidrahSoft'}
         />
         <Header />
-        <main className="training-page" dir={dir}>
+        <main className="course-landing-page" dir={dir}>
+          <div className="course-landing-loading">
+            <div className="course-landing-loading__spinner" />
+            <p>{isAr ? 'جاري تحميل الكورس...' : 'Loading course...'}</p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // Error state (not 404 — actual connection error)
+  if (error) {
+    return (
+      <>
+        <SEO
+          title={isAr ? 'خطأ | SidrahSoft' : 'Error | SidrahSoft'}
+        />
+        <Header />
+        <main className="course-landing-page" dir={dir}>
+          <div className="course-landing-error">
+            <h1>{isAr ? 'تعذر تحميل الكورس' : 'Unable to load course'}</h1>
+            <p>{error}</p>
+            <button onClick={load} className="course-landing-error__retry">
+              {isAr ? 'إعادة المحاولة' : 'Retry'}
+            </button>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // 404 — invalid slug or not found
+  if (notFound || !data || !data.course || !data.landing) {
+    return (
+      <>
+        <SEO
+          title={isAr ? 'الكورس غير موجود | SidrahSoft' : 'Course Not Found | Sidrah Soft'}
+          description={isAr ? 'لم يتم العثور على هذا الكورس.' : 'This course was not found.'}
+          canonical="/training"
+          robotsIndex={false}
+          robotsFollow={true}
+        />
+        <Header />
+        <main className="course-detail-page" dir={dir}>
           <section className="course-detail-not-found">
             <div className="course-detail-not-found__content">
               <h1 className="course-detail-not-found__title">
@@ -42,174 +152,110 @@ function CourseDetailPage() {
     );
   }
 
+  const { course, landing } = data;
   const title = isAr ? course.titleAr : course.titleEn;
-  const subtitle = isAr ? course.subtitleAr : course.subtitleEn;
-  const category = isAr ? course.categoryAr : course.categoryEn;
   const shortDesc = isAr ? course.shortDescriptionAr : course.shortDescriptionEn;
-  const overview = isAr ? course.overviewAr : course.overviewEn;
-  const audience = isAr ? course.audienceAr : course.audienceEn;
-  const modules = isAr ? course.modulesAr : course.modulesEn;
-  const skills = isAr ? course.skillsAr : course.skillsEn;
-  const project = isAr ? course.projectAr : course.projectEn;
-  const aiMessage = isAr ? course.aiMessageAr : course.aiMessageEn;
+  // CMS landing SEO fields take priority. Fallback uses a keyword-targeted
+  // pattern aligned with the P1 SEO strategy ("Course Egypt" intent).
+  const seoTitle = landing.seoTitle && (isAr ? landing.seoTitle.ar : landing.seoTitle.en) || `${title} Course Egypt | Sidrah Soft`;
+  const seoDescription = landing.seoDescription && (isAr ? landing.seoDescription.ar : landing.seoDescription.en) || shortDesc;
 
-  const aiHeadline = isAr ? 'الذكاء الاصطناعي لن يُلغي أهمية الأساسيات' : 'AI Will Not Replace the Fundamentals';
-  const overviewLabel = isAr ? 'نظرة عامة على الكورس' : 'Course Overview';
-  const modulesLabel = isAr ? 'ماذا ستتعلم' : 'What You Will Learn';
-  const skillsLabel = isAr ? 'المهارات التي ستكتسبها' : 'Skills You Will Gain';
-  const audienceLabel = isAr ? 'لمن هذا الكورس' : 'Who This Course Is For';
-  const projectLabel = isAr ? 'المشروع العملي' : 'Practical Project';
-  const ctaLabel = isAr ? 'ابدأ رحلة التعلم' : 'Start Your Learning Journey';
-  const backLabel = isAr ? '→ العودة إلى الدورات' : '← Back to Courses';
-  const finalCtaText = isAr
-    ? 'لا تنتظر حتى تشعر أنك مستعد بالكامل. ابدأ ببناء الأساسيات، وطبّق ما تتعلمه في مشروعات حقيقية، وتعلّم كيف تستخدم أدوات الذكاء الاصطناعي الحديثة ضمن أسلوب عمل احترافي.'
-    : 'Do not wait until you feel completely ready. Start by building the foundations, practice through real projects, and learn how to use modern AI tools as part of your professional workflow.';
+  const registrationUrl = resolveRegistrationUrl(course);
 
-  const handleContactClick = () => {
-    navigate(`/#contact`);
-    setTimeout(() => {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+  // Canonical: if the CMS landing provides a canonical_slug override, use it.
+  // Otherwise fall back to the actual program slug.
+  // canonical_slug is a relative path component (e.g. "my-old-course"), so
+  // it resolves to /training/{canonical_slug}. Empty/whitespace values are
+  // ignored. Absolute URLs or malformed values are rejected for safety.
+  const canonicalSlugRaw = (landing.canonicalSlug || '').trim();
+  const canonicalSlugValid = canonicalSlugRaw &&
+    !canonicalSlugRaw.startsWith('http') &&
+    !canonicalSlugRaw.includes('://') &&
+    /^[a-zA-Z0-9_-]+$/.test(canonicalSlugRaw);
+  const canonicalPath = canonicalSlugValid
+    ? `/training/${canonicalSlugRaw}`
+    : `/training/${course.slug}`;
+
+  // Course structured data (only with verified data)
+  const courseJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: title,
+    description: seoDescription,
+    provider: {
+      '@type': 'Organization',
+      name: 'Sidrah Soft',
+      sameAs: 'https://sidrahsoft.com',
+    },
+    url: `https://sidrahsoft.com${canonicalPath}`,
+    ...(course.image ? { image: course.image } : {}),
   };
+
+  // FAQPage structured data — only when visible FAQ items exist.
+  // Schema FAQ text must match the public visible FAQ content (same data source).
+  // Omitted entirely when no FAQ exists. EN/AR uses the rendered language content.
+  const faqItems = landing?.faq || [];
+  const faqJsonLd = faqItems.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => {
+      const question = isAr ? item.question.ar : item.question.en;
+      const answer = isAr ? item.answer.ar : item.answer.en;
+      return {
+        '@type': 'Question',
+        name: question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: answer,
+        },
+      };
+    }),
+  } : null;
+
+  // Combine Course and FAQPage JSON-LD (breadcrumb is auto-appended by SEO.jsx)
+  const allJsonLd = faqJsonLd ? [courseJsonLd, faqJsonLd] : courseJsonLd;
 
   return (
     <>
       <SEO
-        title={`${title} Training | SidrahSoft`}
-        description={shortDesc}
-        ogTitle={`${title} Training | SidrahSoft`}
-        ogDescription={shortDesc}
+        title={seoTitle}
+        description={seoDescription}
+        ogTitle={seoTitle}
+        ogDescription={seoDescription}
         ogImage={course.image || undefined}
-        canonical={`/training/${course.slug}`}
+        canonical={canonicalPath}
+        robotsIndex={!landing.seoNoindex}
         breadcrumbItems={[
           { name: isAr ? 'الرئيسية' : 'Home', url: '/' },
           { name: isAr ? 'التدريب' : 'Training', url: '/training' },
           { name: title },
         ]}
+        jsonLd={allJsonLd}
       />
       <Header />
-      <main className="course-detail-page" dir={dir}>
-        {/* Course Hero */}
-        <section className="course-detail-hero">
-          <div className="course-detail-hero__content">
-            <Link to="/training" className="course-detail-back-link">
-              {backLabel}
-            </Link>
-            <span className="course-detail-hero__category">{category}</span>
-            <h1 className="course-detail-hero__title">{title}</h1>
-            <p className="course-detail-hero__subtitle">{subtitle}</p>
-            <p className="course-detail-hero__intro">{shortDesc}</p>
-            <div className="course-detail-hero__audience">
-              <span className="course-detail-hero__audience-label">
-                {isAr ? 'مناسب لـ:' : 'Suitable for:'}
-              </span>
-              <span className="course-detail-hero__audience-value">
-                {audience.slice(0, 3).join(isAr ? '، ' : ', ')}
-              </span>
-            </div>
-            <button type="button" className="course-detail-hero__cta" onClick={handleContactClick}>
-              {ctaLabel}
-            </button>
-          </div>
-          {course.image && (
-            <div className="course-detail-hero__image-wrapper">
-              <img
-                src={course.image}
-                alt={title}
-                className="course-detail-hero__image"
-              />
-            </div>
-          )}
-        </section>
-
-        {/* Course Overview */}
-        <section className="course-detail-section">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading">{overviewLabel}</h2>
-            <p className="course-detail-section__text">{overview}</p>
-          </div>
-        </section>
-
-        {/* What You Will Learn */}
-        <section className="course-detail-section course-detail-section--alt">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading">{modulesLabel}</h2>
-            <div className="course-detail-modules">
-              {modules.map((mod, idx) => (
-                <div key={idx} className="course-detail-module">
-                  <span className="course-detail-module__number">{String(idx + 1).padStart(2, '0')}</span>
-                  <span className="course-detail-module__text">{mod}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Skills You Will Gain */}
-        <section className="course-detail-section">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading">{skillsLabel}</h2>
-            <div className="course-detail-skills">
-              {skills.map((skill, idx) => (
-                <div key={idx} className="course-detail-skill">
-                  <span className="course-detail-skill__icon" aria-hidden="true">✓</span>
-                  <span className="course-detail-skill__text">{skill}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Who This Course Is For */}
-        <section className="course-detail-section course-detail-section--alt">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading">{audienceLabel}</h2>
-            <div className="course-detail-audience">
-              {audience.map((item, idx) => (
-                <div key={idx} className="course-detail-audience-item">
-                  <span className="course-detail-audience-item__icon" aria-hidden="true">●</span>
-                  <span className="course-detail-audience-item__text">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Practical Project */}
-        <section className="course-detail-section">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading">{projectLabel}</h2>
-            <div className="course-detail-project">
-              <p className="course-detail-project__text">{project}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* AI and the Future of This Career */}
-        <section className="course-detail-section course-detail-section--ai">
-          <div className="course-detail-section__content">
-            <h2 className="course-detail-section__heading course-detail-section__heading--ai">{aiHeadline}</h2>
-            <p className="course-detail-section__text course-detail-section__text--ai">{aiMessage}</p>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="course-detail-cta">
-          <div className="course-detail-cta__content">
-            <p className="course-detail-cta__text">{finalCtaText}</p>
-            <button type="button" className="course-detail-cta__button" onClick={handleContactClick}>
-              {isAr ? 'اسأل عن هذا الكورس' : 'Ask About This Course'}
-            </button>
-            <Link to="/training" className="course-detail-cta__back">
-              {backLabel}
-            </Link>
-          </div>
-        </section>
+      <main className="course-landing-page" dir={dir}>
+        <CourseBreadcrumb course={course} />
+        <CourseHero course={course} landing={landing} registrationUrl={registrationUrl} />
+        <CourseIntroVideo course={course} landing={landing} />
+        <CourseOverview course={course} />
+        <CourseLearningOutcomes landing={landing} />
+        <CourseMiniCTA registrationUrl={registrationUrl} />
+        <CourseCurriculum landing={landing} />
+        <CourseMiniCTA registrationUrl={registrationUrl} />
+        <CourseDetails landing={landing} />
+        <CourseTargetAudience landing={landing} />
+        <CourseTools landing={landing} />
+        <CoursePractical landing={landing} />
+        <CourseTrainingExperience landing={landing} />
+        <CourseInstructors landing={landing} />
+        <CourseTestimonials landing={landing} />
+        <CoursePricing course={course} landing={landing} registrationUrl={registrationUrl} />
+        <CourseFAQ landing={landing} />
+        <CourseRegistrationForm program={data} slug={courseSlug} />
+        <CourseFinalCTA course={course} landing={landing} registrationUrl={registrationUrl} />
       </main>
       <Footer />
+      <StickyRegisterBar course={course} landing={landing} registrationUrl={registrationUrl} />
     </>
   );
 }

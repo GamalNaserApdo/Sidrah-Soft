@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n/I18nProvider';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export const ICONS = {
   whatsapp: (
@@ -44,25 +45,35 @@ export const ICONS = {
   ),
 };
 
-const SOCIAL_LINKS = [
-  { key: 'facebook', href: 'https://www.facebook.com/sidrahsoft/' },
-  { key: 'instagram', href: 'https://www.instagram.com/sidrah.soft/' },
-  { key: 'tiktok', href: 'https://www.tiktok.com/sidrah.soft/' },
-  { key: 'linkedin', href: 'https://www.linkedin.com/sidrah.soft/' },
-  { key: 'youtube', href: 'https://www.youtupe.com/sidrah.soft/' },
+// Platform → CMS field mapping.
+// Each entry maps a social icon to the CMS-managed URL field from site settings.
+const SOCIAL_FIELDS = [
+  { key: 'facebook', path: ['social', 'facebook_url'] },
+  { key: 'instagram', path: ['social', 'instagram_url'] },
+  { key: 'linkedin', path: ['social', 'linkedin_url'] },
+  { key: 'youtube', path: ['social', 'youtube_url'] },
+  { key: 'tiktok', path: ['social', 'tiktok_url'] },
 ];
 
 const labels = {
-  en: { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', linkedin: 'LinkedIn', youtube: 'YouTube' },
-  ar: { facebook: 'فيسبوك', instagram: 'إنستغرام', tiktok: 'تيك توك', linkedin: 'لينكدإن', youtube: 'يوتيوب' },
+  en: { facebook: 'Facebook', instagram: 'Instagram', linkedin: 'LinkedIn', youtube: 'YouTube', tiktok: 'TikTok' },
+  ar: { facebook: 'فيسبوك', instagram: 'إنستغرام', linkedin: 'لينكدإن', youtube: 'يوتيوب', tiktok: 'تيك توك' },
 };
 
 function SocialLinks({ className = '', linkClassName = '', iconClassName = '' }) {
   const { lang } = useI18n();
+  const { settings } = useSiteSettings();
+
+  const socialLinks = SOCIAL_FIELDS
+    .map((field) => {
+      const href = field.path.reduce((acc, key) => acc?.[key], settings) || '';
+      return { key: field.key, href };
+    })
+    .filter((link) => link.href); // Hide icons with empty/null CMS URLs
 
   return (
     <div className={className} role="list" aria-label={lang === 'ar' ? 'روابط التواصل الاجتماعي' : 'Social media links'}>
-      {SOCIAL_LINKS.map((link) => (
+      {socialLinks.map((link) => (
         <a
           key={link.key}
           href={link.href}

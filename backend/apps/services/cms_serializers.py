@@ -56,6 +56,7 @@ class CMSServiceDetailSerializer(serializers.ModelSerializer):
             'display_order',
             'is_active', 'is_featured', 'show_on_homepage',
             'cta_label_en', 'cta_label_ar', 'cta_url',
+            'detail_url_override',
             'seo_title_en', 'seo_title_ar',
             'seo_description_en', 'seo_description_ar',
             'created_at', 'updated_at',
@@ -79,6 +80,7 @@ class CMSServiceWriteSerializer(serializers.ModelSerializer):
             'display_order',
             'is_active', 'is_featured', 'show_on_homepage',
             'cta_label_en', 'cta_label_ar', 'cta_url',
+            'detail_url_override',
             'seo_title_en', 'seo_title_ar',
             'seo_description_en', 'seo_description_ar',
         ]

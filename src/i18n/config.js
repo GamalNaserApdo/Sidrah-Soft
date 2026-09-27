@@ -3,5 +3,5 @@ export const LANGUAGES = {
   ar: { label: 'العربية', dir: 'rtl', localLabel: 'العربية' },
 };
 
-export const DEFAULT_LANGUAGE = 'en';
+export const DEFAULT_LANGUAGE = 'ar';
 export const STORAGE_KEY = 'sidrah-language';

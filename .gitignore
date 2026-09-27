@@ -46,7 +46,7 @@ db.sqlite3
 db.sqlite3-journal
 db_*.sqlite3
 *.sqlite3
-media/
+/media/
 staticfiles/
 backend/media/
 backend/staticfiles/
@@ -87,6 +87,9 @@ seedance_*.txt
 version.txt
 hero-progress-*.png
 
+# Local curl/browser cookies (may contain session IDs)
+cookies.txt
+
 # Abandoned reference/experiment directories
 newstyle/
 
@@ -120,6 +123,51 @@ playwright-report/
 test-results/
 screenshots/
 *.coverage
+browser_acceptance_tests.mjs
+browser_acceptance_results.json
+browser_rtl_tests.mjs
+browser_rtl_results.json
+browser_rtl_case_studies.mjs
+browser_cms_acceptance.mjs
+browser_cms_acceptance_results.json
+browser_gap_closure.mjs
+browser_gap_closure_results.json
+browser_topic_edit_test.mjs
+_cleanup_test_value.py
+_cleanup_test_modules.py
+_check_users.py
+_check_modules_api.py
+_create_temp_user.py
+_inspect_pilot.py
+_create_pilot_certificate.py
+_test_pilot_certificate.py
+_db_recheck.py
+_db_deep_inspect.py
+_verify_canonical.py
+_post_migration_check.py
+_create_pilot_canonical.py
+_test_pilot_canonical.py
+_check_admin_perms.py
+_list_certs.py
+_final_regression.py
+_cert_audit.py
+_cert_hashes.py
+_cert_metadata_extract.py
+_cert_metadata_v2.py
+_dump_pdf_text.py
+_phase1_precheck.py
+_phase3_7_create_issue.py
+_phase5_7_validate_issue.py
+_phase8_9_verify_cms.py
+_phase10_evidence.py
+_fix_file_paths.py
+_inspect_y7d2n6.py
+_certificate_import_evidence_report.json
+_phase0_baseline.py
+_phase23_retest.py
+
+# Local database backups
+backups/
 
 # Local certificates
 certs/
@@ -134,3 +182,289 @@ ssl/
 *.7z
 *.tar
 *.tar.gz
+
+# Internal project evidence reports and agent artifacts (not for version control)
+project-memory/evidence/
+
+# Agent and AI tool artifacts (local-only, not for version control)
+.agents/
+.devin/
+cinematic-landing-kit-main/
+
+# Internal project-memory directory (local-only by default)
+# evidence/ and SIDRAH_* reports are already covered above;
+# this rule covers the rest of project-memory/ to prevent accidental commits
+/project-memory/
+
+# Root-level internal docs/reports (not for version control)
+# NOTE: backend/docs/ is legitimate project documentation and IS tracked
+/docs/
+
+# Accidental/malformed asset directories
+src/assets/pussed images/
+
+# Dead static data files (replaced by CMS API — no longer imported)
+src/data/courses.js
+src/data/courseLandingData.js
+
+# Dead image assets only referenced by dead data files
+src/assets/training_images/*.jpeg
+
+# Final certificate QR codes (generated artifacts, not source code)
+certificate_qr_final/
+
+# QR generation temp scripts
+backend/_generate_qr_final.py
+backend/_validate_qr_final.py
+backend/_inspect_pilot_pdf.py
+backend/_pilot_qr_replace.py
+backend/_pilot_compare.py
+
+# Pilot certificate output (generated, not source)
+certificate_final_pilot/
+
+# Batch final certificate output (generated, not source)
+certificate_final_batch/
+backend/_batch_qr_replace.py
+backend/_verify_promoted_certs.py
+backend/_inspect_pilot_pdf.py
+
+# Mobile nav test screenshots and scripts
+_test_mobile_nav.cjs
+_test_mobile_nav_final.cjs
+_test_desktop_nav.cjs
+_mobile_nav_screenshots/
+mobile_nav_final_evidence/
+backend/_check_nav_items.py
+_test_fallback_nav.cjs
+_test_prod_nav.cjs
+
+# Meta Pixel local test/seed scripts
+_test_meta_pixel.cjs
+_test_meta_pixel_compat.cjs
+test_meta_pixel.cjs
+backend/_test_meta_pixel_validation.py
+backend/_set_meta_pixel.py
+backend/_set_meta_pixel_arg.py
+
+# Mobile nav English final evidence and capture scripts
+mobile_nav_english_final_evidence/
+_capture_mobile_nav.cjs
+_capture_ar_nav.cjs
+
+# Analytics / consent hardening local evidence and test scripts
+_test_meta_warning.cjs
+_test_analytics_runtime.cjs
+backend/_test_backend_validation.py
+analytics_foundation_consent_hardening_report.md
+
+# GTM / GA4 / Consent Mode integration local evidence and test scripts
+_test_gtm_ga4_consent.cjs
+_test_gtm_ga4_consent_spa.cjs
+_test_ga4_disabled.cjs
+_test_gtm_validation.cjs
+_debug_header.cjs
+_debug_whitespace.cjs
+_debug_gtm_whitespace.cjs
+debug_header.png
+gtm_ga4_consent_mode_integration_report.md
+gtm_container_id_validation_correction_report.md
+gtm_ga4_consent_spa_integration_report.md
+search_console_sitemap_indexability_audit.md
+search_console_seo_foundation_hardening_report.md
+course_runtime_blocker_closure_report.md
+content_finalization_training_readiness_report.md
+_test_seo_foundation.cjs
+_test_course_runtime.cjs
+_test_content_finalization.cjs
+
+# Training content CMS integration — temporary validation scripts
+_runtime_validation_9programs.cjs
+_runtime_validation_results.json
+_runtime_verify_backend_dataanalysis.cjs
+_verify_backend_paths_page.cjs
+_check_backend_faq.cjs
+backend/_cert_integrity_v2.py
+backend/_cert_integrity_v2.json
+backend/_inspect_modules_v2.py
+backend/_verify_api_v2.py
+backend/_verify_api_v3.py
+backend/_verify_cms_persistence.py
+backend/_verify_sitemap_v2.py
+backend/_verify_backend_paths.py
+sidrah_training_final_content_cms_integration_report.md
+
+# Certificate date correction staging — temporary scripts, staging copies, and previews
+backend/_cert_baseline.py
+backend/_cert_baseline_manifest.json
+backend/_cert_date_fix_staging.py
+backend/_cert_staging_results.json
+backend/_cert_batch_validate.py
+backend/_cert_layout_check.py
+backend/_cert_render_previews.py
+backend/_cert_qr_check.py
+backend/_inspect_certs.py
+backend/_inspect_pdf_text.py
+backend/_cert_previews/
+backend/_cert_previews_v2/
+backend/_cert_previews_final/
+backend/_cert_previews_final_batch/
+backend/_cert_previews_date_format/
+backend/media/certificates_staging_date_fix/
+backend/media/certificates_staging_v2/
+backend/media/certificates_final_template_test/
+backend/media/certificates_date_format_test/
+backend/media/certificates_final_batch/
+backend/_cert_date_fix_v2.py
+backend/_cert_date_fix_v2_fixed.py
+backend/_cert_date_fix_v2_final.py
+backend/_date_format_correction.py
+backend/_date_typography_fix_v2.py
+backend/_render_date_format_previews.py
+backend/_examine_original_dims.py
+backend/_measure_date_typography.py
+backend/_calculate_date_typography.py
+backend/_measure_real_width.py
+backend/_investigate_date_layout.py
+backend/_generate_date_candidates.py
+backend/_render_candidate_comparison.py
+backend/_batch_pre_audit.py
+backend/_generate_final_batch.py
+backend/_validate_final_batch.py
+backend/_validate_batch_v2.py
+backend/_render_batch_previews.py
+backend/_pre_replacement_check.py
+backend/_create_backup.py
+backend/_replace_canonical.py
+backend/_post_replacement_validation.py
+backend/_visual_spot_check.py
+backend/_test_verify.ps1
+backend/_test_verify_all.ps1
+backend/_backup_path.txt
+backend/_post_replacement_validation.json
+backend/_audit_cert_db.py
+backend/_backup_and_fix_dates.py
+backend/_full_parity_validation.py
+backend/_revalidate_failed.py
+backend/_cert_db_audit.json
+backend/_date_parity_validation.json
+backend/certificate_records_before_date_parity_fix.json
+backend/_examine_master.py
+backend/_extract_master_cmaps.py
+backend/_extract_master_fonts.py
+backend/_build_complete_tahoma_map.py
+backend/_compare_fonts.py
+backend/_extract_student_data.py
+backend/_analyze_master_structure.py
+backend/_generate_certs_from_master.py
+backend/_generate_certs_v2.py
+backend/_render_final_previews.py
+backend/_investigate_pdf_deep.py
+backend/_extract_font_and_map.py
+backend/_extract_tounicode.py
+backend/_debug_content_stream.py
+backend/_debug_xref.py
+backend/_render_v2_previews.py
+backend/_analyze_v2.py
+backend/_audit_migrations.py
+backend/_fresh_db_replay.py
+backend/_fresh_db_replay_v2.py
+backend/_restore_verify.py
+backend/_ocr_verify_v2.py
+backend/_verify_glyphs.py
+backend/_cert_original_dims.json
+backend/_date_typography_params.json
+backend/_date_typography_params_v2.json
+backend/_date_candidates_results.json
+backend/_batch_generation_results.json
+backend/_batch_validation_results.json
+backend/_cert_batch_baseline.json
+backend/_master_font_maps.json
+backend/_master_complete_font_maps.json
+backend/_master_F3_complete_map.json
+backend/_master_F5_complete_map.json
+backend/_tahoma_font_maps.json
+backend/_student_data.json
+backend/_cert_generation_results.json
+backend/_master_fonts/
+backend/_compare_*.ttf
+backend/_orig_F3_lama_sans.ttf
+backend/_orig_menna_F4.ttf
+backend/_extracted_F3.ttf
+backend/_tmp_qr_*.png
+backend/_tmp_img_*.png
+backend/_tmp_*.png
+certificate_final_batch_generation_report.md
+certificate_final_local_replacement_report.md
+certificate_db_verification_date_parity_report.md
+certificate_date_correction_staging_report.md
+sidrah_cms_dashboard_premium_redesign_report.md
+sidrah_cms_full_visual_unification_report.md
+
+# CMS Dashboard QA artifacts
+_cms_dashboard_qa/
+_cms_dashboard_qa.mjs
+_cms_dashboard_functional_qa.mjs
+_cms_before_shot.mjs
+_cms_403_check.mjs
+_cms_stat_check.mjs
+_cms_dashboard_before.jsx
+_cms_sidebar_before.jsx
+_cms_header_before.jsx
+
+# CMS Runtime Visual Acceptance QA artifacts
+_qa_screenshots/
+_qa_browser_check.cjs
+_qa_deep_check.cjs
+_qa_deep2_check.cjs
+_qa_ar_check.cjs
+_qa_auth_check.mjs
+_qa_api_check.mjs
+_qa_bug_repro.cjs
+_qa_fix_regression.cjs
+_qa_rbac_check.mjs
+_qa_rbac_frontend.cjs
+_qa_rbac_privesc.mjs
+_qa_rbac_fix_regression.cjs
+sidrah_cms_runtime_visual_acceptance_report.md
+sidrah_training_new_routes_bug_verification.md
+sidrah_training_new_routes_fix_report.md
+sidrah_users_rbac_gap_verification.md
+sidrah_users_rbac_ui_gap_fix_report.md
+
+# Local audit/test configuration with credentials — must never be committed
+backend/config/pg_audit_settings.py
+backend/config/test_settings.py
+
+# P1 SEO QA screenshots and temp scripts
+p1_seo_qa_shots/
+verify_qa_shots/
+_p1_seo_qa.cjs
+_p1_seo_dom_check.cjs
+_p1_seo_course_check.cjs
+
+# Pre-campaign QA scripts and screenshots (local-only diagnostics)
+/_qa_*.mjs
+/_debug_offers.mjs
+/_pre_campaign_qa/
+
+# Local-only QA/audit/investigation reports (root level)
+/SIDRAH_*.md
+/CERTIFICATE_*.md
+/PREMIUM_*.md
+
+# Local-only Sidrah DNA design audit deliverables (project-memory, internal)
+/project-memory/SIDRAH_*.md
+/project-memory/SIDRAH_*.json
+
+# Local-only pending notes
+/_pending
+
+# Local-only release/certificate patch directories
+/_release/
+/_certificate_patch_*/
+/_release_certificate_patch_*/
+/certificate_smart_instructor_prod_*/
+
+# Local-only integration report
+/final_course_images_and_icdl_integration_report.md

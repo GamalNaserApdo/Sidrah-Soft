@@ -52,13 +52,13 @@ export default function CMSCaseStudiesPage() {
       />
       <CMSToolbar search={list.search} onSearchChange={list.setSearch} onSearchSubmit={() => list.refresh()}>
         <CMSSelect value={list.filters.active || ''} onChange={(e) => list.setFilter('active', e.target.value)}>
-          <option value="">All statuses</option>
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="true">{t('filter.active')}</option>
+          <option value="false">{t('filter.inactive')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.featured || ''} onChange={(e) => list.setFilter('featured', e.target.value)}>
-          <option value="">All</option>
-          <option value="true">Featured</option>
+          <option value="">{t('filter.all')}</option>
+          <option value="true">{t('filter.featured')}</option>
         </CMSSelect>
       </CMSToolbar>
 
@@ -68,29 +68,29 @@ export default function CMSCaseStudiesPage() {
       {!list.loading && !list.error && list.items.length > 0 && (
         <>
           <CMSTable columns={[
-            { key: 'title', label: 'Title' },
-            { key: 'slug', label: 'Slug' },
-            { key: 'client', label: 'Client' },
-            { key: 'order', label: 'Order', align: 'center' },
-            { key: 'status', label: 'Status' },
-            { key: 'actions', label: '', align: 'right' },
+            { key: 'title', label: t('col.title') },
+            { key: 'slug', label: t('col.slug') },
+            { key: 'client', label: t('col.client') },
+            { key: 'order', label: t('col.order'), align: 'center' },
+            { key: 'status', label: t('col.status') },
+            { key: 'actions', label: t('col.actions'), align: 'right' },
           ]}>
             {list.items.map((cs) => (
               <CMSTableRow key={cs.id}>
                 <CMSTableCell>{cs.title_en || cs.title_ar}</CMSTableCell>
-                <CMSTableCell><code style={styles.slug}>{cs.slug}</code></CMSTableCell>
+                <CMSTableCell><code className="cms-slug">{cs.slug}</code></CMSTableCell>
                 <CMSTableCell>{cs.client_name_en || cs.client_name_ar || '—'}</CMSTableCell>
                 <CMSTableCell align="center">{cs.display_order}</CMSTableCell>
                 <CMSTableCell>
                   <div style={styles.badges}>
                     <StatusBadge status={cs.is_active ? 'active' : 'inactive'} />
-                    {cs.is_featured && <CMSBadge type="accent" size="xs">Featured</CMSBadge>}
-                    {cs.show_on_homepage && <CMSBadge type="info" size="xs">Homepage</CMSBadge>}
+                    {cs.is_featured && <CMSBadge type="accent" size="xs">{t('badge.featured')}</CMSBadge>}
+                    {cs.show_on_homepage && <CMSBadge type="info" size="xs">{t('badge.homepage')}</CMSBadge>}
                   </div>
                 </CMSTableCell>
                 <CMSTableCell align="right">
                   {canUpdate && <Link to={`/cms/case-studies/${cs.id}`}><TableActionButton>{t('action.edit')}</TableActionButton></Link>}
-                  {canDelete && <TableActionButton onClick={() => setDeleteTarget(cs)} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>}
+                  {canDelete && <TableActionButton variant="danger" onClick={() => setDeleteTarget(cs)}>{t('action.delete')}</TableActionButton>}
                 </CMSTableCell>
               </CMSTableRow>
             ))}
@@ -105,4 +105,4 @@ export default function CMSCaseStudiesPage() {
   );
 }
 
-const styles = { slug: { fontSize: '0.6875rem', background: '#1a1a2e', padding: '0.125rem 0.375rem', borderRadius: '3px', color: '#888' }, badges: { display: 'flex', gap: '0.375rem' } };
+const styles = { badges: { display: 'flex', gap: '0.375rem' } };

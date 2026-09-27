@@ -2737,6 +2737,30 @@
   color: var(--color-tech-blue);
 }
 
+.public-website-shell .case-studies-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.public-website-shell .case-studies-view-all:hover {
+  color: var(--color-tech-blue);
+}
+
+[dir='rtl'] .public-website-shell .case-studies-view-all {
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+[dir='rtl'] .public-website-shell .case-studies-view-all span[aria-hidden='true'] {
+  transform: scaleX(-1);
+}
+
 /* ── RTL: Insights ── */
 [dir='rtl'] .public-website-shell .insight-featured__badge,
 [dir='rtl'] .public-website-shell .insight-featured__category,
@@ -3983,6 +4007,7 @@
   .public-website-shell .insight-summary__cta,
   .public-website-shell .insight-summary__cta-arrow,
   .public-website-shell .insights-view-all,
+  .public-website-shell .case-studies-view-all,
   .public-website-shell .career-featured,
   .public-website-shell .career-position,
   .public-website-shell .career-featured__cta,

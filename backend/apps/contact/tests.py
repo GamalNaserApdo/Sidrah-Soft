@@ -186,6 +186,37 @@ class LeadHardeningTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('priority', response.data)
 
+    def test_normal_priority_accepted(self):
+        """The canonical 'normal' priority value must be accepted by the backend."""
+        lead = self._create_lead()
+        self.client.force_login(self.support)
+        response = self.client.patch(
+            f'/api/v1/cms/contact/submissions/{lead.id}/',
+            {'priority': 'normal'},
+            format='json',
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        lead.refresh_from_db()
+        self.assertEqual(lead.priority, 'normal')
+
+    def test_medium_priority_rejected(self):
+        """The non-canonical 'medium' priority value must be rejected by the backend."""
+        lead = self._create_lead()
+        self.client.force_login(self.support)
+        response = self.client.patch(
+            f'/api/v1/cms/contact/submissions/{lead.id}/',
+            {'priority': 'medium'},
+            format='json',
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('priority', response.data)
+
+    def test_default_priority_is_normal(self):
+        """New leads should default to 'normal' priority, not 'medium'."""
+        lead = self._create_lead()
+        self.assertEqual(lead.priority, ContactSubmission.PRIORITY_NORMAL)
+        self.assertEqual(lead.priority, 'normal')
+
     def test_archive_is_non_destructive(self):
         lead = self._create_lead()
         self.client.force_login(self.support)

@@ -33,6 +33,46 @@ class ServiceMediaAssetSerializer(serializers.ModelSerializer):
         }
 
 
+class ServiceCaseStudyCardSerializer(serializers.ModelSerializer):
+    """Minimal card representation of a case study related to a service."""
+
+    title = serializers.SerializerMethodField()
+    short_description = serializers.SerializerMethodField()
+    industry = serializers.SerializerMethodField()
+    featured_image = serializers.SerializerMethodField()
+
+    class Meta:
+        from apps.case_studies.models import CaseStudy
+        model = CaseStudy
+        fields = ['id', 'slug', 'title', 'short_description', 'industry', 'featured_image', 'is_featured']
+
+    def get_title(self, obj):
+        return {
+            'en': obj.title_en,
+            'ar': obj.title_ar or obj.title_en,
+        }
+
+    def get_short_description(self, obj):
+        return {
+            'en': obj.short_description_en,
+            'ar': obj.short_description_ar or obj.short_description_en,
+        }
+
+    def get_industry(self, obj):
+        return {
+            'en': obj.industry_en,
+            'ar': obj.industry_ar or obj.industry_en,
+        }
+
+    def get_featured_image(self, obj):
+        if obj.featured_image:
+            return ServiceMediaAssetSerializer(
+                obj.featured_image,
+                context=self.context,
+            ).data
+        return None
+
+
 class ServiceSerializer(serializers.ModelSerializer):
     """Public, frontend-friendly representation of a service."""
 
@@ -43,6 +83,8 @@ class ServiceSerializer(serializers.ModelSerializer):
     featured_image = serializers.SerializerMethodField()
     cta = serializers.SerializerMethodField()
     seo = serializers.SerializerMethodField()
+    detail_url = serializers.SerializerMethodField()
+    case_studies = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -56,6 +98,8 @@ class ServiceSerializer(serializers.ModelSerializer):
             'featured_image',
             'cta',
             'seo',
+            'detail_url',
+            'case_studies',
             'display_order',
             'is_featured',
             'show_on_homepage',
@@ -115,3 +159,24 @@ class ServiceSerializer(serializers.ModelSerializer):
                 'ar': obj.seo_description_ar or obj.seo_description_en,
             },
         }
+
+    def get_detail_url(self, obj):
+        """Return the public detail URL for this service.
+
+        Uses ``detail_url_override`` when set (bespoke pages), otherwise
+        falls back to the generic ``/services/<slug>`` route.
+        """
+        if obj.detail_url_override:
+            return obj.detail_url_override
+        return f'/services/{obj.slug}'
+
+    def get_case_studies(self, obj):
+        """Return related active case studies for this service."""
+        queryset = obj.case_studies.filter(is_active=True).order_by(
+            '-is_featured', 'display_order', 'title_en',
+        )[:6]
+        return ServiceCaseStudyCardSerializer(
+            queryset,
+            many=True,
+            context=self.context,
+        ).data

@@ -1,5 +1,6 @@
 """Email delivery service for contact submissions."""
 import logging
+import re
 from smtplib import SMTPException
 
 from django.conf import settings
@@ -16,6 +17,21 @@ from .models import ContactSubmission
 logger = logging.getLogger(__name__)
 
 DEFAULT_FALLBACK_EMAIL = 'sidrahsoft@gmail.com'
+
+# Pattern to strip CRLF characters from email headers to prevent header injection.
+_CRLF_RE = re.compile(r'[\r\n]')
+
+
+def _sanitize_email_header(value: str) -> str:
+    """Remove CRLF characters from a value used in email headers.
+
+    This is a defense-in-depth measure. Python's email library already
+    replaces CRLF in headers, but we sanitize at the application layer
+    as well to prevent any edge-case bypass.
+    """
+    if not value:
+        return value
+    return _CRLF_RE.sub(' ', str(value)).strip()
 
 
 def _mask_email(email: str) -> str:
@@ -79,7 +95,10 @@ def _render_notification_email(submission: ContactSubmission):
         'site_name': 'SidrahSoft',
         'lead_url': _lead_dashboard_url(submission),
     }
-    subject = f"New SidrahSoft Lead — {inquiry_name} — {submission.full_name}"
+    # Sanitize user-controlled values before placing in email subject (header injection prevention).
+    safe_inquiry_name = _sanitize_email_header(inquiry_name)
+    safe_full_name = _sanitize_email_header(submission.full_name)
+    subject = f"New SidrahSoft Lead — {safe_inquiry_name} — {safe_full_name}"
     body = render_to_string('contact/notification_email.txt', context)
     return subject, body
 
@@ -102,9 +121,9 @@ def _render_confirmation_email(submission: ContactSubmission):
         ),
     }
     if language == 'ar':
-        subject = f"شكراً لتواصلك مع SidrahSoft — {inquiry_name}"
+        subject = f"شكراً لتواصلك مع SidrahSoft — {_sanitize_email_header(inquiry_name)}"
     else:
-        subject = f"Thank you for contacting SidrahSoft — {inquiry_name}"
+        subject = f"Thank you for contacting SidrahSoft — {_sanitize_email_header(inquiry_name)}"
     body = render_to_string(template, context)
     return subject, body
 

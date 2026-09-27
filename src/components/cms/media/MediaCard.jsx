@@ -59,7 +59,7 @@ function formatFileSize(bytes) {
 
 const styles = {
   card: {
-    background: '#12121e',
+    background: 'var(--cms-bg-surface)',
     borderRadius: '8px',
     border: '1px solid #1e1e2e',
     overflow: 'hidden',
@@ -70,7 +70,7 @@ const styles = {
     width: '100%',
     aspectRatio: '4 / 3',
     overflow: 'hidden',
-    background: '#0a0a14',
+    background: 'var(--cms-bg-input)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,7 +81,7 @@ const styles = {
     objectFit: 'cover',
   },
   noThumb: {
-    color: '#555',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.75rem',
   },
   info: {
@@ -89,7 +89,7 @@ const styles = {
   },
   title: {
     fontSize: '0.8125rem',
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -99,12 +99,12 @@ const styles = {
     display: 'flex',
     gap: '0.5rem',
     fontSize: '0.6875rem',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     flexWrap: 'wrap',
   },
   date: {
     fontSize: '0.6875rem',
-    color: '#555',
+    color: 'var(--cms-text-muted)',
     marginTop: '0.25rem',
   },
 };

@@ -17,4 +17,7 @@ urlpatterns = [
     path('media/', include('apps.media_library.cms_urls')),
     path('homepage/', include('apps.homepage.cms_urls')),
     path('training/', include('apps.training.cms_urls')),
+    path('ai-automation/', include('apps.ai_automation.cms_urls')),
+    path('forms/', include('apps.forms.cms_urls')),
+    path('static-page-seo/', include('apps.site_settings.cms_static_seo_urls')),
 ]

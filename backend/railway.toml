@@ -7,3 +7,8 @@ healthcheckPath = "/api/v1/health/"
 healthcheckTimeout = 60
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
+
+# Pre-deploy command: run migrations and collectstatic in a controlled
+# release phase BEFORE the application starts. This separates DDL
+# operations from the runtime process.
+preDeployCommand = "bash deploy.sh"

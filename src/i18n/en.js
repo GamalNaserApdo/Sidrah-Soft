@@ -4,10 +4,10 @@ export const en = {
   },
   hero: {
     brandName: 'Sidrah Soft',
-    slogan: 'Enter the Next Era',
-    supporting: 'We build technology, train professionals, and prepare students for what comes next.',
+    slogan: 'Custom Software & AI Solutions Built for Business Growth',
+    supporting: 'We are a software development company in Egypt building custom software, web and mobile applications, AI automation, and business solutions — and training the next generation of engineers.',
     primaryCta: 'Start a Project',
-    secondaryCta: 'See What We Build',
+    secondaryCta: 'Explore AI Automation',
     scrollCue: 'Scroll to explore',
     loadingText: 'Loading cinematic experience...',
     errorText: 'Unable to load hero sequence.',
@@ -58,10 +58,10 @@ export const en = {
     },
   },
   training: {
-    heroTitle: 'Professional Training Programs',
+    heroTitle: 'Programming & Technology Courses in Egypt',
     heroSubtitle:
-      'Practical technology training designed to prepare students and professionals for real-world software development and digital transformation projects.',
-    coursesTitle: 'Courses',
+      'Practical, career-focused programming and technology training. Learn the skills that software companies actually hire for — with real projects, real tools, and real outcomes.',
+    coursesTitle: 'Professional Courses',
     coursesDescription:
       'A focused curriculum built around the technologies and practices that drive modern software teams.',
     ctaTitle: 'Need Customized Training?',
@@ -105,6 +105,101 @@ export const en = {
       comingSoon: 'Coming Soon',
     },
     learnMore: 'Learn More',
+  },
+  aiAutomation: {
+    heroEyebrow: 'AI Automation',
+    heroTitle: 'AI Automation Solutions for Smarter Business Operations',
+    heroSubtitle:
+      'Reduce manual work, connect your systems, and let intelligent automation handle repetitive operations — so your team can focus on growth.',
+    heroCta: 'Discuss Your Automation Project',
+    heroCtaSecondary: 'Book an Automation Consultation',
+    problemsSectionTitle: 'Business Problems We Help Automate',
+    problemsSectionDescription:
+      'If your team spends hours on repetitive manual work, there is a good chance we can automate it.',
+    problems: [
+      { title: 'Repetitive Manual Operations', desc: 'Tasks that copy, paste, move, or reformat data between systems every day.' },
+      { title: 'Slow Lead Handling', desc: 'Leads waiting for manual follow-up instead of getting instant, qualified responses.' },
+      { title: 'Manual Follow-Ups', desc: 'Sales and support teams manually scheduling and sending follow-up messages.' },
+      { title: 'Fragmented Systems', desc: 'Data living in separate tools that do not talk to each other without manual bridging.' },
+      { title: 'Repetitive Reporting', desc: 'Reports compiled by hand from multiple sources on a recurring schedule.' },
+      { title: 'Document Processing', desc: 'Invoices, forms, and documents processed manually when they could be parsed automatically.' },
+    ],
+    solutionsSectionTitle: 'Automation Solutions We Build',
+    solutionsSectionDescription:
+      'We design and build automation that fits your existing systems — not the other way around.',
+    solutions: [
+      { title: 'Workflow Automation', desc: 'Automate multi-step business workflows end-to-end, from trigger to completion.' },
+      { title: 'AI-Assisted Workflows', desc: 'Add intelligent decision-making to workflows that previously required human judgment.' },
+      { title: 'AI Agents for Business', desc: 'Autonomous agents that receive, understand, act, and deliver outcomes across your stack.' },
+      { title: 'Business Process Automation', desc: 'Streamline operations, approvals, and internal processes with reliable automation.' },
+      { title: 'API & System Integration', desc: 'Connect CRM, ERP, databases, and internal tools so data flows without manual effort.' },
+      { title: 'Customer-Support Automation', desc: 'Automate responses, routing, and resolution for common customer-service tasks.' },
+      { title: 'Reporting & Data Workflows', desc: 'Automate data collection, transformation, and report generation on any schedule.' },
+    ],
+    processSectionTitle: 'How Sidrah Approaches Automation',
+    processSectionDescription:
+      'A clear, collaborative process — from discovery to continuous improvement.',
+    process: [
+      { number: '01', title: 'Discover', desc: 'We map your current workflows, pain points, and automation opportunities.' },
+      { number: '02', title: 'Map Workflow', desc: 'We document the full automation flow, triggers, actions, and edge cases.' },
+      { number: '03', title: 'Design', desc: 'We design the automation architecture and select the right tools and models.' },
+      { number: '04', title: 'Integrate', desc: 'We connect your systems — CRM, ERP, databases, APIs, and internal tools.' },
+      { number: '05', title: 'Test', desc: 'We test with real data and edge cases before anything goes live.' },
+      { number: '06', title: 'Launch', desc: 'We deploy the automation into your environment with monitoring in place.' },
+      { number: '07', title: 'Improve', desc: 'We monitor, measure, and refine the automation as your business evolves.' },
+    ],
+    useCasesSectionTitle: 'Use Cases',
+    useCasesSectionDescription:
+      'Real scenarios where automation creates measurable operational improvement.',
+    useCases: [
+      { title: 'Lead Qualification & Routing', desc: 'Automatically qualify, score, and route incoming leads to the right team in real time.' },
+      { title: 'Automated Customer Follow-Ups', desc: 'Send timely, personalized follow-ups without manual effort from your team.' },
+      { title: 'Document & Invoice Processing', desc: 'Parse, validate, and route documents automatically — no manual data entry.' },
+      { title: 'Internal Knowledge Retrieval', desc: 'Give your team instant answers from internal documents using AI-powered search.' },
+      { title: 'Scheduled Reporting', desc: 'Generate and distribute reports automatically from multiple data sources.' },
+      { title: 'System Synchronization', desc: 'Keep data in sync across CRM, ERP, and internal tools without manual bridging.' },
+    ],
+    whySectionTitle: 'Why Sidrah',
+    whySectionDescription:
+      'We build automation that is practical, maintainable, and designed around your real operations.',
+    whyPoints: [
+      { title: 'Built Around Your Systems', desc: 'We integrate with what you already use — we do not force you to replace everything.' },
+      { title: 'Engineering-First Approach', desc: 'Every automation is designed, tested, and maintained by a software engineering team.' },
+      { title: 'Practical AI', desc: 'We use AI where it creates real value — not as a buzzword, but as a working tool.' },
+      { title: 'Long-Term Partnership', desc: 'We monitor, refine, and improve your automation as your business grows.' },
+    ],
+    faqSectionTitle: 'Frequently Asked Questions',
+    faq: [
+      {
+        q: 'What is AI automation?',
+        a: 'AI automation combines artificial intelligence with workflow automation to handle tasks that previously required human judgment — from data entry and document processing to customer routing and reporting.',
+      },
+      {
+        q: 'Which business processes can be automated?',
+        a: 'Repetitive, rule-based processes are the easiest to automate: lead handling, follow-ups, reporting, document processing, and data synchronization. We help you identify the highest-impact opportunities during discovery.',
+      },
+      {
+        q: 'Can AI automation connect with my existing systems?',
+        a: 'Yes. We integrate with CRM, ERP, databases, APIs, and internal tools. The goal is to connect what you already use, not replace it.',
+      },
+      {
+        q: 'Do I need to replace my current software?',
+        a: 'No. We design automation around your existing systems. In most cases, we connect to what you already have through APIs or integrations.',
+      },
+      {
+        q: 'How does an automation project begin?',
+        a: 'It starts with a discovery conversation. We learn about your workflows, identify automation opportunities, and map out a plan before any code is written.',
+      },
+      {
+        q: 'Is AI automation suitable for small businesses?',
+        a: 'Yes. Many automation projects deliver immediate value for small and medium businesses by reducing manual work and freeing up team time. The right approach depends on your specific operations.',
+      },
+    ],
+    ctaTitle: 'Ready to Automate Your Operations?',
+    ctaText:
+      'Tell us about the manual work slowing your team down. We will help you identify what can be automated and build a plan to get there.',
+    ctaButton: 'Discuss Your Automation Project',
+    backToHome: 'Back to Home',
   },
   careers: {
     pageTitle: 'Careers',
@@ -216,5 +311,17 @@ export const en = {
     analytics: 'Analytics',
     api: 'API',
     aiModels: 'AI Models',
+  },
+  consent: {
+    title: 'Cookie Preferences',
+    message: 'We use optional technologies to understand how visitors use our site and to support relevant outreach. You can accept or customize your preferences.',
+    acceptAll: 'Accept All',
+    rejectOptional: 'Reject Optional',
+    customize: 'Customize',
+    save: 'Save Preferences',
+    back: 'Back',
+    necessary: 'Necessary',
+    analytics: 'Analytics',
+    marketing: 'Marketing',
   },
 };

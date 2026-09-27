@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/I18nProvider.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings';
+import { useAllServices } from '../hooks/useServices';
 import companyLocation from '../data/company/companyLocation';
 import getBilingual from '../utils/getBilingual';
 import resolveMediaUrl from '../utils/resolveMediaUrl';
@@ -9,25 +10,10 @@ import publicLogo from '../assets/logo.png';
 
 const companyLinks = [
   { key: 'about', target: 'foundation' },
-  { key: 'services', target: 'capabilities' },
-  { key: 'solutions', target: 'capabilities' },
-  { key: 'caseStudies', target: 'case-studies' },
+  { key: 'services', path: '/services' },
+  { key: 'solutions', path: '/services' },
+  { key: 'caseStudies', path: '/case-studies' },
   { key: 'insights', path: '/insights' },
-  { key: 'careers', path: '/careers' },
-];
-
-const serviceLinks = [
-  { key: 'businessAutomation', target: 'capabilities' },
-  { key: 'erpSystems', target: 'capabilities' },
-  { key: 'aiSolutions', target: 'capabilities' },
-  { key: 'webDevelopment', target: 'capabilities' },
-  { key: 'mobileApplications', target: 'capabilities' },
-  { key: 'systemIntegration', target: 'capabilities' },
-];
-
-const legalLinks = [
-  { key: 'privacy', href: '#privacy' },
-  { key: 'terms', href: '#terms' },
 ];
 
 function Footer() {
@@ -35,17 +21,25 @@ function Footer() {
   const navigate = useNavigate();
   const { t, lang } = useI18n();
   const { settings } = useSiteSettings();
+  const { services: cmsServices } = useAllServices();
+  const isAr = lang === 'ar';
 
   const logoUrl = resolveMediaUrl(settings?.branding?.primary_logo_url) || publicLogo;
   const brandName = settings?.general?.site_name || 'Sidrah Soft';
 
   const contactEmail = settings?.contact?.contact_email || 'sidrahsoft@gmail.com';
+  const contactPhone = settings?.contact?.phone || '';
   const whatsappUrl = settings?.contact?.whatsapp_url || 'https://wa.me/201027285487';
-  const linkedinUrl = settings?.social?.linkedin_url || 'https://www.linkedin.com/sidrah.soft/';
+  const linkedinUrl = settings?.social?.linkedin_url || 'https://www.linkedin.com/company/sidrahsoft/';
+
+  // Derive tel: href safely from CMS phone (strip non-numeric except leading +).
+  const phoneHref = contactPhone
+    ? `tel:${contactPhone.replace(/[^\d+]/g, '')}`
+    : 'tel:01027285487';
 
   const contactLinks = [
     { key: 'email', href: `mailto:${contactEmail}`, external: false },
-    { key: 'phone', href: 'tel:01027285487', external: false },
+    { key: 'phone', href: phoneHref, external: false },
     { key: 'whatsapp', href: whatsappUrl, external: true },
     { key: 'linkedin', href: linkedinUrl, external: true },
   ];
@@ -196,9 +190,19 @@ function Footer() {
             <h3 className="footer-column-title">{t('footer.serviceTitle')}</h3>
             <nav aria-label={t('footer.serviceTitle')}>
               <ul className="footer-link-list">
-                {serviceLinks.map((link) => (
-                  <li key={link.key}>{renderLink(link)}</li>
-                ))}
+                {(cmsServices || []).map((service) => {
+                  const name = isAr
+                    ? (service.name?.ar || service.name?.en)
+                    : (service.name?.en || service.name?.ar);
+                  const href = service.detailUrl || `/services/${service.slug}`;
+                  return (
+                    <li key={service.slug}>
+                      <Link to={href} className="footer-link">
+                        {name}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           </div>
@@ -227,18 +231,6 @@ function Footer() {
 
         <div className="footer-bottom">
           <p className="footer-copyright">{t('footer.copyright')}</p>
-          <nav className="footer-legal" aria-label={t('footer.links.privacy')}>
-            {legalLinks.map((link) => (
-              <a
-                key={link.key}
-                href={link.href}
-                className="footer-link footer-link--legal"
-                onClick={(e) => e.preventDefault()}
-              >
-                {t(`footer.links.${link.key}`)}
-              </a>
-            ))}
-          </nav>
         </div>
       </div>
     </footer>

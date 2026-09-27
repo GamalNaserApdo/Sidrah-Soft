@@ -1,7 +1,10 @@
 const DEFAULT_API_BASE_URL = 'http://localhost:8002';
+const PRODUCTION_API_BASE_URL = 'https://sidrahsoft.com';
 const DEFAULT_TIMEOUT = 10000;
 
 const envApiBaseUrl = import.meta.env?.VITE_API_BASE_URL;
+const allowLocalProductionApi = import.meta.env?.VITE_ALLOW_LOCAL_API === 'true';
+const isLocalApiUrl = (value) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(?:\/|$)/i.test(value || '');
 
 if (import.meta.env.PROD && !envApiBaseUrl) {
   throw new Error(
@@ -10,7 +13,21 @@ if (import.meta.env.PROD && !envApiBaseUrl) {
   );
 }
 
-export const API_BASE_URL = envApiBaseUrl || DEFAULT_API_BASE_URL;
+if (import.meta.env.PROD && isLocalApiUrl(envApiBaseUrl) && !allowLocalProductionApi) {
+  throw new Error(
+    '[SidrahSoft] Production builds cannot target a localhost API. ' +
+      'Use the explicit VITE_ALLOW_LOCAL_API=true opt-in only for local production previews.',
+  );
+}
+
+const configuredApiBaseUrl = envApiBaseUrl || DEFAULT_API_BASE_URL;
+const shouldUseRuntimeOrigin = import.meta.env.PROD
+  && configuredApiBaseUrl.replace(/\/$/, '') === PRODUCTION_API_BASE_URL
+  && typeof window !== 'undefined';
+
+export const API_BASE_URL = shouldUseRuntimeOrigin
+  ? window.location.origin
+  : configuredApiBaseUrl;
 
 export class ApiError extends Error {
   constructor(status, statusText, data = null) {

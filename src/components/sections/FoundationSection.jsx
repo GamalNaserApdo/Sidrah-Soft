@@ -5,15 +5,15 @@ import { useI18n } from '../../i18n/I18nProvider.jsx';
 import getBilingual from '../../utils/getBilingual';
 
 const FALLBACK_PROOF_POINTS_EN = [
-  'Academic & Enterprise Focus',
-  'Custom Software & ERP',
-  'AI, Automation & Future-Ready Architecture',
+  'Custom Software, ERP & AI',
+  'Automation & Future-Ready Architecture',
+  'Practical Training & Technology Education',
 ];
 
 const FALLBACK_PROOF_POINTS_AR = [
-  'تركيز أكاديمي ومؤسسي',
-  'برمجيات مخصصة وأنظمة ERP',
-  'ذكاء اصطناعي وأتمتة ومعماريات جاهزة للمستقبل',
+  'برمجيات مخصصة وأنظمة ERP وذكاء اصطناعي',
+  'أتمتة ومعماريات جاهزة للمستقبل',
+  'تدريب عملي وتعليم تقني',
 ];
 
 function FoundationSection() {
@@ -26,20 +26,20 @@ function FoundationSection() {
   if (!isEnabled) return null;
 
   const headline = lang === 'ar'
-    ? (foundation?.heading_ar || 'شركة واحدة. ثلاثة مسارات.')
-    : (foundation?.heading_en || 'One company. Three paths.');
+    ? (foundation?.heading_ar || 'شريك تقني للمؤسسات والشركات.')
+    : (foundation?.heading_en || 'Technology partner for institutions and enterprises.');
 
   const subheadline = lang === 'ar'
-    ? (foundation?.description_ar || 'سِدرة سوفت تبني البرمجيات، تؤهل المهنيين، وتدخل التقنية إلى تعليم الثانوية والبكالوريا.')
-    : (foundation?.description_en || 'Sidrah Soft builds software, trains professionals, and brings technology into secondary and baccalaureate education.');
+    ? (foundation?.description_ar || 'نبني البرمجيات المخصصة وأنظمة ERP والذكاء الاصطناعي والأتمتة لتصبح أنظمة قابلة للتوسع في منظومات رقمية مستقبلية.')
+    : (foundation?.description_en || 'We build custom software, ERP, AI, and automation systems that scale into future digital ecosystems.');
 
   const proofPoints = lang === 'ar'
     ? (foundation?.proof_points_ar?.length ? foundation.proof_points_ar : FALLBACK_PROOF_POINTS_AR)
     : (foundation?.proof_points_en?.length ? foundation.proof_points_en : FALLBACK_PROOF_POINTS_EN);
 
   const ctaLabel = lang === 'ar'
-    ? (foundation?.cta_label_ar || 'اكتشف ما نبنيه')
-    : (foundation?.cta_label_en || 'Explore What We Build');
+    ? (foundation?.cta_label_ar || 'اكتشف خدماتنا')
+    : (foundation?.cta_label_en || 'Explore Services');
 
   const ctaTarget = foundation?.cta_target || '#capabilities';
 

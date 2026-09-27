@@ -1,14 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import MagneticButton from '../MagneticButton';
 import SEO from '../SEO';
 import { useI18n } from '../../i18n/I18nProvider.jsx';
-import { PAGES } from '../../config/seo';
-import { getAllCourses } from '../../data/courses';
-
-const courses = getAllCourses();
+import { useStaticPageSEO } from '../../hooks/useStaticPageSEO';
+import { listPrograms, fetchOffers } from '../../services/trainingApi';
 
 function useInView(threshold = 0.2, rootMargin = '0px 0px -50px 0px') {
   const sectionRef = useRef(null);
@@ -48,19 +46,17 @@ function useInView(threshold = 0.2, rootMargin = '0px 0px -50px 0px') {
 
 function TrainingHero() {
   const { sectionRef, isVisible } = useInView(0.2, '0px 0px 0px 0px');
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const isAr = lang === 'ar';
 
   return (
     <section ref={sectionRef} className="training-hero">
       <div className="training-hero__content">
         <h1 className={`training-hero__title ${isVisible ? 'training-hero__title--visible' : ''}`}>
-          {isAr ? 'التدريب والتعليم' : 'Training & Education'}
+          {t('training.heroTitle')}
         </h1>
         <p className={`training-hero__subtitle ${isVisible ? 'training-hero__subtitle--visible' : ''}`}>
-          {isAr
-            ? 'بناء الكفاءات التقنية من خلال التدريب المهني والتعليم البرمجي داخل بيئة شركة برمجيات حقيقية.'
-            : 'Building technical capability through professional training and programming education inside a real software company environment.'}
+          {t('training.heroSubtitle')}
         </p>
       </div>
     </section>
@@ -79,34 +75,45 @@ function TrackSelector() {
           {isAr ? 'اختر مسارك' : 'Choose Your Path'}
         </h2>
         <div className="training-tracks__grid">
-          <Link to="#professional-courses" className={`training-track-card ${isVisible ? 'training-track-card--visible' : ''}`} onClick={(e) => { e.preventDefault(); document.getElementById('professional-courses')?.scrollIntoView({ behavior: 'smooth' }); }}>
-            <div className="training-track-card__icon" aria-hidden="true">⚡</div>
+          <Link to="/training/summer-training" className={`training-track-card ${isVisible ? 'training-track-card--visible' : ''}`}>
             <h3 className="training-track-card__title">
-              {isAr ? 'التدريب المهني' : 'Professional Training'}
+              {isAr ? 'التدريب الصيفي' : 'Summer Training'}
             </h3>
             <p className="training-track-card__description">
               {isAr
-                ? 'دورات متخصصة في تطوير البرمجيات والتقنيات الحديثة للمحترفين والمطورين.'
-                : 'Specialized courses in software development and modern technologies for professionals and developers.'}
+                ? 'تدريب صيفي عملي داخل بيئة شركة برمجيات حقيقية — جلسات تطبيقية ومشاريع وإشراف.'
+                : 'Hands-on summer training inside a real software company environment — practical sessions, projects, and mentorship.'}
             </p>
             <span className="training-track-card__cta">
-              {isAr ? 'استعرض الدورات' : 'Browse Courses'}
+              {isAr ? 'سجل في التدريب الصيفي' : 'Register for Summer Training'}
               <span aria-hidden="true">{isAr ? ' ←' : ' →'}</span>
             </span>
           </Link>
-
-          <Link to="/training/secondary" className={`training-track-card training-track-card--education ${isVisible ? 'training-track-card--visible' : ''}`} style={{ transitionDelay: '120ms' }}>
-            <div className="training-track-card__icon" aria-hidden="true">🎓</div>
+          <Link to="/training#professional-courses" className={`training-track-card ${isVisible ? 'training-track-card--visible' : ''}`}>
             <h3 className="training-track-card__title">
-              {isAr ? 'تعليم الثانوية / البكالوريا' : 'Secondary / Baccalaureate Education'}
+              {isAr ? 'الكورسات الاحترافية' : 'Professional Courses'}
             </h3>
             <p className="training-track-card__description">
               {isAr
-                ? 'تعلّم البرمجة داخل بيئة شركة برمجيات حقيقية. برامج مصممة لطلاب الثانوية والبكالوريا.'
-                : 'Learn programming inside a real software company ecosystem. Programs designed for secondary and baccalaureate students.'}
+                ? 'دورات مكثفة بناءً على احتياجات سوق العمل لتأهيلك للعمل في شركات البرمجيات.'
+                : 'Intensive courses built on market needs to prepare you for work in software companies.'}
             </p>
             <span className="training-track-card__cta">
-              {isAr ? 'اكتشف البرامج' : 'Explore Programs'}
+              {isAr ? 'استكشف الكورسات' : 'Explore Courses'}
+              <span aria-hidden="true">{isAr ? ' ←' : ' →'}</span>
+            </span>
+          </Link>
+          <Link to="/training/starter" className={`training-track-card ${isVisible ? 'training-track-card--visible' : ''}`}>
+            <h3 className="training-track-card__title">
+              {isAr ? 'كورسات Sidrah للمبتدئين' : 'Sidrah Starter Courses'}
+            </h3>
+            <p className="training-track-card__description">
+              {isAr
+                ? 'ابدأ مجالك من الصفر — 6 أسابيع، 12 جلسة مباشرة، ومشروع عملي.'
+                : 'Start from zero — 6 weeks, 12 live sessions, and a practical final project.'}
+            </p>
+            <span className="training-track-card__cta">
+              {isAr ? 'استكشف كورسات البداية' : 'Explore Starter Courses'}
               <span aria-hidden="true">{isAr ? ' ←' : ' →'}</span>
             </span>
           </Link>
@@ -119,9 +126,8 @@ function TrackSelector() {
 function CourseCard({ course, index, isVisible }) {
   const { lang } = useI18n();
   const isAr = lang === 'ar';
-  const title = isAr ? course.titleAr : course.titleEn;
-  const summary = isAr ? course.shortDescriptionAr : course.shortDescriptionEn;
-  const category = isAr ? course.categoryAr : course.categoryEn;
+  const title = isAr ? course.title_ar : course.title_en;
+  const summary = isAr ? course.short_description_ar : course.short_description_en;
   const ctaLabel = isAr ? 'استكشف الكورس' : 'Explore Course';
 
   return (
@@ -131,8 +137,17 @@ function CourseCard({ course, index, isVisible }) {
       style={{ transitionDelay: `${index * 80}ms` }}
       aria-label={`${ctaLabel}: ${title}`}
     >
+      <div className="training-course-card__image-wrapper">
+        {course.image_url && (
+          <img
+            src={course.image_url}
+            alt={title}
+            className="training-course-card__image"
+            loading="lazy"
+          />
+        )}
+      </div>
       <div className="training-course-card__body">
-        <span className="training-course-card__category-chip">{category}</span>
         <h3 className="training-course-card__title">{title}</h3>
         <p className="training-course-card__summary">{summary}</p>
         <span className="training-course-card__cta">
@@ -148,28 +163,63 @@ function CoursesGrid() {
   const { sectionRef, isVisible } = useInView(0.1);
   const { lang } = useI18n();
   const isAr = lang === 'ar';
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await listPrograms({ branch: 'professional' });
+      setCourses(data.results || data);
+    } catch (err) {
+      setError(err.message || (isAr ? 'تعذر تحميل الدورات' : 'Failed to load courses'));
+    } finally {
+      setLoading(false);
+    }
+  }, [isAr]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   return (
     <section ref={sectionRef} className="training-courses" id="professional-courses">
       <div className="training-courses__content">
         <h2 className={`training-courses__headline ${isVisible ? 'training-courses__headline--visible' : ''}`}>
-          {isAr ? 'الدورات المهنية' : 'Professional Courses'}
+          {isAr ? 'الكورسات الاحترافية' : 'Professional Courses'}
         </h2>
         <p className={`training-courses__description ${isVisible ? 'training-courses__description--visible' : ''}`}>
           {isAr
             ? 'منهجية مركزة حول التقنيات والممارسات التي تدفع فرق البرمجيات الحديثة.'
             : 'A focused curriculum built around the technologies and practices that drive modern software teams.'}
         </p>
-        <div className="training-courses__grid">
-          {courses.map((course, index) => (
-            <CourseCard
-              key={course.slug}
-              course={course}
-              index={index}
-              isVisible={isVisible}
-            />
-          ))}
-        </div>
+        {loading && (
+          <div className="training-courses__loading">
+            <p>{isAr ? 'جاري تحميل الدورات...' : 'Loading courses...'}</p>
+          </div>
+        )}
+        {error && (
+          <div className="training-courses__error">
+            <p>{error}</p>
+            <button onClick={load} className="training-courses__retry">
+              {isAr ? 'إعادة المحاولة' : 'Retry'}
+            </button>
+          </div>
+        )}
+        {!loading && !error && (
+          <div className="training-courses__grid">
+            {courses.map((course, index) => (
+              <CourseCard
+                key={course.slug}
+                course={course}
+                index={index}
+                isVisible={isVisible}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -210,14 +260,61 @@ function TrainingCta() {
   );
 }
 
+function TrainingOffersBanner() {
+  const { lang } = useI18n();
+  const isAr = lang === 'ar';
+  const [campaign, setCampaign] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchOffers()
+      .then((data) => {
+        if (cancelled) return;
+        const found = (Array.isArray(data) ? data : []).find((c) => (c.items || []).length > 0);
+        setCampaign(found || null);
+      })
+      .catch(() => {
+        if (!cancelled) setCampaign(null);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  if (!campaign) return null;
+
+  const title = isAr ? (campaign.title_ar || campaign.title_en) : campaign.title_en;
+  const badge = isAr ? (campaign.badge_ar || campaign.badge_en) : campaign.badge_en;
+  const ctaLabel = isAr ? 'عرض جميع العروض' : 'View All Offers';
+
+  return (
+    <section className="training-offers-banner" id="training-offers-banner">
+      <div className="training-offers-banner__content">
+        {badge && <span className="training-offers-banner__badge">{badge}</span>}
+        <h2 className="training-offers-banner__title">{title}</h2>
+        <p className="training-offers-banner__text">
+          {isAr
+            ? `عروض محدودة على ${campaign.items.length} من برامجنا التدريبية.`
+            : `Limited-time offers across ${campaign.items.length} of our training programs.`}
+        </p>
+        <Link to="/training/offers" className="training-offers-banner__cta">
+          {ctaLabel}
+          <span aria-hidden="true">{isAr ? ' ←' : ' →'}</span>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function TrainingPage() {
+  const { lang } = useI18n();
+  const { seo } = useStaticPageSEO('training', lang);
   return (
     <>
-      <SEO {...PAGES.training} />
+      <SEO {...seo} />
       <Header />
       <main className="training-page">
         <TrainingHero />
         <TrackSelector />
+        <TrainingOffersBanner />
         <CoursesGrid />
         <TrainingCta />
       </main>

@@ -6,9 +6,10 @@
  */
 
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import CmsIcon from './CmsIcon';
 
 export default function CMSPagination({ page, totalPages, onPageChange, count }) {
-  const { t } = useCMSLang();
+  const { t, dir } = useCMSLang();
 
   if (totalPages <= 1) {
     return count != null ? (
@@ -17,6 +18,8 @@ export default function CMSPagination({ page, totalPages, onPageChange, count })
   }
 
   const pages = getPageRange(page, totalPages);
+  const prevIcon = dir === 'rtl' ? 'chevronRight' : 'chevronLeft';
+  const nextIcon = dir === 'rtl' ? 'chevronLeft' : 'chevronRight';
 
   return (
     <div style={styles.container}>
@@ -29,7 +32,8 @@ export default function CMSPagination({ page, totalPages, onPageChange, count })
           style={styles.btn}
           aria-label={t('action.previous')}
         >
-          ← {t('action.previous')}
+          <CmsIcon name={prevIcon} size={14} />
+          {t('action.previous')}
         </button>
         {pages.map((p, i) =>
           p === '...' ? (
@@ -56,7 +60,8 @@ export default function CMSPagination({ page, totalPages, onPageChange, count })
           style={styles.btn}
           aria-label={t('action.next')}
         >
-          {t('action.next')} →
+          {t('action.next')}
+          <CmsIcon name={nextIcon} size={14} />
         </button>
       </div>
     </div>
@@ -107,6 +112,9 @@ const styles = {
     cursor: 'pointer',
     fontFamily: 'inherit',
     transition: 'var(--cms-transition-fast)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 'var(--space-1)',
   },
   btnActive: {
     background: 'var(--cms-accent-bg)',

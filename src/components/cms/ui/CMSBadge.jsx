@@ -4,6 +4,8 @@
  * Status, type, and boolean indicators.
  */
 
+import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+
 const typeStyles = {
   default: { background: 'var(--cms-bg-surface-alt)', color: 'var(--cms-text-secondary)', border: '1px solid var(--cms-border-default)' },
   accent: { background: 'var(--cms-accent-bg)', color: 'var(--cms-accent)', border: '1px solid var(--cms-accent-border)' },
@@ -38,17 +40,22 @@ export default function CMSBadge({ children, type = 'default', size = 'sm', styl
 }
 
 export function StatusBadge({ status }) {
+  const { t } = useCMSLang();
   const statusMap = {
-    draft: { type: 'default', label: 'Draft' },
-    published: { type: 'success', label: 'Published' },
-    archived: { type: 'warning', label: 'Archived' },
-    new: { type: 'info', label: 'New' },
-    contacted: { type: 'accent', label: 'Contacted' },
-    in_progress: { type: 'accent', label: 'In Progress' },
-    closed: { type: 'success', label: 'Closed' },
-    spam: { type: 'danger', label: 'Spam' },
-    active: { type: 'success', label: 'Active' },
-    inactive: { type: 'default', label: 'Inactive' },
+    draft: { type: 'default', label: t('status.draft') },
+    published: { type: 'success', label: t('status.published') },
+    archived: { type: 'warning', label: t('status.archived') },
+    new: { type: 'info', label: t('status.new') },
+    contacted: { type: 'accent', label: t('status.contacted') },
+    in_progress: { type: 'accent', label: t('status.inProgress') },
+    closed: { type: 'success', label: t('status.closed') },
+    spam: { type: 'danger', label: t('status.spam') },
+    active: { type: 'success', label: t('status.active') },
+    inactive: { type: 'default', label: t('status.inactive') },
+    open: { type: 'info', label: t('status.open') },
+    expired: { type: 'warning', label: t('status.expired') },
+    issued: { type: 'success', label: t('status.issued') },
+    revoked: { type: 'danger', label: t('status.revoked') },
   };
 
   const config = statusMap[status] || { type: 'default', label: status };

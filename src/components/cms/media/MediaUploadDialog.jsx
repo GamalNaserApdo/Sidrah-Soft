@@ -13,6 +13,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { uploadMedia } from '../../../services/cms/mediaApi';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
+import CmsIcon from '../ui/CmsIcon';
 
 const ACCEPTED_TYPES = '.jpg,.jpeg,.png,.webp,.gif';
 const MAX_SIZE = 5 * 1024 * 1024;
@@ -129,7 +130,7 @@ export default function MediaUploadDialog({ open, onClose, onUploaded }) {
         <div style={styles.header}>
           <h2 style={styles.title}>{t('media.uploadDialog')}</h2>
           <button style={styles.closeBtn} onClick={handleClose} disabled={uploading} aria-label={t('media.closeUpload')}>
-            ✕
+            <CmsIcon name="close" size={16} />
           </button>
         </div>
 
@@ -245,7 +246,7 @@ const styles = {
     zIndex: 1000,
   },
   modal: {
-    background: '#12121e',
+    background: 'var(--cms-bg-surface)',
     borderRadius: '10px',
     border: '1px solid #2a2a3e',
     width: '90%',
@@ -263,13 +264,13 @@ const styles = {
   title: {
     fontSize: '1rem',
     fontWeight: '600',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     margin: 0,
   },
   closeBtn: {
     background: 'none',
     border: 'none',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     cursor: 'pointer',
     fontSize: '1rem',
     padding: '0.25rem',
@@ -287,19 +288,19 @@ const styles = {
     transition: 'border-color 0.15s',
   },
   dropZoneActive: {
-    borderColor: '#c9a96e',
+    borderColor: 'var(--cms-accent)',
   },
   dropText: {
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.875rem',
   },
   dropHint: {
     fontSize: '0.75rem',
-    color: '#555',
+    color: 'var(--cms-text-muted)',
     marginTop: '0.25rem',
   },
   fileInfo: {
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
   },
   fileName: {
     fontSize: '0.875rem',
@@ -307,7 +308,7 @@ const styles = {
   },
   fileSize: {
     fontSize: '0.75rem',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     marginTop: '0.25rem',
   },
   field: {
@@ -316,16 +317,16 @@ const styles = {
   label: {
     display: 'block',
     fontSize: '0.75rem',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     marginBottom: '0.25rem',
   },
   input: {
     width: '100%',
     padding: '0.5rem 0.75rem',
-    background: '#0a0a14',
+    background: 'var(--cms-bg-input)',
     border: '1px solid #2a2a3e',
     borderRadius: '6px',
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
     fontSize: '0.8125rem',
     outline: 'none',
   },
@@ -334,12 +335,12 @@ const styles = {
     border: '1px solid rgba(220, 50, 50, 0.3)',
     borderRadius: '6px',
     padding: '0.625rem 0.75rem',
-    color: '#e05050',
+    color: 'var(--cms-danger)',
     fontSize: '0.8125rem',
     marginBottom: '0.5rem',
   },
   fieldError: {
-    color: '#e05050',
+    color: 'var(--cms-danger)',
     fontSize: '0.75rem',
     marginBottom: '0.25rem',
   },
@@ -355,7 +356,7 @@ const styles = {
     borderRadius: '6px',
     border: '1px solid #333',
     background: 'transparent',
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.8125rem',
     cursor: 'pointer',
   },
@@ -364,7 +365,7 @@ const styles = {
     borderRadius: '6px',
     border: '1px solid #c9a96e',
     background: 'rgba(201, 169, 110, 0.1)',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     fontSize: '0.8125rem',
     cursor: 'pointer',
     fontWeight: '500',

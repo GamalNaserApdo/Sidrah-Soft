@@ -64,14 +64,14 @@ export default function CMSPartnersPage() {
 
       <CMSToolbar search={list.search} onSearchChange={list.setSearch} onSearchSubmit={() => list.refresh()}>
         <CMSSelect value={list.filters.active || ''} onChange={(e) => list.setFilter('active', e.target.value)}>
-          <option value="">All statuses</option>
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="true">{t('filter.active')}</option>
+          <option value="false">{t('filter.inactive')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.featured || ''} onChange={(e) => list.setFilter('featured', e.target.value)}>
-          <option value="">All types</option>
-          <option value="true">Featured</option>
-          <option value="false">Not Featured</option>
+          <option value="">{t('filter.allTypes')}</option>
+          <option value="true">{t('filter.featured')}</option>
+          <option value="false">{t('filter.notFeatured')}</option>
         </CMSSelect>
       </CMSToolbar>
 
@@ -84,12 +84,12 @@ export default function CMSPartnersPage() {
         <>
           <CMSTable
             columns={[
-              { key: 'name', label: 'Name' },
-              { key: 'slug', label: 'Slug' },
-              { key: 'type', label: 'Type' },
-              { key: 'order', label: 'Order', align: 'center' },
-              { key: 'status', label: 'Status' },
-              { key: 'actions', label: '', align: 'right' },
+              { key: 'name', label: t('col.name') },
+              { key: 'slug', label: t('col.slug') },
+              { key: 'type', label: t('col.type') },
+              { key: 'order', label: t('col.order'), align: 'center' },
+              { key: 'status', label: t('col.status') },
+              { key: 'actions', label: t('col.actions'), align: 'right' },
             ]}
           >
             {list.items.map((partner) => (
@@ -100,13 +100,13 @@ export default function CMSPartnersPage() {
                   )}
                   <span>{partner.name_en || partner.name_ar}</span>
                 </CMSTableCell>
-                <CMSTableCell><code style={styles.slug}>{partner.slug}</code></CMSTableCell>
+                <CMSTableCell><code className="cms-slug">{partner.slug}</code></CMSTableCell>
                 <CMSTableCell>{partner.partner_type}</CMSTableCell>
                 <CMSTableCell align="center">{partner.display_order}</CMSTableCell>
                 <CMSTableCell>
                   <div style={styles.badges}>
                     <StatusBadge status={partner.is_active ? 'active' : 'inactive'} />
-                    {partner.is_featured && <CMSBadge type="accent" size="xs">Featured</CMSBadge>}
+                    {partner.is_featured && <CMSBadge type="accent" size="xs">{t('badge.featured')}</CMSBadge>}
                   </div>
                 </CMSTableCell>
                 <CMSTableCell align="right">
@@ -117,8 +117,8 @@ export default function CMSPartnersPage() {
                   )}
                   {canDelete && (
                     <TableActionButton
+                      variant="danger"
                       onClick={() => setDeleteTarget(partner)}
-                      style={{ color: '#ef4444' }}
                     >
                       {t('action.delete')}
                     </TableActionButton>
@@ -147,16 +147,9 @@ const styles = {
     width: '24px',
     height: '24px',
     objectFit: 'contain',
-    borderRadius: '4px',
-    marginRight: '0.5rem',
+    borderRadius: 'var(--cms-radius-sm)',
+    marginInlineEnd: '0.5rem',
     verticalAlign: 'middle',
-  },
-  slug: {
-    fontSize: '0.6875rem',
-    background: '#1a1a2e',
-    padding: '0.125rem 0.375rem',
-    borderRadius: '3px',
-    color: '#888',
   },
   badges: {
     display: 'flex',

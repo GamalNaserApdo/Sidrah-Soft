@@ -11,15 +11,36 @@ import CMSSidebar from './CMSSidebar';
 import CMSHeader from './CMSHeader';
 import { useCMSLang } from '../../../contexts/CMSLanguageContext';
 
+const SIDEBAR_EXPANDED_KEY = 'cms_sidebar_expanded';
+
+function readSidebarExpanded() {
+  try {
+    const stored = localStorage.getItem(SIDEBAR_EXPANDED_KEY);
+    return stored === null ? true : JSON.parse(stored);
+  } catch {
+    return true;
+  }
+}
+
 export default function CMSLayout({ children, unsavedChanges = false }) {
   const { dir } = useCMSLang();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(readSidebarExpanded);
   const location = useLocation();
   const navigate = useNavigate();
   const unsavedRef = useRef(unsavedChanges);
   unsavedRef.current = unsavedChanges;
 
-  // Close sidebar on route change
+  // Persist sidebar collapse preference
+  useEffect(() => {
+    try {
+      localStorage.setItem(SIDEBAR_EXPANDED_KEY, JSON.stringify(sidebarExpanded));
+    } catch {
+      // ignore storage errors
+    }
+  }, [sidebarExpanded]);
+
+  // Close mobile sidebar drawer on route change
   useEffect(() => {
     setSidebarOpen(false);
   }, [location.pathname]);
@@ -58,9 +79,20 @@ export default function CMSLayout({ children, unsavedChanges = false }) {
     setSidebarOpen((prev) => !prev);
   }, []);
 
+  const sidebarWidth = sidebarExpanded ? '248px' : '72px';
+
   return (
-    <div className="cms-root" dir={dir}>
-      <CMSSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div
+      className={`cms-root ${sidebarExpanded ? '' : 'cms-root--sidebar-collapsed'}`}
+      dir={dir}
+      style={{ '--cms-sidebar-width': sidebarWidth }}
+    >
+      <CMSSidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        expanded={sidebarExpanded}
+        onExpandedChange={setSidebarExpanded}
+      />
       <CMSHeader onMenuToggle={handleMenuToggle} />
       <main className="cms-main" style={styles.main}>
         <div style={styles.content}>{children}</div>
@@ -71,13 +103,12 @@ export default function CMSLayout({ children, unsavedChanges = false }) {
 
 const styles = {
   main: {
-    marginLeft: '240px',
     minHeight: '100vh',
-    paddingTop: '56px',
+    paddingTop: '60px',
   },
   content: {
-    padding: '1.5rem',
-    maxWidth: '1200px',
+    padding: 'var(--space-6)',
+    maxWidth: '1400px',
     margin: '0 auto',
   },
 };

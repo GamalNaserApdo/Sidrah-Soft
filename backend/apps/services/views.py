@@ -16,7 +16,7 @@ class ServiceListView(APIView):
     def get_queryset(self):
         return Service.objects.filter(
             is_active=True,
-        ).select_related('icon', 'featured_image')
+        ).select_related('icon', 'featured_image').prefetch_related('case_studies')
 
     def get(self, request):
         queryset = self.get_queryset().order_by('display_order', 'name_en')
@@ -50,7 +50,7 @@ class ServiceDetailView(APIView):
         service = get_object_or_404(
             Service.objects.filter(
                 is_active=True,
-            ).select_related('icon', 'featured_image'),
+            ).select_related('icon', 'featured_image').prefetch_related('case_studies'),
             slug=slug,
         )
         serializer = ServiceSerializer(

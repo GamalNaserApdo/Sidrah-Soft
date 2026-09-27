@@ -23,6 +23,7 @@ const EMPTY = {
   icon: null, featured_image: null,
   display_order: 0, is_active: true, is_featured: false, show_on_homepage: false,
   cta_label_en: '', cta_label_ar: '', cta_url: '',
+  detail_url_override: '',
   seo_title_en: '', seo_title_ar: '', seo_description_en: '', seo_description_ar: '',
 };
 
@@ -54,6 +55,7 @@ export default function CMSServiceFormPage() {
         display_order: data.display_order || 0, is_active: data.is_active ?? true,
         is_featured: data.is_featured ?? false, show_on_homepage: data.show_on_homepage ?? false,
         cta_label_en: data.cta_label_en || '', cta_label_ar: data.cta_label_ar || '', cta_url: data.cta_url || '',
+        detail_url_override: data.detail_url_override || '',
         seo_title_en: data.seo_title_en || '', seo_title_ar: data.seo_title_ar || '',
         seo_description_en: data.seo_description_en || '', seo_description_ar: data.seo_description_ar || '',
       });
@@ -89,9 +91,9 @@ export default function CMSServiceFormPage() {
   };
 
   if (isEdit && !hasCapability('services.update') && !loading)
-    return <CMSLayout><CMSErrorState message="Permission denied." /></CMSLayout>;
+    return <CMSLayout><CMSErrorState message={t('common.accessDeniedText') || 'Permission denied.'} /></CMSLayout>;
   if (!isEdit && !hasCapability('services.create') && !loading)
-    return <CMSLayout><CMSErrorState message="Permission denied." /></CMSLayout>;
+    return <CMSLayout><CMSErrorState message={t('common.accessDeniedText') || 'Permission denied.'} /></CMSLayout>;
 
   return (
     <CMSLayout unsavedChanges={dirty}>
@@ -129,6 +131,13 @@ export default function CMSServiceFormPage() {
             <CMSInput label={t('form.order')} type="number" value={formData.display_order} onChange={(e) => handleChange('display_order', parseInt(e.target.value) || 0)} error={fieldErrors.display_order} />
             <CMSInput label={t('form.ctaUrl')} value={formData.cta_url} onChange={(e) => handleChange('cta_url', e.target.value)} error={fieldErrors.cta_url} />
           </div>
+          <CMSInput
+            label={t('form.detailUrlOverride') || 'Detail URL override (bespoke pages only)'}
+            value={formData.detail_url_override}
+            onChange={(e) => handleChange('detail_url_override', e.target.value)}
+            error={fieldErrors.detail_url_override}
+            placeholder="/services/ai-automation"
+          />
           <div className="cms-bilingual-row">
             <CMSInput label={`${t('form.ctaLabel')} (${t('form.english')})`} value={formData.cta_label_en} onChange={(e) => handleChange('cta_label_en', e.target.value)} />
             <CMSInput label={`${t('form.ctaLabel')} (${t('form.arabic')})`} value={formData.cta_label_ar} onChange={(e) => handleChange('cta_label_ar', e.target.value)} dir="rtl" />
@@ -164,6 +173,6 @@ function SEOSection({ formData, handleChange, fieldErrors, t }) {
 const styles = {
   form: { display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '800px' },
   checkboxes: { display: 'flex', gap: '1.5rem', flexWrap: 'wrap' },
-  section: { background: '#12121e', border: '1px solid #1e1e2e', borderRadius: '8px', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' },
-  sectionTitle: { fontSize: '0.75rem', fontWeight: '600', color: '#c9a96e', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 },
+  section: { background: 'var(--cms-bg-surface)', border: '1px solid var(--cms-border-default)', borderRadius: 'var(--cms-radius-lg)', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' },
+  sectionTitle: { fontSize: '0.75rem', fontWeight: '600', color: 'var(--cms-accent)', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 },
 };

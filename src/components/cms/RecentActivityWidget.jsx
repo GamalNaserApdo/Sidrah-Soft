@@ -3,15 +3,19 @@
  *
  * Shows the latest activity log entries for users who have permission.
  * Fails gracefully and never breaks the dashboard if the API errors.
+ *
+ * Uses CMS design tokens for visual consistency with the dashboard baseline.
  */
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCMSLang } from '../../contexts/CMSLanguageContext';
 import { fetchActivityLogs } from '../../services/activityLogsApi';
 
 export default function RecentActivityWidget() {
   const { hasCapability } = useAuth();
+  const { t } = useCMSLang();
   const canView = hasCapability('activity_logs.view');
 
   const [logs, setLogs] = useState([]);
@@ -33,7 +37,9 @@ export default function RecentActivityWidget() {
       })
       .catch((err) => {
         if (!cancelled) {
-          setError(err.status === 403 ? 'Access denied.' : 'Could not load recent activity.');
+          setError(err.status === 403
+            ? (t('common.accessDenied') || 'Access denied.')
+            : (t('msg.loadFailed') || 'Could not load recent activity.'));
         }
       })
       .finally(() => {
@@ -43,7 +49,7 @@ export default function RecentActivityWidget() {
     return () => {
       cancelled = true;
     };
-  }, [canView]);
+  }, [canView, t]);
 
   if (!canView) {
     return null;
@@ -52,16 +58,16 @@ export default function RecentActivityWidget() {
   return (
     <section style={styles.section}>
       <div style={styles.header}>
-        <h2 style={styles.title}>Recent Activity</h2>
-        <Link to="/cms/activity-logs" style={styles.link}>View all</Link>
+        <h2 style={styles.title}>{t('nav.activityLogs')}</h2>
+        <Link to="/cms/activity-logs" style={styles.link}>{t('action.view')}</Link>
       </div>
 
       {loading ? (
-        <p style={styles.empty}>Loading...</p>
+        <p style={styles.empty}>{t('common.loading')}</p>
       ) : error ? (
         <p style={styles.empty}>{error}</p>
       ) : logs.length === 0 ? (
-        <p style={styles.empty}>No recent activity.</p>
+        <p style={styles.empty}>{t('state.noData')}</p>
       ) : (
         <ul style={styles.list}>
           {logs.map((log) => (
@@ -90,9 +96,9 @@ const styles = {
   section: {
     marginBottom: '2rem',
     padding: '1.5rem',
-    background: '#12121e',
-    borderRadius: '8px',
-    border: '1px solid #1e1e2e',
+    background: 'var(--cms-bg-surface)',
+    borderRadius: 'var(--cms-radius-lg)',
+    border: '1px solid var(--cms-border-subtle)',
   },
   header: {
     display: 'flex',
@@ -103,11 +109,11 @@ const styles = {
   title: {
     fontSize: '1rem',
     fontWeight: '600',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     margin: 0,
   },
   link: {
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
     textDecoration: 'none',
     fontSize: '0.8125rem',
   },
@@ -118,7 +124,7 @@ const styles = {
   },
   item: {
     padding: '0.75rem 0',
-    borderBottom: '1px solid #1e1e2e',
+    borderBottom: '1px solid var(--cms-border-subtle)',
   },
   row: {
     display: 'flex',
@@ -128,43 +134,43 @@ const styles = {
     marginBottom: '0.25rem',
   },
   time: {
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.75rem',
   },
   actor: {
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
     fontSize: '0.875rem',
     fontWeight: '500',
   },
   action: {
-    color: '#aaa',
+    color: 'var(--cms-text-secondary)',
     fontSize: '0.8125rem',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
   },
   module: {
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.75rem',
   },
   description: {
-    color: '#aaa',
+    color: 'var(--cms-text-secondary)',
     fontSize: '0.8125rem',
     margin: '0.25rem 0 0',
   },
   success: {
-    color: '#22c55e',
+    color: 'var(--cms-success)',
     fontSize: '0.6875rem',
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   failure: {
-    color: '#ef4444',
+    color: 'var(--cms-danger)',
     fontSize: '0.6875rem',
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   empty: {
-    color: '#888',
+    color: 'var(--cms-text-muted)',
     fontSize: '0.875rem',
     margin: 0,
   },

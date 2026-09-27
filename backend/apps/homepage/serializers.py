@@ -46,6 +46,7 @@ class PublicHomepageSerializer(serializers.Serializer):
     foundation = serializers.SerializerMethodField()
     marquee = serializers.SerializerMethodField()
     industries = serializers.SerializerMethodField()
+    training = serializers.SerializerMethodField()
     sections = serializers.SerializerMethodField()
 
     # Section heading overrides
@@ -58,6 +59,16 @@ class PublicHomepageSerializer(serializers.Serializer):
         return {
             'enabled': settings.hero_enabled,
             'show_location_card': settings.hero_show_location_card,
+            'headline_en': settings.hero_headline_en,
+            'headline_ar': settings.hero_headline_ar,
+            'subheadline_en': settings.hero_subheadline_en,
+            'subheadline_ar': settings.hero_subheadline_ar,
+            'primary_cta_label_en': settings.hero_primary_cta_label_en,
+            'primary_cta_label_ar': settings.hero_primary_cta_label_ar,
+            'primary_cta_target': settings.hero_primary_cta_target,
+            'secondary_cta_label_en': settings.hero_secondary_cta_label_en,
+            'secondary_cta_label_ar': settings.hero_secondary_cta_label_ar,
+            'secondary_cta_target': settings.hero_secondary_cta_target,
         }
 
     def get_foundation(self, obj):
@@ -97,6 +108,21 @@ class PublicHomepageSerializer(serializers.Serializer):
             'description_en': settings.industries_description_en if settings else '',
             'description_ar': settings.industries_description_ar if settings else '',
             'items': PublicIndustrySerializer(items, many=True).data,
+        }
+
+    def get_training(self, obj):
+        settings = obj
+        if not settings:
+            return None
+        return {
+            'heading_en': settings.training_heading_en,
+            'heading_ar': settings.training_heading_ar,
+            'description_en': settings.training_description_en,
+            'description_ar': settings.training_description_ar,
+            'cta_label_en': settings.training_cta_label_en,
+            'cta_label_ar': settings.training_cta_label_ar,
+            'cta_target': settings.training_cta_target,
+            'paths': settings.training_paths or [],
         }
 
     def get_sections(self, obj):

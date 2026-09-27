@@ -1,11 +1,11 @@
 ﻿#!/usr/bin/env bash
 set -euo pipefail
 
-echo "==> Running Django migrations..."
-python manage.py migrate --noinput
-
-echo "==> Collecting static files..."
-python manage.py collectstatic --noinput
+# Production runtime startup — Gunicorn only.
+# Migrations and collectstatic must be run separately
+# via deploy.sh during a controlled deployment.
+# This prevents the runtime user from needing DDL privileges
+# and avoids unintended database mutations on every restart.
 
 echo "==> Starting Gunicorn server..."
 exec gunicorn config.wsgi:application \

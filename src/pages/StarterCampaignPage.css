@@ -1,0 +1,675 @@
+/**
+ * Sidrah Starter Campaign Landing Page
+ *
+ * Conversion-focused campaign page for paid social advertising.
+ * Reuses existing design tokens (dark plum base, copper/tech-blue accents).
+ * Mobile-first: optimized for 375px viewport.
+ *
+ * Layout architecture:
+ *   The public header is position:fixed with height ~92px (unscrolled).
+ *   We use --public-header-height as structural clearance so no content
+ *   renders behind the navbar, then add viewport-relative breathing room
+ *   on top of it. vh/dvh are used for visual rhythm, not for clearance.
+ */
+
+.starter-campaign-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.starter-campaign-main {
+  width: 100%;
+}
+
+/* ─── Hero Section ───
+   Top padding = structural header clearance + viewport-relative breathing room.
+   --public-header-height (5.75rem / 92px) guarantees the badge is never
+   behind the fixed navbar. The additional clamp(2vh, 4dvh) adds intentional
+   visual space that scales with viewport height. */
+
+.starter-campaign-hero {
+  background: linear-gradient(180deg, var(--section-bg-hero) 0%, var(--section-bg-foundation) 100%);
+  padding:
+    calc(var(--public-header-height, 5.75rem) + clamp(2rem, 4dvh, 3.5rem))
+    20px
+    clamp(2.5rem, 5dvh, 4rem);
+  text-align: center;
+}
+
+.starter-campaign-hero__container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.starter-campaign-hero__badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--color-copper-soft);
+  border: 1px solid var(--color-copper-border);
+  color: var(--color-copper);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: clamp(1rem, 2dvh, 1.5rem);
+  text-transform: uppercase;
+}
+
+.starter-campaign-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 5.5vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 clamp(0.75rem, 1.5dvh, 1.25rem);
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-hero__tagline {
+  font-size: clamp(14px, 3vw, 16px);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0 0 clamp(1.5rem, 3dvh, 2.25rem);
+  font-weight: 500;
+}
+
+/* ─── Price Highlight ─── */
+
+.starter-campaign-price {
+  margin: 0 0 clamp(1.5rem, 3dvh, 2.25rem);
+  padding: clamp(1.25rem, 2.5dvh, 1.75rem) 20px;
+  border-radius: var(--radius-lg, 16px);
+  background: var(--color-copper-soft);
+  border: 1px solid var(--color-copper-border);
+}
+
+.starter-campaign-price__amount {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 700;
+  color: var(--color-copper);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.starter-campaign-price__note {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ─── CTA ─── */
+
+.starter-campaign-cta {
+  padding: clamp(0.9rem, 2dvh, 1.1rem) clamp(2rem, 5vw, 3rem);
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-copper);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: clamp(0.75rem, 1.5dvh, 1.25rem);
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(184, 115, 51, 0.2);
+}
+
+.starter-campaign-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-copper-glow);
+  color: var(--color-text-inverse);
+}
+
+.starter-campaign-brand {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 6px 0 0;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Register Section ───
+   Extra top padding creates intentional separation from the Hero.
+   scroll-margin-top ensures the CTA anchor lands below the fixed navbar. */
+
+.starter-campaign-register {
+  background: var(--section-bg-foundation);
+  padding:
+    clamp(3rem, 6dvh, 5rem)
+    20px
+    clamp(3rem, 6dvh, 4.5rem);
+  scroll-margin-top: calc(var(--public-header-height, 5.75rem) + 1rem);
+}
+
+.starter-campaign-register__container {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.starter-campaign-register__title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 clamp(0.5rem, 1dvh, 0.75rem);
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-register__subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0 0 clamp(2rem, 4dvh, 2.75rem);
+}
+
+/* ─── Form ─── */
+
+.starter-campaign-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2.5dvh, 1.75rem);
+}
+
+.starter-campaign-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.starter-campaign-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.starter-campaign-field__label {
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  font-weight: 650;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-field__required {
+  color: var(--color-copper);
+}
+
+.starter-campaign-field__input,
+.starter-campaign-field__select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-md, 10px);
+  background: #ffffff;
+  border: 1px solid #d8d2dd;
+  color: #18131d;
+  caret-color: var(--color-copper);
+  font-size: clamp(1rem, 1.8vw, 1.0625rem);
+  line-height: 1.4;
+  font-family: var(--font-body);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  min-height: 52px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.starter-campaign-field__input::placeholder {
+  color: #766f7b;
+  opacity: 1;
+}
+
+.starter-campaign-field__select option {
+  background: #ffffff;
+  color: #18131d;
+}
+
+.starter-campaign-field__input:focus,
+.starter-campaign-field__select:focus {
+  outline: none;
+  border-color: var(--color-copper);
+  box-shadow: 0 0 0 3px var(--color-copper-glow), 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.starter-campaign-field__input:disabled,
+.starter-campaign-field__select:disabled {
+  background: #ebe8ed;
+  color: #77717b;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.starter-campaign-field__input.is-error,
+.starter-campaign-field__select.is-error {
+  border-color: #e53e3e;
+}
+
+.starter-campaign-field__error {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: #fc8181;
+  margin-top: 2px;
+}
+
+.starter-campaign-field__loading {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  padding: 0.875rem 0;
+}
+
+.starter-campaign-field__load-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(252, 129, 129, 0.35);
+  border-radius: var(--radius-md, 10px);
+  background: rgba(229, 62, 62, 0.08);
+  color: #f7b4b4;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.starter-campaign-field__retry {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-copper-border);
+  border-radius: var(--radius-md, 10px);
+  background: var(--color-copper-soft);
+  color: var(--color-copper);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.starter-campaign-field--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.starter-campaign-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.starter-campaign-checkbox input[type="checkbox"] {
+  margin-top: 2px;
+  min-width: 18px;
+  min-height: 18px;
+  accent-color: var(--color-copper);
+  cursor: pointer;
+}
+
+.starter-campaign-form__server-error {
+  padding: 12px 16px;
+  border-radius: var(--radius-md, 10px);
+  background: rgba(229, 62, 62, 0.1);
+  border: 1px solid rgba(229, 62, 62, 0.3);
+  color: #fc8181;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* ─── Submit Button ─── */
+
+.starter-campaign-submit {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-copper);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  min-height: 52px;
+  margin-top: clamp(0.5rem, 1.5dvh, 1.25rem);
+}
+
+.starter-campaign-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-copper-glow);
+}
+
+.starter-campaign-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.starter-campaign-floating-cta {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2.5rem);
+  bottom: clamp(1rem, 3dvh, 2rem);
+  z-index: 45;
+  min-height: 50px;
+  padding: 0.8rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-copper-border);
+  border-radius: 999px;
+  background: var(--color-copper);
+  color: var(--color-text-inverse);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38), 0 0 0 rgba(184, 115, 51, 0);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  animation: starter-campaign-cta-emphasis 4.5s ease-in-out infinite;
+}
+
+[dir="rtl"] .starter-campaign-floating-cta {
+  right: auto;
+  left: clamp(1rem, 3vw, 2.5rem);
+}
+
+.starter-campaign-floating-cta:hover {
+  color: var(--color-text-inverse);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.42), 0 0 22px var(--color-copper-glow);
+}
+
+.starter-campaign-floating-cta:focus-visible {
+  outline: 3px solid var(--color-text-primary);
+  outline-offset: 3px;
+}
+
+@keyframes starter-campaign-cta-emphasis {
+  0%, 82%, 100% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38), 0 0 0 rgba(184, 115, 51, 0);
+  }
+  90% {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38), 0 0 22px var(--color-copper-glow);
+  }
+}
+
+/* ─── Success State ─── */
+
+.starter-campaign-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.starter-campaign-success__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-copper-soft);
+  border: 2px solid var(--color-copper);
+  color: var(--color-copper);
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.starter-campaign-success__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-success__message {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.starter-campaign-success__note {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.starter-campaign-success__link {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.starter-campaign-success__link:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* ─── RTL Adjustments ─── */
+
+[dir="rtl"] .starter-campaign-hero__badge {
+  letter-spacing: 0;
+}
+
+[dir="rtl"] .starter-campaign-field__input,
+[dir="rtl"] .starter-campaign-field__select {
+  text-align: right;
+}
+
+/* ─── Mobile Optimizations ─── */
+
+@media (max-width: 767px) {
+  .starter-campaign-floating-cta,
+  [dir="rtl"] .starter-campaign-floating-cta {
+    right: 1rem;
+    left: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    width: auto;
+    min-height: 52px;
+  }
+
+  .starter-campaign-field__load-error {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .starter-campaign-field__retry {
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .starter-campaign-hero {
+    padding:
+      calc(var(--public-header-height, 5.75rem) + clamp(1.5rem, 3dvh, 2.5rem))
+      16px
+      clamp(2rem, 4dvh, 3rem);
+  }
+
+  .starter-campaign-cta {
+    padding: 13px 22px;
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .starter-campaign-register {
+    padding:
+      clamp(2.5rem, 5dvh, 4rem)
+      16px
+      clamp(2.5rem, 5dvh, 3.5rem);
+  }
+
+  .starter-campaign-submit {
+    font-size: 15px;
+    padding: 14px 20px;
+  }
+
+  .starter-campaign-field__input,
+  .starter-campaign-field__select {
+    font-size: 16px; /* prevent iOS zoom */
+  }
+}
+
+/* ─── Desktop ─── */
+
+@media (min-width: 768px) {
+  .starter-campaign-hero {
+    padding:
+      calc(var(--public-header-height, 5.75rem) + clamp(2.5rem, 5dvh, 4rem))
+      20px
+      clamp(3rem, 6dvh, 5rem);
+  }
+
+  .starter-campaign-register {
+    padding:
+      clamp(4rem, 8dvh, 6rem)
+      20px
+      clamp(4rem, 8dvh, 5.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter-campaign-floating-cta {
+    animation: none;
+  }
+
+  .starter-campaign-cta,
+  .starter-campaign-floating-cta,
+  .starter-campaign-submit {
+    transition: none;
+  }
+}
+
+/* ─── Page Builder sections (rich text / faq / cta banner / preview note) ───
+   Same design tokens and rhythm as the built-in sections — the CMS can
+   reorder/add these but the visual system stays owned by this stylesheet. */
+
+.starter-campaign-richtext {
+  background: var(--section-bg-foundation);
+  padding: clamp(3rem, 6dvh, 5rem) 20px;
+}
+
+.starter-campaign-richtext__container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.starter-campaign-richtext__heading {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 clamp(1rem, 2dvh, 1.5rem);
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-richtext__body {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.starter-campaign-richtext__body p {
+  margin: 0 0 0.75rem;
+}
+
+.starter-campaign-faq {
+  background: var(--section-bg-foundation);
+  padding: clamp(3rem, 6dvh, 5rem) 20px;
+}
+
+.starter-campaign-faq__container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.starter-campaign-faq__heading {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 clamp(1.5rem, 3dvh, 2rem);
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.starter-campaign-faq__item {
+  border: 1px solid var(--color-border-default, rgba(148, 163, 184, 0.2));
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  background: var(--color-bg-surface, transparent);
+}
+
+.starter-campaign-faq__question {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  list-style: none;
+}
+
+.starter-campaign-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.starter-campaign-faq__answer {
+  margin: 0.6rem 0 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.starter-campaign-ctabanner {
+  background: var(--section-bg-foundation);
+  padding: clamp(3rem, 6dvh, 5rem) 20px;
+  text-align: center;
+}
+
+.starter-campaign-ctabanner__container {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.starter-campaign-ctabanner__heading {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4.5vw, 26px);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.starter-campaign-ctabanner__description {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0 0 1.5rem;
+}
+
+.starter-campaign-form__preview-note {
+  margin: 0.75rem 0 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}

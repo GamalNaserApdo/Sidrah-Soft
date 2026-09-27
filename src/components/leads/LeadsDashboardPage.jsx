@@ -18,7 +18,7 @@ import LeadsStatCard from './LeadsStatCard.jsx';
 import { LoadingState, EmptyState, ErrorState } from '../ui/StateViews.jsx';
 
 const STATUS_OPTIONS = ['new', 'contacted', 'in_progress', 'closed', 'spam', 'archived'];
-const PRIORITY_OPTIONS = ['low', 'medium', 'high', 'urgent'];
+const PRIORITY_OPTIONS = ['low', 'normal', 'high', 'urgent'];
 
 const STAT_ICONS = {
   total: '◆',

@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import CMSLayout from '../../components/cms/layout/CMSLayout';
 import CMSPageHeader from '../../components/cms/ui/CMSPageHeader';
 import CMSButton from '../../components/cms/ui/CMSButton';
-import { CMSInput, CMSTextarea, CMSSelect } from '../../components/cms/ui/CMSFormInputs';
+import { CMSInput, CMSTextarea, CMSSelect, CMSCheckbox } from '../../components/cms/ui/CMSFormInputs';
 import CMSMediaField from '../../components/cms/ui/CMSMediaField';
 import { CMSLoadingState, CMSErrorState } from '../../components/cms/ui/CMSStateViews';
 import { useAuth } from '../../contexts/AuthContext';
@@ -15,6 +15,8 @@ import { parseApiError, extractFieldErrors } from '../../services/cms/cmsFetch';
 const BRANCH_OPTIONS = [
   { value: 'professional', label: 'Professional Training' },
   { value: 'secondary', label: 'Secondary / Baccalaureate' },
+  { value: 'starter', label: 'Sidrah Starter Courses' },
+  { value: 'summer', label: 'Summer Training' },
 ];
 
 const STATUS_OPTIONS = [
@@ -78,6 +80,15 @@ export default function CMSTrainingFormPage() {
     cta_text_en: '',
     cta_text_ar: '',
     display_order: 0,
+    registration_url: '',
+    registration_open: false,
+    registration_deadline: '',
+    maximum_capacity: '',
+    external_form_key: '',
+    registration_cta_text_en: '',
+    registration_cta_text_ar: '',
+    registration_closed_cta_text_en: '',
+    registration_closed_cta_text_ar: '',
   });
 
   const [loading, setLoading] = useState(isEdit);
@@ -120,6 +131,15 @@ export default function CMSTrainingFormPage() {
         cta_text_en: data.cta_text_en || '',
         cta_text_ar: data.cta_text_ar || '',
         display_order: data.display_order || 0,
+        registration_url: data.registration_url || '',
+        registration_open: data.registration_open || false,
+        registration_deadline: data.registration_deadline || '',
+        maximum_capacity: data.maximum_capacity || '',
+        external_form_key: data.external_form_key || '',
+        registration_cta_text_en: data.registration_cta_text_en || '',
+        registration_cta_text_ar: data.registration_cta_text_ar || '',
+        registration_closed_cta_text_en: data.registration_closed_cta_text_en || '',
+        registration_closed_cta_text_ar: data.registration_closed_cta_text_ar || '',
       });
       setDirty(false);
     } catch (err) {
@@ -160,6 +180,8 @@ export default function CMSTrainingFormPage() {
     payload.skills_ar = parseListString(payload.skills_ar);
     payload.learning_outcomes_en = parseListString(payload.learning_outcomes_en);
     payload.learning_outcomes_ar = parseListString(payload.learning_outcomes_ar);
+    payload.registration_deadline = payload.registration_deadline || null;
+    payload.maximum_capacity = payload.maximum_capacity === '' ? null : Number(payload.maximum_capacity);
     return payload;
   };
 
@@ -292,6 +314,25 @@ export default function CMSTrainingFormPage() {
             <CMSInput label={t('form.displayOrder')} type="number" value={formData.display_order} onChange={(e) => handleChange('display_order', parseInt(e.target.value) || 0)} error={fieldErrors.display_order} />
           </div>
 
+          <div style={styles.registration}>
+            <h3 style={styles.sectionTitle}>{t('training.registration')}</h3>
+            <div className="cms-form-grid" style={styles.grid2}>
+              <CMSInput label={t('form.registrationUrl')} value={formData.registration_url} onChange={(e) => handleChange('registration_url', e.target.value)} error={fieldErrors.registration_url} />
+              <CMSInput label={t('form.externalFormKey')} value={formData.external_form_key} onChange={(e) => handleChange('external_form_key', e.target.value)} error={fieldErrors.external_form_key} />
+              <CMSInput label={t('form.registrationDeadline')} type="datetime-local" value={formData.registration_deadline} onChange={(e) => handleChange('registration_deadline', e.target.value)} error={fieldErrors.registration_deadline} />
+              <CMSInput label={t('form.maximumCapacity')} type="number" value={formData.maximum_capacity} onChange={(e) => handleChange('maximum_capacity', e.target.value)} error={fieldErrors.maximum_capacity} />
+              <CMSInput label={`${t('form.registrationCtaText')} (EN)`} value={formData.registration_cta_text_en} onChange={(e) => handleChange('registration_cta_text_en', e.target.value)} error={fieldErrors.registration_cta_text_en} />
+              <CMSInput label={`${t('form.registrationCtaText')} (AR)`} value={formData.registration_cta_text_ar} onChange={(e) => handleChange('registration_cta_text_ar', e.target.value)} error={fieldErrors.registration_cta_text_ar} dir="rtl" />
+              <CMSInput label={`${t('form.registrationClosedCtaText')} (EN)`} value={formData.registration_closed_cta_text_en} onChange={(e) => handleChange('registration_closed_cta_text_en', e.target.value)} error={fieldErrors.registration_closed_cta_text_en} />
+              <CMSInput label={`${t('form.registrationClosedCtaText')} (AR)`} value={formData.registration_closed_cta_text_ar} onChange={(e) => handleChange('registration_closed_cta_text_ar', e.target.value)} error={fieldErrors.registration_closed_cta_text_ar} dir="rtl" />
+            </div>
+            <CMSCheckbox
+              label={t('form.registrationOpen')}
+              checked={formData.registration_open}
+              onChange={(e) => handleChange('registration_open', e.target.checked)}
+            />
+          </div>
+
           <div className="cms-bilingual-row">
             <CMSTextarea label={`${t('form.schedule')} (${t('form.english')})`} value={formData.schedule_en} onChange={(e) => handleChange('schedule_en', e.target.value)} error={fieldErrors.schedule_en} rows={3} />
             <CMSTextarea label={`${t('form.schedule')} (${t('form.arabic')})`} value={formData.schedule_ar} onChange={(e) => handleChange('schedule_ar', e.target.value)} error={fieldErrors.schedule_ar} rows={3} dir="rtl" />
@@ -322,7 +363,7 @@ const styles = {
   audienceLabel: {
     fontSize: '0.8125rem',
     fontWeight: 500,
-    color: '#aaa',
+    color: 'var(--cms-text-muted)',
   },
   audienceOptions: {
     display: 'flex',
@@ -334,6 +375,21 @@ const styles = {
     alignItems: 'center',
     gap: '0.375rem',
     fontSize: '0.875rem',
-    color: '#ddd',
+    color: 'var(--cms-text-primary)',
+  },
+  registration: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    padding: '1rem',
+    background: 'var(--cms-bg-surface)',
+    border: '1px solid var(--cms-border-default)',
+    borderRadius: 'var(--cms-radius-lg)',
+  },
+  sectionTitle: {
+    fontSize: '0.9375rem',
+    fontWeight: 600,
+    color: 'var(--cms-accent)',
+    margin: 0,
   },
 };

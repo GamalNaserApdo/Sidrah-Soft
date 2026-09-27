@@ -1,0 +1,301 @@
+/**
+ * CMS Login Page — dedicated styles.
+ *
+ * Used by CMSLoginPage.jsx. Kept separate so interactive states
+ * (:focus, :hover, ::before) work correctly — inline styles cannot
+ * express pseudo-selectors.
+ */
+
+.cms-login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--color-bg);
+  font-family: var(--font-family);
+  padding: var(--space-6) var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle ambient glow behind the card — adds depth without noise */
+.cms-login-page::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 640px;
+  height: 480px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-purple-soft) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Brand header ── */
+.cms-login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  position: relative;
+  z-index: 1;
+}
+
+.cms-login-brand-logo {
+  height: 4.5rem;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: var(--space-3);
+}
+
+.cms-login-brand-name {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+}
+
+.cms-login-brand-sub {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* ── Login card ── */
+.cms-login-card {
+  background: var(--cms-bg-surface);
+  border: 1px solid var(--cms-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10) var(--space-8);
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-elevated);
+  position: relative;
+  z-index: 1;
+}
+
+/* Language switcher — upper corner of card */
+.cms-login-lang-btn {
+  position: absolute;
+  top: var(--space-5);
+  inset-inline-end: var(--space-5);
+  background: none;
+  border: 1px solid var(--cms-border-default);
+  border-radius: var(--radius-sm);
+  color: var(--cms-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  font-family: inherit;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+  line-height: 1.5;
+}
+
+.cms-login-lang-btn:hover {
+  color: var(--cms-text-primary);
+  border-color: var(--cms-border-strong);
+}
+
+/* ── Title & subtitle ── */
+.cms-login-title {
+  text-align: center;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--cms-text-primary);
+  margin: 0 0 var(--space-1) 0;
+  line-height: var(--line-height-heading);
+}
+
+.cms-login-subtitle {
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--cms-text-secondary);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--line-height-normal);
+}
+
+/* ── Form ── */
+.cms-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.cms-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cms-login-label {
+  font-size: var(--font-size-sm);
+  color: var(--cms-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.cms-login-input {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--cms-border-default);
+  background: var(--cms-bg-input);
+  color: var(--cms-text-primary);
+  font-size: var(--font-size-base);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
+  box-sizing: border-box;
+  height: 2.75rem;
+  font-family: inherit;
+}
+
+.cms-login-input:focus {
+  border-color: var(--cms-accent);
+  box-shadow: var(--cms-focus-ring);
+}
+
+.cms-login-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Password field ── */
+.cms-login-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cms-login-password-wrap .cms-login-input {
+  padding-inline-end: 2.75rem;
+}
+
+.cms-login-eye-btn {
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  background: none;
+  border: none;
+  color: var(--cms-text-muted);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.cms-login-eye-btn:hover {
+  color: var(--cms-text-primary);
+}
+
+.cms-login-eye-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--cms-focus-ring);
+}
+
+.cms-login-eye-slash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 1.5px;
+  background: var(--cms-text-muted);
+  transform: translate(-50%, -50%) rotate(-45deg);
+  pointer-events: none;
+}
+
+/* ── Error ── */
+.cms-login-error {
+  color: var(--cms-danger);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--space-3);
+  background: var(--cms-danger-bg);
+  border: 1px solid var(--cms-danger-border);
+  border-radius: var(--radius-md);
+  line-height: var(--line-height-normal);
+}
+
+/* ── Submit button ── */
+.cms-login-submit {
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--cms-accent);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+  height: 2.75rem;
+  font-family: inherit;
+  letter-spacing: var(--letter-spacing-wide);
+  width: 100%;
+}
+
+.cms-login-submit:hover:not(:disabled) {
+  background: var(--cms-accent-hover);
+}
+
+.cms-login-submit:focus-visible {
+  outline: none;
+  box-shadow: var(--cms-focus-ring);
+}
+
+.cms-login-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Loading state ── */
+.cms-login-loading {
+  text-align: center;
+  color: var(--cms-text-muted);
+  font-size: var(--font-size-base);
+  padding: var(--space-8);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .cms-login-page {
+    padding: var(--space-4) var(--space-3);
+    justify-content: flex-start;
+    padding-top: var(--space-16);
+  }
+
+  .cms-login-brand {
+    margin-bottom: var(--space-6);
+  }
+
+  .cms-login-brand-logo {
+    height: 3.25rem;
+  }
+
+  .cms-login-brand-name {
+    font-size: var(--font-size-xl);
+  }
+
+  .cms-login-card {
+    padding: var(--space-6) var(--space-5);
+    max-width: 100%;
+  }
+
+  .cms-login-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .cms-login-subtitle {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-6);
+  }
+}

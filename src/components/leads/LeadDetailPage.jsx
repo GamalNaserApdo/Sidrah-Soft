@@ -17,7 +17,7 @@ import { Select, Textarea } from '../ui/Input.jsx';
 import { LoadingState, ErrorState } from '../ui/StateViews.jsx';
 
 const STATUS_OPTIONS = ['new', 'contacted', 'in_progress', 'closed', 'spam', 'archived'];
-const PRIORITY_OPTIONS = ['low', 'medium', 'high', 'urgent'];
+const PRIORITY_OPTIONS = ['low', 'normal', 'high', 'urgent'];
 
 function formatDate(isoString, lang) {
   if (!isoString) return '-';
@@ -46,7 +46,7 @@ export default function LeadDetailPage() {
 
   const [formData, setFormData] = useState({
     status: 'new',
-    priority: 'medium',
+    priority: 'normal',
     internal_notes: '',
   });
 
@@ -65,7 +65,7 @@ export default function LeadDetailPage() {
         setInquiryTypes(typesData.results || []);
         setFormData({
           status: leadData.status || 'new',
-          priority: leadData.priority || 'medium',
+          priority: leadData.priority || 'normal',
           internal_notes: leadData.internal_notes || '',
         });
       })

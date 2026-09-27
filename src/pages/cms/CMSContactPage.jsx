@@ -121,20 +121,20 @@ function SubmissionsTab({ canUpdate, canDelete, t }) {
     <>
       <CMSToolbar search={list.search} onSearchChange={list.setSearch} onSearchSubmit={() => list.refresh()}>
         <CMSSelect value={list.filters.status || ''} onChange={(e) => list.setFilter('status', e.target.value)}>
-          <option value="">All statuses</option>
-          <option value="new">New</option>
-          <option value="contacted">Contacted</option>
-          <option value="in_progress">In Progress</option>
-          <option value="closed">Closed</option>
-          <option value="spam">Spam</option>
-          <option value="archived">Archived</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="new">{t('status.new')}</option>
+          <option value="contacted">{t('status.contacted')}</option>
+          <option value="in_progress">{t('status.inProgress')}</option>
+          <option value="closed">{t('status.closed')}</option>
+          <option value="spam">{t('status.spam')}</option>
+          <option value="archived">{t('status.archived')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.priority || ''} onChange={(e) => list.setFilter('priority', e.target.value)}>
-          <option value="">All priorities</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-          <option value="urgent">Urgent</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="low">{t('priority.low')}</option>
+          <option value="normal">{t('priority.normal')}</option>
+          <option value="high">{t('priority.high')}</option>
+          <option value="urgent">{t('priority.urgent')}</option>
         </CMSSelect>
       </CMSToolbar>
 
@@ -144,13 +144,13 @@ function SubmissionsTab({ canUpdate, canDelete, t }) {
       {!list.loading && !list.error && list.items.length > 0 && (
         <>
           <CMSTable columns={[
-            { key: 'name', label: 'Name' },
-            { key: 'email', label: 'Email' },
-            { key: 'type', label: 'Type' },
-            { key: 'status', label: 'Status' },
-            { key: 'priority', label: 'Priority' },
-            { key: 'date', label: 'Date' },
-            { key: 'actions', label: '', align: 'right' },
+            { key: 'name', label: t('col.name') },
+            { key: 'email', label: t('col.email') },
+            { key: 'type', label: t('col.type') },
+            { key: 'status', label: t('col.status') },
+            { key: 'priority', label: t('form.priority') },
+            { key: 'date', label: t('col.date') },
+            { key: 'actions', label: t('col.actions'), align: 'right' },
           ]}>
             {list.items.map((sub) => (
               <CMSTableRow key={sub.id}>
@@ -164,7 +164,7 @@ function SubmissionsTab({ canUpdate, canDelete, t }) {
                 <CMSTableCell>{new Date(sub.created_at).toLocaleDateString()}</CMSTableCell>
                 <CMSTableCell align="right">
                   <TableActionButton onClick={() => openDetail(sub)}>{t('action.view')}</TableActionButton>
-                  {canDelete && <TableActionButton onClick={() => setDeleteTarget(sub)} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>}
+                  {canDelete && <TableActionButton variant="danger" onClick={() => setDeleteTarget(sub)}>{t('action.delete')}</TableActionButton>}
                 </CMSTableCell>
               </CMSTableRow>
             ))}
@@ -177,7 +177,7 @@ function SubmissionsTab({ canUpdate, canDelete, t }) {
       <CMSDialog
         open={detailOpen}
         onClose={() => setDetailOpen(false)}
-        title="Submission Details"
+        title={t('contact.submissionDetails') || 'Submission Details'}
         size="lg"
         footer={
           canUpdate && detail && (
@@ -213,7 +213,7 @@ function SubmissionsTab({ canUpdate, canDelete, t }) {
                 </CMSSelect>
                 <CMSSelect label={t('form.priority')} value={priorityUpdate} onChange={(e) => setPriorityUpdate(e.target.value)}>
                   <option value="low">{t('priority.low')}</option>
-                  <option value="medium">{t('priority.medium')}</option>
+                  <option value="normal">{t('priority.normal')}</option>
                   <option value="high">{t('priority.high')}</option>
                   <option value="urgent">{t('priority.urgent')}</option>
                 </CMSSelect>
@@ -306,10 +306,10 @@ function InquiryTypesTab({ canCreate, canUpdate, canDelete, t }) {
       {!list.loading && !list.error && list.items.length > 0 && (
         <>
           <CMSTable columns={[
-            { key: 'name', label: 'Name' },
-            { key: 'order', label: 'Order', align: 'center' },
-            { key: 'status', label: 'Status' },
-            { key: 'actions', label: '', align: 'right' },
+            { key: 'name', label: t('col.name') },
+            { key: 'order', label: t('col.order'), align: 'center' },
+            { key: 'status', label: t('col.status') },
+            { key: 'actions', label: t('col.actions'), align: 'right' },
           ]}>
             {list.items.map((item) => (
               <CMSTableRow key={item.id}>
@@ -318,7 +318,7 @@ function InquiryTypesTab({ canCreate, canUpdate, canDelete, t }) {
                 <CMSTableCell><StatusBadge status={item.is_active ? 'active' : 'inactive'} /></CMSTableCell>
                 <CMSTableCell align="right">
                   {canUpdate && <TableActionButton onClick={() => openEdit(item)}>{t('action.edit')}</TableActionButton>}
-                  {canDelete && <TableActionButton onClick={() => setDeleteTarget(item)} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>}
+                  {canDelete && <TableActionButton variant="danger" onClick={() => setDeleteTarget(item)}>{t('action.delete')}</TableActionButton>}
                 </CMSTableCell>
               </CMSTableRow>
             ))}
@@ -362,13 +362,13 @@ function InquiryTypesTab({ canCreate, canUpdate, canDelete, t }) {
 }
 
 const styles = {
-  tabs: { display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid #1e1e2e' },
-  tab: { padding: '0.625rem 1rem', background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', fontSize: '0.8125rem', fontWeight: '500', borderBottom: '2px solid transparent', fontFamily: 'inherit' },
-  tabActive: { color: '#c9a96e', borderBottomColor: '#c9a96e' },
+  tabs: { display: 'flex', gap: '0.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--cms-border-default)' },
+  tab: { padding: '0.625rem 1rem', background: 'transparent', border: 'none', color: 'var(--cms-text-muted)', cursor: 'pointer', fontSize: '0.8125rem', fontWeight: '500', borderBottom: '2px solid transparent', fontFamily: 'inherit' },
+  tabActive: { color: 'var(--cms-accent)', borderBottomColor: 'var(--cms-accent)' },
   detailGrid: { display: 'flex', flexDirection: 'column', gap: '0.625rem' },
   detailRow: { display: 'flex', gap: '0.5rem', fontSize: '0.8125rem' },
-  detailLabel: { color: '#888', minWidth: '100px', flexShrink: 0 },
+  detailLabel: { color: 'var(--cms-text-muted)', minWidth: '100px', flexShrink: 0 },
   detailMessage: { marginTop: '0.5rem' },
-  messageText: { background: '#0a0a14', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8125rem', color: '#ccc', lineHeight: 1.5, marginTop: '0.375rem' },
+  messageText: { background: 'var(--cms-bg-input)', padding: '0.75rem', borderRadius: 'var(--cms-radius-md)', fontSize: '0.8125rem', color: 'var(--cms-text-secondary)', lineHeight: 1.5, marginTop: '0.375rem' },
   form: { display: 'flex', flexDirection: 'column', gap: '1rem' },
 };

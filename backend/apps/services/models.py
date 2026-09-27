@@ -95,6 +95,17 @@ class Service(TimeStampedModel):
         blank=True,
     )
 
+    detail_url_override = models.CharField(
+        _('Detail URL override'),
+        max_length=512,
+        blank=True,
+        help_text=_(
+            'Override the public detail URL for this service. '
+            'Use for bespoke landing pages (e.g. /services/ai-automation). '
+            'When blank, the generic /services/<slug> route is used.'
+        ),
+    )
+
     seo_title_en = models.CharField(
         _('SEO title (English)'),
         max_length=255,
@@ -136,3 +147,22 @@ class Service(TimeStampedModel):
 
     def __str__(self):
         return self.name_en
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        from apps.core.seo_validation import validate_safe_cta_url
+
+        errors = {}
+        if self.cta_url:
+            try:
+                self.cta_url = validate_safe_cta_url(self.cta_url)
+            except Exception as exc:
+                errors['cta_url'] = str(exc)
+        if self.detail_url_override:
+            try:
+                self.detail_url_override = validate_safe_cta_url(self.detail_url_override)
+            except Exception as exc:
+                errors['detail_url_override'] = str(exc)
+        if errors:
+            raise ValidationError(errors)

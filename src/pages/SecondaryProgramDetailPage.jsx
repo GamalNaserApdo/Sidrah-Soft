@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
 import { useI18n } from '../i18n/I18nProvider';
-import { getProgramBySlug } from '../services/trainingApi';
+import { getProgramBySlug, resolveRegistrationUrl } from '../services/trainingApi';
 
 function SecondaryProgramDetailPage() {
   const { programSlug } = useParams();
   const { lang, dir } = useI18n();
-  const navigate = useNavigate();
   const isAr = lang === 'ar';
 
   const [program, setProgram] = useState(null);
@@ -38,14 +37,6 @@ function SecondaryProgramDetailPage() {
     load();
     return () => { mounted = false; };
   }, [programSlug]);
-
-  const handleContactClick = () => {
-    navigate('/#contact');
-    setTimeout(() => {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  };
 
   const audienceLabels = {
     first_secondary: isAr ? 'الصف الأول الثانوي' : 'First Secondary',
@@ -105,8 +96,6 @@ function SecondaryProgramDetailPage() {
   const duration = isAr && program.duration_ar ? program.duration_ar : program.duration_en;
   const format = isAr && program.format_ar ? program.format_ar : program.format_en;
   const schedule = isAr && program.schedule_ar ? program.schedule_ar : program.schedule_en;
-  const ctaText = isAr && program.cta_text_ar ? program.cta_text_ar : program.cta_text_en;
-  const ctaLabel = ctaText || (isAr ? 'سجّل الآن' : 'Register Now');
 
   const audienceLevels = Array.isArray(program.audience_levels)
     ? program.audience_levels
@@ -114,6 +103,8 @@ function SecondaryProgramDetailPage() {
         .map((l) => audienceLabels[l])
     : [];
 
+  const registrationUrl = resolveRegistrationUrl();
+  const buttonText = isAr ? 'سجل الآن' : 'Register Now';
   const defaultCta = isAr ? 'ابدأ رحلة التعلم' : 'Start Your Learning Journey';
 
   return (
@@ -155,9 +146,14 @@ function SecondaryProgramDetailPage() {
               {duration && <span className="program-detail-hero__meta-item">{duration}</span>}
               {format && <span className="program-detail-hero__meta-item">{format}</span>}
             </div>
-            <button type="button" className="program-detail-hero__cta" onClick={handleContactClick}>
-              {ctaLabel}
-            </button>
+            <a
+              href={registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="program-detail-hero__cta"
+            >
+              {buttonText}
+            </a>
           </div>
           {program.image_url && (
             <div className="program-detail-hero__image-wrapper">
@@ -255,9 +251,14 @@ function SecondaryProgramDetailPage() {
         <section className="program-detail-cta">
           <div className="program-detail-cta__content">
             <p className="program-detail-cta__text">{defaultCta}</p>
-            <button type="button" className="program-detail-cta__button" onClick={handleContactClick}>
-              {ctaLabel}
-            </button>
+            <a
+              href={registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="program-detail-cta__button"
+            >
+              {buttonText}
+            </a>
             <Link to="/training/secondary" className="program-detail-cta__back">
               {isAr ? '→ العودة إلى البرامج' : '← Back to Programs'}
             </Link>

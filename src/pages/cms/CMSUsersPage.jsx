@@ -37,6 +37,7 @@ import CMSDialog from '../../components/cms/ui/CMSDialog';
 import CMSConfirmDialog from '../../components/cms/ui/CMSConfirmDialog';
 import { CMSInput, CMSSelect } from '../../components/cms/ui/CMSFormInputs';
 import { CMSLoadingState, CMSErrorState, CMSEmptyState } from '../../components/cms/ui/CMSStateViews';
+import CmsIcon from '../../components/cms/ui/CmsIcon';
 
 const ROLE_KEYS = {
   super_admin: 'users.roleSuperAdmin',
@@ -55,9 +56,10 @@ const ROLE_KEYS = {
 const ROLE_CHOICES = Object.keys(ROLE_KEYS);
 
 export default function CMSUsersPage() {
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, hasCapability } = useAuth();
   const { t } = useCMSLang();
   const { showToast } = useToast();
+  const canManageUsers = hasCapability('users.manage_users');
 
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
@@ -168,9 +170,11 @@ export default function CMSUsersPage() {
         title={t('users.title')}
         subtitle={t('users.subtitle')}
         actions={
-          <CMSButton variant="primary" onClick={() => setCreateOpen(true)}>
-            + {t('users.createUser')}
-          </CMSButton>
+          canManageUsers && (
+            <CMSButton variant="primary" onClick={() => setCreateOpen(true)}>
+              + {t('users.createUser')}
+            </CMSButton>
+          )
         }
       />
 
@@ -179,30 +183,28 @@ export default function CMSUsersPage() {
         onSearchChange={setSearchInput}
         onSearchSubmit={handleSearchSubmit}
       >
-        <select
+        <CMSSelect
           value={roleFilter}
           onChange={handleRoleFilterChange}
-          style={styles.filterSelect}
           aria-label={t('form.role')}
         >
           <option value="">{t('users.allRoles')}</option>
           {ROLE_CHOICES.map((r) => (
             <option key={r} value={r}>{t(ROLE_KEYS[r])}</option>
           ))}
-        </select>
-        <select
+        </CMSSelect>
+        <CMSSelect
           value={statusFilter}
           onChange={handleStatusFilterChange}
-          style={styles.filterSelect}
           aria-label={t('form.status')}
         >
           <option value="">{t('users.allStatuses')}</option>
           <option value="true">{t('users.active')}</option>
           <option value="false">{t('users.inactive')}</option>
-        </select>
+        </CMSSelect>
         {(roleFilter || statusFilter || search) && (
           <CMSButton variant="ghost" size="sm" onClick={clearFilters}>
-            ✕
+            {t('action.clear')}
           </CMSButton>
         )}
       </CMSToolbar>
@@ -232,7 +234,7 @@ export default function CMSUsersPage() {
                     <span style={styles.youLabel}> {t('users.you')}</span>
                   )}
                   {u.is_superuser && (
-                    <CMSBadge type="accent" size="xs" style={{ marginLeft: '0.375rem' }}>
+                    <CMSBadge type="accent" size="xs" style={{ marginInlineStart: '0.375rem' }}>
                       {t('users.roleSuperAdmin')}
                     </CMSBadge>
                   )}
@@ -245,34 +247,39 @@ export default function CMSUsersPage() {
                   </CMSBadge>
                 </CMSTableCell>
                 <CMSTableCell align="right">
-                  <div style={styles.actionsCell}>
-                    <TableActionButton onClick={() => setEditTarget(u)} title={t('users.editUser')}>
-                      ✎
-                    </TableActionButton>
-                    <TableActionButton
-                      onClick={() => setResetTarget(u)}
-                      title={t('users.resetPassword')}
-                    >
-                      🔑
-                    </TableActionButton>
-                    {u.is_active ? (
+                  {canManageUsers && (
+                    <div style={styles.actionsCell}>
                       <TableActionButton
-                        onClick={() => setConfirmAction({ type: 'deactivate', target: u })}
-                        title={t('users.deactivate')}
-                        style={{ color: '#ef4444' }}
-                      >
-                        ⏸
-                      </TableActionButton>
-                    ) : (
+                        icon="edit"
+                        label={t('users.editUser')}
+                        onClick={() => setEditTarget(u)}
+                        title={t('users.editUser')}
+                      />
                       <TableActionButton
-                        onClick={() => setConfirmAction({ type: 'activate', target: u })}
-                        title={t('users.activate')}
-                        style={{ color: '#22c55e' }}
-                      >
-                        ▶
-                      </TableActionButton>
-                    )}
-                  </div>
+                        icon="key"
+                        label={t('users.resetPassword')}
+                        onClick={() => setResetTarget(u)}
+                        title={t('users.resetPassword')}
+                      />
+                      {u.is_active ? (
+                        <TableActionButton
+                          icon="pause"
+                          label={t('users.deactivate')}
+                          variant="danger"
+                          onClick={() => setConfirmAction({ type: 'deactivate', target: u })}
+                          title={t('users.deactivate')}
+                        />
+                      ) : (
+                        <TableActionButton
+                          icon="play"
+                          label={t('users.activate')}
+                          variant="accent"
+                          onClick={() => setConfirmAction({ type: 'activate', target: u })}
+                          title={t('users.activate')}
+                        />
+                      )}
+                    </div>
+                  )}
                 </CMSTableCell>
               </CMSTableRow>
             ))}
@@ -659,26 +666,16 @@ function ResetPasswordDialog({ target, onClose, onSuccess }) {
 
 
 const styles = {
-  filterSelect: {
-    padding: '0.5rem 0.75rem',
-    background: '#12121e',
-    border: '1px solid #2a2a3e',
-    borderRadius: '6px',
-    color: '#e0e0e0',
-    fontSize: '0.8125rem',
-    fontFamily: 'inherit',
-    cursor: 'pointer',
-  },
   userName: {
     fontWeight: '500',
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
   },
   youLabel: {
     fontSize: '0.75rem',
-    color: '#c9a96e',
+    color: 'var(--cms-accent)',
   },
   muted: {
-    color: '#888',
+    color: 'var(--cms-text-muted)',
   },
   actionsCell: {
     display: 'flex',
@@ -698,24 +695,24 @@ const styles = {
   readOnlyLabel: {
     fontSize: '0.75rem',
     fontWeight: '500',
-    color: '#aaa',
+    color: 'var(--cms-text-muted)',
   },
   readOnlyValue: {
     fontSize: '0.875rem',
-    color: '#e0e0e0',
+    color: 'var(--cms-text-primary)',
     padding: '0.5rem 0.75rem',
-    background: '#0a0a14',
-    borderRadius: '6px',
-    border: '1px solid #1e1e2e',
+    background: 'var(--cms-bg-input)',
+    borderRadius: 'var(--cms-radius-md)',
+    border: '1px solid var(--cms-border-default)',
   },
   resetHint: {
     fontSize: '0.8125rem',
-    color: '#aaa',
+    color: 'var(--cms-text-muted)',
     lineHeight: 1.5,
     margin: 0,
     padding: '0.75rem',
-    background: 'rgba(245, 158, 11, 0.08)',
-    border: '1px solid rgba(245, 158, 11, 0.2)',
-    borderRadius: '6px',
+    background: 'var(--cms-warning-bg, rgba(245, 158, 11, 0.08))',
+    border: '1px solid var(--cms-warning-border, rgba(245, 158, 11, 0.2))',
+    borderRadius: 'var(--cms-radius-md)',
   },
 };

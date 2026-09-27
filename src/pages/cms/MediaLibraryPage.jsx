@@ -8,6 +8,9 @@
  * - Asset click → MediaDetailsDialog
  * - Empty/loading/error states
  * - Capability-aware navigation
+ *
+ * Uses shared CMS UI primitives (CMSToolbar, CMSPagination, CMSSelect,
+ * CMSStateViews) and CMS design tokens for visual consistency.
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -20,7 +23,11 @@ import MediaUploadDialog from '../../components/cms/media/MediaUploadDialog';
 import MediaDetailsDialog from '../../components/cms/media/MediaDetailsDialog';
 import CMSLayout from '../../components/cms/layout/CMSLayout';
 import CMSPageHeader from '../../components/cms/ui/CMSPageHeader';
+import CMSToolbar from '../../components/cms/ui/CMSToolbar';
+import CMSPagination from '../../components/cms/ui/CMSPagination';
 import CMSButton from '../../components/cms/ui/CMSButton';
+import { CMSSelect } from '../../components/cms/ui/CMSFormInputs';
+import { CMSLoadingState, CMSErrorState, CMSEmptyState } from '../../components/cms/ui/CMSStateViews';
 
 export default function MediaLibraryPage() {
   const { user, hasModuleAccess, hasCapability } = useAuth();
@@ -69,13 +76,12 @@ export default function MediaLibraryPage() {
     }
   }, [canView, page, loadAssets]);
 
-  const handleSearchChange = useCallback((e) => {
-    setSearch(e.target.value);
+  const handleSearchChange = useCallback((value) => {
+    setSearch(value);
     setPage(1);
   }, []);
 
-  const handleSearchSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSearchSubmit = useCallback(() => {
     setPage(1);
     loadAssets(1);
   }, [loadAssets]);
@@ -113,14 +119,19 @@ export default function MediaLibraryPage() {
   if (!canView) {
     return (
       <CMSLayout>
-        <div style={styles.denied}>
-          <h2 style={styles.deniedTitle}>{t('media.accessDenied')}</h2>
-          <p style={styles.deniedText}>{t('media.permissionDenied')}</p>
-          <Link to="/cms" style={styles.backLink}>{t('media.backDashboard')}</Link>
+        <CMSPageHeader title={t('media.library')} />
+        <CMSErrorState message={t('media.permissionDenied')} />
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <Link to="/cms" style={{ color: 'var(--cms-accent)', textDecoration: 'none', fontSize: '0.875rem' }}>
+            {t('media.backDashboard')}
+          </Link>
         </div>
       </CMSLayout>
     );
   }
+
+  // Compute total pages from count (page_size = 20)
+  const totalPages = Math.max(1, Math.ceil(count / 20));
 
   return (
     <CMSLayout>
@@ -129,77 +140,53 @@ export default function MediaLibraryPage() {
         actions={canUpload && <CMSButton variant="primary" onClick={() => setShowUpload(true)}>+ {t('media.uploadImage')}</CMSButton>}
       />
 
-      <div>
+      <CMSToolbar
+        search={search}
+        onSearchChange={handleSearchChange}
+        onSearchSubmit={handleSearchSubmit}
+      >
+        <CMSSelect value={mimeType} onChange={handleMimeChange} aria-label={t('media.filterMime')}>
+          <option value="">{t('media.allTypes')}</option>
+          <option value="image/jpeg">JPEG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+          <option value="image/gif">GIF</option>
+        </CMSSelect>
+        <CMSSelect value={ordering} onChange={handleOrderingChange} aria-label={t('media.sortOrder')}>
+          <option value="-created_at">{t('media.newest')}</option>
+          <option value="created_at">{t('media.oldest')}</option>
+          <option value="-updated_at">{t('media.recentlyUpdated')}</option>
+          <option value="updated_at">{t('media.leastRecentlyUpdated')}</option>
+          <option value="-file_size">{t('media.largest')}</option>
+          <option value="file_size">{t('media.smallest')}</option>
+          <option value="title">{t('media.titleAZ')}</option>
+          <option value="-title">{t('media.titleZA')}</option>
+        </CMSSelect>
+      </CMSToolbar>
 
-        {/* Toolbar */}
-        <div style={styles.toolbar}>
-          <form onSubmit={handleSearchSubmit} style={styles.searchForm}>
-            <input
-              type="text"
-              style={styles.searchInput}
-              placeholder={t('media.searchPlaceholder')}
-              value={search}
-              onChange={handleSearchChange}
-              aria-label={t('media.searchAssets')}
-            />
-            <button type="submit" style={styles.searchBtn}>{t('action.search')}</button>
-          </form>
-          <select style={styles.select} value={mimeType} onChange={handleMimeChange} aria-label={t('media.filterMime')}>
-            <option value="">{t('media.allTypes')}</option>
-            <option value="image/jpeg">JPEG</option>
-            <option value="image/png">PNG</option>
-            <option value="image/webp">WebP</option>
-            <option value="image/gif">GIF</option>
-          </select>
-          <select style={styles.select} value={ordering} onChange={handleOrderingChange} aria-label={t('media.sortOrder')}>
-            <option value="-created_at">{t('media.newest')}</option>
-            <option value="created_at">{t('media.oldest')}</option>
-            <option value="-updated_at">{t('media.recentlyUpdated')}</option>
-            <option value="updated_at">{t('media.leastRecentlyUpdated')}</option>
-            <option value="-file_size">{t('media.largest')}</option>
-            <option value="file_size">{t('media.smallest')}</option>
-            <option value="title">{t('media.titleAZ')}</option>
-            <option value="-title">{t('media.titleZA')}</option>
-          </select>
-        </div>
+      {loading && <CMSLoadingState />}
+      {error && <CMSErrorState message={error} onRetry={() => loadAssets(page)} />}
+      {!loading && !error && assets.length === 0 && (
+        <CMSEmptyState
+          message={t('media.empty')}
+          action={canUpload && <CMSButton variant="primary" onClick={() => setShowUpload(true)}>{t('media.uploadImage')}</CMSButton>}
+        />
+      )}
+      {!loading && !error && assets.length > 0 && (
+        <>
+          <div style={styles.count}>{count} {count !== 1 ? t('media.assetsCount') : t('media.assetCount')}</div>
+          <MediaGrid assets={assets} onAssetClick={setSelectedAssetId} />
+        </>
+      )}
 
-        {/* Content */}
-        {loading && <div style={styles.loading}>{t('media.loading')}</div>}
-        {error && <div style={styles.error}>{error}</div>}
-        {!loading && !error && assets.length === 0 && (
-          <div style={styles.empty}>
-            <p style={styles.emptyText}>{t('media.empty')}</p>
-            {canUpload && <p style={styles.emptyHint}>{t('media.emptyHint')}</p>}
-          </div>
-        )}
-        {!loading && !error && assets.length > 0 && (
-          <>
-            <div style={styles.count}>{count} {count !== 1 ? t('media.assetsCount') : t('media.assetCount')}</div>
-            <MediaGrid assets={assets} onAssetClick={setSelectedAssetId} />
-          </>
-        )}
-
-        {/* Pagination */}
-        {(previous || next) && (
-          <div style={styles.pagination}>
-            <button
-              style={{ ...styles.pageBtn, ...(!previous ? styles.pageBtnDisabled : {}) }}
-              onClick={() => handlePageChange(page - 1)}
-              disabled={!previous}
-            >
-              ← {t('action.previousPage')}
-            </button>
-            <span style={styles.pageInfo}>{t('media.pageNumber', { page })}</span>
-            <button
-              style={{ ...styles.pageBtn, ...(!next ? styles.pageBtnDisabled : {}) }}
-              onClick={() => handlePageChange(page + 1)}
-              disabled={!next}
-            >
-              {t('action.nextPage')} →
-            </button>
-          </div>
-        )}
-      </div>
+      {(previous || next) && (
+        <CMSPagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          count={count}
+        />
+      )}
 
       {/* Dialogs */}
       <MediaUploadDialog
@@ -219,68 +206,9 @@ export default function MediaLibraryPage() {
 }
 
 const styles = {
-  container: {
-    minHeight: '100vh', background: '#0a0a14', color: '#e0e0e0',
-    fontFamily: 'system-ui, -apple-system, sans-serif', padding: '0',
+  count: {
+    fontSize: '0.75rem',
+    color: 'var(--cms-text-muted)',
+    marginBottom: '1rem',
   },
-  header: {
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    padding: '1rem 2rem', borderBottom: '1px solid #1e1e2e', background: '#12121e',
-  },
-  brand: { display: 'flex', alignItems: 'baseline', gap: '0.5rem' },
-  logo: { fontSize: '1.25rem', fontWeight: '700', color: '#c9a96e' },
-  cms: { fontSize: '0.75rem', fontWeight: '500', color: '#888', textTransform: 'uppercase', letterSpacing: '0.1em' },
-  nav: { display: 'flex', gap: '1rem', alignItems: 'center' },
-  navLink: { color: '#aaa', textDecoration: 'none', fontSize: '0.875rem' },
-  navLinkActive: { color: '#c9a96e', fontWeight: '500' },
-  userBadge: { fontSize: '0.75rem', color: '#888' },
-  main: { padding: '2rem', maxWidth: '1200px', margin: '0 auto' },
-  pageHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' },
-  pageTitle: { fontSize: '1.25rem', fontWeight: '600', color: '#c9a96e', margin: 0 },
-  uploadBtn: {
-    padding: '0.5rem 1.25rem', borderRadius: '6px', border: '1px solid #c9a96e',
-    background: 'rgba(201, 169, 110, 0.1)', color: '#c9a96e',
-    fontSize: '0.8125rem', cursor: 'pointer', fontWeight: '500',
-  },
-  toolbar: {
-    display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap',
-  },
-  searchForm: { display: 'flex', gap: '0.5rem', flex: 1, minWidth: '240px' },
-  searchInput: {
-    flex: 1, padding: '0.5rem 0.75rem', background: '#12121e',
-    border: '1px solid #2a2a3e', borderRadius: '6px', color: '#e0e0e0',
-    fontSize: '0.8125rem', outline: 'none',
-  },
-  searchBtn: {
-    padding: '0.5rem 1rem', borderRadius: '6px', border: '1px solid #333',
-    background: '#1a1a2e', color: '#aaa', fontSize: '0.8125rem', cursor: 'pointer',
-  },
-  select: {
-    padding: '0.5rem 0.75rem', background: '#12121e', border: '1px solid #2a2a3e',
-    borderRadius: '6px', color: '#e0e0e0', fontSize: '0.8125rem', outline: 'none',
-    cursor: 'pointer',
-  },
-  loading: { color: '#888', textAlign: 'center', padding: '3rem', fontSize: '0.875rem' },
-  error: {
-    background: 'rgba(220, 50, 50, 0.1)', border: '1px solid rgba(220, 50, 50, 0.3)',
-    borderRadius: '8px', padding: '1rem', color: '#e05050', fontSize: '0.875rem',
-  },
-  empty: { textAlign: 'center', padding: '3rem', color: '#888' },
-  emptyText: { fontSize: '1rem', margin: '0 0 0.5rem 0' },
-  emptyHint: { fontSize: '0.8125rem', color: '#555' },
-  count: { fontSize: '0.75rem', color: '#888', marginBottom: '1rem' },
-  pagination: {
-    display: 'flex', justifyContent: 'center', alignItems: 'center',
-    gap: '1rem', marginTop: '2rem',
-  },
-  pageBtn: {
-    padding: '0.375rem 0.75rem', borderRadius: '6px', border: '1px solid #333',
-    background: 'transparent', color: '#aaa', fontSize: '0.75rem', cursor: 'pointer',
-  },
-  pageBtnDisabled: { opacity: 0.3, cursor: 'not-allowed' },
-  pageInfo: { fontSize: '0.75rem', color: '#888' },
-  denied: { textAlign: 'center', padding: '4rem 2rem' },
-  deniedTitle: { color: '#c9a96e', fontSize: '1.25rem', marginBottom: '0.5rem' },
-  deniedText: { color: '#888', fontSize: '0.875rem', marginBottom: '1rem' },
-  backLink: { color: '#c9a96e', textDecoration: 'none', fontSize: '0.875rem' },
 };

@@ -1,14 +1,65 @@
-import { useHomepageConfig } from '../../hooks/useHomepageConfig';
 import { useI18n } from '../../i18n/I18nProvider.jsx';
-import getBilingual from '../../utils/getBilingual';
+import { useHomepageConfig } from '../../hooks/useHomepageConfig';
+import { useServices } from '../../hooks/useServices';
 import SectionHeading from '../ui/SectionHeading';
+import { Link } from 'react-router-dom';
 
+/**
+ * CapabilitiesMarqueeSection — canonical homepage services preview.
+ *
+ * Source of truth: the Service CMS model (via /api/v1/services/?show_on_homepage=true).
+ * The MarqueeItem homepage model is no longer used for service identity —
+ * Service is the single canonical source.
+ *
+ * The heading/description still come from HomepageSettings (marquee_heading_*)
+ * for presentation control, but service identity and links come from Service.
+ */
 const FALLBACK_CAPABILITIES = [
-  { title: 'Web Applications', title_ar: 'تطبيقات الويب', description: 'Scalable platforms built for real business use.', description_ar: 'منصات قابلة للتوسع مبنية لاستخدامات عملية.' },
-  { title: 'Mobile Applications', title_ar: 'تطبيقات الجوال', description: 'Native and cross-platform apps for iOS and Android.', description_ar: 'تطبيقات أصلية وعبر المنصات لنظامي iOS و Android.' },
-  { title: 'ERP / Business Systems', title_ar: 'أنظمة ERP والأعمال', description: 'Integrated systems that connect operations, finance, and data.', description_ar: 'أنظمة متكاملة تربط العمليات والمالية والبيانات.' },
-  { title: 'AI & Automation', title_ar: 'الذكاء الاصطناعي والأتمتة', description: 'Intelligent workflows that reduce manual work.', description_ar: 'سير عمل ذكي يقلل العمل اليدوي.' },
-  { title: 'Custom Software Solutions', title_ar: 'حلول برمجية مخصصة', description: 'Tailored software for specific requirements.', description_ar: 'برمجيات مخصصة لمتطلبات محددة.' },
+  {
+    slug: 'web-development',
+    name: { en: 'Web Development', ar: 'تطوير الويب' },
+    shortDescription: {
+      en: 'Custom web platforms built for scale, performance, and long-term growth.',
+      ar: 'منصات ويب مخصصة مبنية للتوسع والأداء والنمو طويل المدى.',
+    },
+    detailUrl: '/services/web-development',
+  },
+  {
+    slug: 'mobile-app-development',
+    name: { en: 'Mobile App Development', ar: 'تطوير تطبيقات الجوال' },
+    shortDescription: {
+      en: 'Native and cross-platform mobile apps for iOS and Android.',
+      ar: 'تطبيقات جوال أصلية ومتعددة المنصات لنظامي iOS وAndroid.',
+    },
+    detailUrl: '/services/mobile-app-development',
+  },
+  {
+    slug: 'erp-business-systems',
+    name: { en: 'ERP & Business Systems', ar: 'أنظمة ERP وحلول الأعمال' },
+    shortDescription: {
+      en: 'Integrated systems that connect operations, finance, and data.',
+      ar: 'أنظمة متكاملة تربط العمليات والمالية والبيانات.',
+    },
+    detailUrl: '/services/erp-business-systems',
+  },
+  {
+    slug: 'ai-automation',
+    name: { en: 'AI & Automation', ar: 'الذكاء الاصطناعي والأتمتة' },
+    shortDescription: {
+      en: 'Intelligent workflows that reduce manual work and surface insights.',
+      ar: 'سير عمل ذكي يقلل العمل اليدوي ويكشف الرؤى.',
+    },
+    detailUrl: '/services/ai-automation',
+  },
+  {
+    slug: 'custom-software-development',
+    name: { en: 'Custom Software Development', ar: 'تطوير البرمجيات المخصصة' },
+    shortDescription: {
+      en: 'Tailored software for specific business requirements.',
+      ar: 'برمجيات مخصصة لمتطلبات أعمال محددة.',
+    },
+    detailUrl: '/services/custom-software-development',
+  },
 ];
 
 const FEATURED_INDEX = 0;
@@ -16,6 +67,7 @@ const SUPPORTING_INDICES = [1, 2, 3, 4];
 
 function CapabilitiesMarqueeSection() {
   const { config } = useHomepageConfig();
+  const { services: cmsServices } = useServices();
   const { lang } = useI18n();
 
   const marquee = config?.marquee;
@@ -27,26 +79,19 @@ function CapabilitiesMarqueeSection() {
     ? (marquee?.description_ar || 'منصات وأدوات وأنظمة ذكية تبنيها SidrahSoft لتقود عمليات المؤسسات الحديثة.')
     : (marquee?.description_en || 'Platforms, tools, and intelligent systems built by SidrahSoft to power modern organization operations.');
 
-  const FALLBACK_BY_TITLE = Object.fromEntries(
-    FALLBACK_CAPABILITIES.map(f => [f.title, f])
-  );
-
-  const cmsItems = marquee?.items;
-  const items = cmsItems?.length
-    ? cmsItems.map((item) => {
-        const fb = FALLBACK_BY_TITLE[item.title_en];
-        return {
-          title: lang === 'ar'
-            ? (item.title_ar || fb?.title_ar || item.title_en)
-            : (item.title_en || item.title_ar),
-          description: lang === 'ar'
-            ? (item.description_ar || fb?.description_ar || item.description_en)
-            : (item.description_en || item.description_ar),
-        };
-      })
+  // Service CMS is the source of truth. Fallback only when CMS is empty.
+  const items = cmsServices && cmsServices.length > 0
+    ? cmsServices.map((s) => ({
+        title: lang === 'ar' ? (s.name?.ar || s.name?.en) : (s.name?.en || s.name?.ar),
+        description: lang === 'ar'
+          ? (s.shortDescription?.ar || s.shortDescription?.en)
+          : (s.shortDescription?.en || s.shortDescription?.ar),
+        link: s.detailUrl || `/services/${s.slug}`,
+      }))
     : FALLBACK_CAPABILITIES.map((item) => ({
-        title: (lang === 'ar' && item.title_ar) ? item.title_ar : item.title,
-        description: (lang === 'ar' && item.description_ar) ? item.description_ar : item.description,
+        title: lang === 'ar' ? item.name.ar : item.name.en,
+        description: lang === 'ar' ? item.shortDescription.ar : item.shortDescription.en,
+        link: item.detailUrl,
       }));
 
   const featured = items[FEATURED_INDEX];
@@ -65,7 +110,7 @@ function CapabilitiesMarqueeSection() {
 
         <div className="capabilities-showcase">
           {featured && (
-            <article className="capability-featured card-base card-surface-glass card-edge-purple card-hover-glow card-padding-lg motion-scale-in is-visible">
+            <Link to={featured.link} className="capability-featured card-base card-surface-glass card-edge-purple card-hover-glow card-padding-lg motion-scale-in is-visible" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div className="capability-featured__topline">
                 <span className="capability-featured__badge">
                   {lang === 'ar' ? 'قدرة أساسية' : 'Core Capability'}
@@ -76,27 +121,34 @@ function CapabilitiesMarqueeSection() {
                 <h3 className="capability-featured__title">{featured.title}</h3>
                 <p className="capability-featured__description">{featured.description}</p>
               </div>
-            </article>
+            </Link>
           )}
 
           <div className="capability-supporting">
-            {supporting.map((cap, idx) => (
-              <article
-                key={`cap-${idx}`}
-                className={`capability-item card-base card-surface-solid card-edge-purple card-hover-lift card-padding-md motion-fade-up is-visible stagger-${idx + 1}`}
-              >
-                <span className="capability-item__number" aria-hidden="true">0{idx + 2}</span>
-                <h3 className="capability-item__title">{cap.title}</h3>
-                <p className="capability-item__description">{cap.description}</p>
-              </article>
-            ))}
+            {supporting.map((cap, idx) => {
+              const content = (
+                <>
+                  <span className="capability-item__number" aria-hidden="true">0{idx + 2}</span>
+                  <h3 className="capability-item__title">{cap.title}</h3>
+                  <p className="capability-item__description">{cap.description}</p>
+                </>
+              );
+              const className = `capability-item card-base card-surface-solid card-edge-purple card-hover-lift card-padding-md motion-fade-up is-visible stagger-${idx + 1}`;
+              return (
+                <Link key={`cap-${idx}`} to={cap.link} className={className} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  {content}
+                </Link>
+              );
+            })}
           </div>
         </div>
 
         {remaining.length > 0 && (
           <div className="capability-remaining" aria-label={lang === 'ar' ? 'قدرات إضافية' : 'Additional capabilities'}>
             {remaining.map((cap, idx) => (
-              <span key={`rem-${idx}`} className="capability-tag">{cap.title}</span>
+              <Link key={`rem-${idx}`} to={cap.link} className="capability-tag">
+                {cap.title}
+              </Link>
             ))}
           </div>
         )}

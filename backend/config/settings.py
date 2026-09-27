@@ -39,6 +39,10 @@ SECRET_KEY = env_prefixed('SECRET_KEY')
 
 DEBUG = env_bool('DEBUG', default='False')
 
+# Public site URL for certificate verification links and QR codes.
+# Must be set in production. Defaults to localhost for development.
+PUBLIC_SITE_URL = os.environ.get('PUBLIC_SITE_URL', 'http://localhost:5174').rstrip('/')
+
 ALLOWED_HOSTS = env_list(
     'DJANGO_ALLOWED_HOSTS',
     default=env_list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
@@ -75,14 +79,14 @@ LOCAL_APPS = [
     'apps.activity_logs',
     'apps.homepage',
     'apps.training',
+    'apps.ai_automation',
+    'apps.forms',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
-    "django.middleware.common.CommonMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -92,6 +96,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Content-Security-Policy enforcement (defense-in-depth against XSS).
+    'apps.core.csp_middleware.CSPMiddleware',
+    # X-Robots-Tag for API and admin responses (prevent indexing of machine surfaces).
+    'apps.core.csp_middleware.XRobotsTagMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -191,6 +199,24 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# SECURITY NOTE: Media files served via MEDIA_URL are not authenticated by default.
+# In development (DEBUG=True), Django serves media directly.
+# In production, the reverse proxy (Nginx/Caddy) typically serves media directly.
+#
+# Sensitive files (e.g., certificate PDFs in media/certificates/) have predictable
+# filenames based on their certificate reference. Anyone who knows a reference
+# (from a verification URL or QR code) could download the PDF directly.
+#
+# PRODUCTION RECOMMENDATION:
+#   1. Configure the reverse proxy to restrict access to /media/certificates/
+#      (e.g., require authentication or serve through a dedicated view).
+#   2. Or, move certificate files to private storage not served by the reverse proxy.
+#   3. The CMS provides authenticated download endpoints for certificate PDFs
+#      and QR codes — these should be the primary access method.
+#
+# This is a POST-DEPLOYMENT VERIFICATION item — verify reverse proxy configuration
+# on Sidrah Server.
+
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -210,13 +236,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
+        'anon': '100/min',
         'contact_submission': '5/m',
         'cms_login': '5/m',
+        'apps_script_submission': '60/m',
+        'website_registration': '5/m',
+        'certificate_verify': '20/m',
+        'form_submission': '5/m',
     },
 }
 
@@ -229,6 +258,10 @@ CORS_ALLOWED_ORIGINS = env_list(
         default=[
             'http://localhost:5174',
             'http://127.0.0.1:5174',
+            'http://localhost:5175',
+            'http://localhost:5176',
+            'http://localhost:5177',
+            'http://localhost:5178',
         ],
     ),
 )
@@ -243,6 +276,10 @@ CSRF_TRUSTED_ORIGINS = env_list(
         default=[
             'http://localhost:5174',
             'http://127.0.0.1:5174',
+            'http://localhost:5175',
+            'http://localhost:5176',
+            'http://localhost:5177',
+            'http://localhost:5178',
         ],
     ),
 )
@@ -274,6 +311,7 @@ CSRF_COOKIE_SAMESITE = (
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
+SECURE_REFERRER_POLICY = 'same-origin'
 
 if not DEBUG:
     # Trust the X-Forwarded-Proto header set by Railway's reverse proxy.
@@ -316,3 +354,7 @@ LEADS_DASHBOARD_BASE_URL = os.environ.get(
     'LEADS_DASHBOARD_BASE_URL',
     'http://localhost:5174',
 )
+
+# Google Apps Script integration for training registrations.
+# Keep this secret private; it is compared in constant time on every submission.
+APPS_SCRIPT_SECRET = env_prefixed('APPS_SCRIPT_SECRET', fallback='')

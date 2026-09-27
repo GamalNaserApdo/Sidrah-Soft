@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /cms/
+Disallow: /leads/
+Disallow: /api/
+Disallow: /sidrah-management/
 
 Sitemap: https://sidrahsoft.com/sitemap.xml

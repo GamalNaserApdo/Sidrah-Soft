@@ -84,7 +84,20 @@ const CMSButton = forwardRef(function CMSButton(
       }}
       {...rest}
     >
-      {loading && <span aria-hidden="true">⏳</span>}
+      {loading && (
+        <span
+          aria-hidden="true"
+          style={{
+            display: 'inline-block',
+            width: '14px',
+            height: '14px',
+            border: '2px solid currentColor',
+            borderTopColor: 'transparent',
+            borderRadius: '50%',
+            animation: 'cms-spin 0.6s linear infinite',
+          }}
+        />
+      )}
       {children}
     </button>
   );

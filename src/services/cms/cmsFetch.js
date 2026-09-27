@@ -23,8 +23,10 @@ export async function cmsFetch(path, options = {}) {
     ? path
     : `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 
-  const headers = { ...options.headers };
-  const method = (options.method || 'GET').toUpperCase();
+  const { responseType, ...restOptions } = options;
+  const headers = { ...restOptions.headers };
+  const method = (restOptions.method || 'GET').toUpperCase();
+  const resolvedResponseType = responseType || 'json';
 
   // CSRF for unsafe methods
   if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
@@ -35,16 +37,16 @@ export async function cmsFetch(path, options = {}) {
   }
 
   // Content-Type for JSON bodies (not FormData)
-  if (options.body && !(options.body instanceof FormData) && !headers['Content-Type']) {
+  if (restOptions.body && !(restOptions.body instanceof FormData) && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json';
   }
 
-  if (options.body && typeof options.body === 'object' && !(options.body instanceof FormData)) {
-    options.body = JSON.stringify(options.body);
+  if (restOptions.body && typeof restOptions.body === 'object' && !(restOptions.body instanceof FormData)) {
+    restOptions.body = JSON.stringify(restOptions.body);
   }
 
   const response = await fetch(url, {
-    ...options,
+    ...restOptions,
     headers,
     credentials: 'include',
   });
@@ -53,13 +55,19 @@ export async function cmsFetch(path, options = {}) {
     return null;
   }
 
-  const data = await response.json().catch(() => null);
-
   if (!response.ok) {
+    const data = await response.json().catch(() => null);
     throw new ApiError(response.status, response.statusText, data);
   }
 
-  return data;
+  if (resolvedResponseType === 'blob') {
+    return response.blob();
+  }
+  if (resolvedResponseType === 'text') {
+    return response.text();
+  }
+
+  return response.json().catch(() => null);
 }
 
 /**

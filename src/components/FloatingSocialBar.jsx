@@ -23,13 +23,15 @@ function FloatingSocialBar() {
     },
   ];
 
+  const social = settings?.social || {};
+
   const socialLinks = [
-    { key: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/sidrahsoft/', icon: ICONS.facebook },
-    { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/sidrah.soft/', icon: ICONS.instagram },
-    { key: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/sidrah.soft/', icon: ICONS.tiktok },
-    { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/sidrah.soft/', icon: ICONS.linkedin },
-    { key: 'youtube', label: 'YouTube', href: 'https://www.youtupe.com/sidrah.soft/', icon: ICONS.youtube },
-  ];
+    { key: 'facebook', label: lang === 'ar' ? 'فيسبوك' : 'Facebook', href: social.facebook_url || '', icon: ICONS.facebook },
+    { key: 'instagram', label: lang === 'ar' ? 'إنستغرام' : 'Instagram', href: social.instagram_url || '', icon: ICONS.instagram },
+    { key: 'linkedin', label: lang === 'ar' ? 'لينكدإن' : 'LinkedIn', href: social.linkedin_url || '', icon: ICONS.linkedin },
+    { key: 'youtube', label: lang === 'ar' ? 'يوتيوب' : 'YouTube', href: social.youtube_url || '', icon: ICONS.youtube },
+    { key: 'tiktok', label: lang === 'ar' ? 'تيك توك' : 'TikTok', href: social.tiktok_url || '', icon: ICONS.tiktok },
+  ].filter((link) => link.href); // Hide icons with empty/null CMS URLs
 
   const allLinks = [...socialLinks, ...contactLinks];
 

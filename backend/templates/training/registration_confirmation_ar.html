@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ heading }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0a0f1a;font-family:'Segoe UI',Tahoma,'Arabic UI Text',Roboto,Helvetica,Arial,sans-serif;color:#e5e7eb;direction:rtl;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a0f1a;min-height:100vh;direction:rtl;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background-color:#111827;border-radius:12px;border:1px solid #1f2937;overflow:hidden;direction:rtl;">
+          <tr>
+            <td style="padding:32px 40px 24px;text-align:right;">
+              <h1 style="margin:0 0 8px;font-size:24px;font-weight:600;color:#f3f4f6;letter-spacing:-0.01em;">{{ site_name }}</h1>
+              <p style="margin:0;font-size:13px;color:#9ca3af;">تأكيد تسجيل التدريب</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 40px 16px;text-align:right;">
+              <h2 style="margin:0 0 16px;font-size:20px;font-weight:600;color:#f3f4f6;">{{ heading }}</h2>
+              <p style="margin:0 0 16px;font-size:15px;line-height:1.8;color:#d1d5db;white-space:pre-line;">{{ message }}</p>
+              {% if cta_label and cta_url %}
+              <p style="margin:24px 0;">
+                <a href="{{ cta_url }}" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#ffffff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;">{{ cta_label }}</a>
+              </p>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 40px 32px;border-top:1px solid #1f2937;text-align:right;">
+              <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:#9ca3af;white-space:pre-line;">{{ footer }}</p>
+              <p style="margin:8px 0 0;font-size:12px;color:#6b7280;">
+                <a href="{{ site_url }}" style="color:#818cf8;text-decoration:none;">{{ site_url }}</a>
+                &nbsp;&middot;&nbsp;
+                <a href="mailto:{{ support_email }}" style="color:#818cf8;text-decoration:none;">{{ support_email }}</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

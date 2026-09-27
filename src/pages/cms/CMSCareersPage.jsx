@@ -52,12 +52,12 @@ export default function CMSCareersPage() {
       />
       <CMSToolbar search={list.search} onSearchChange={list.setSearch} onSearchSubmit={() => list.refresh()}>
         <CMSSelect value={list.filters.active || ''} onChange={(e) => list.setFilter('active', e.target.value)}>
-          <option value="">All statuses</option>
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
+          <option value="">{t('filter.allStatuses')}</option>
+          <option value="true">{t('filter.active')}</option>
+          <option value="false">{t('filter.inactive')}</option>
         </CMSSelect>
         <CMSSelect value={list.filters.department || ''} onChange={(e) => list.setFilter('department', e.target.value)}>
-          <option value="">All departments</option>
+          <option value="">{t('col.department')}</option>
         </CMSSelect>
       </CMSToolbar>
 
@@ -67,13 +67,13 @@ export default function CMSCareersPage() {
       {!list.loading && !list.error && list.items.length > 0 && (
         <>
           <CMSTable columns={[
-            { key: 'title', label: 'Title' },
-            { key: 'department', label: 'Department' },
-            { key: 'location', label: 'Location' },
-            { key: 'type', label: 'Type' },
-            { key: 'closing', label: 'Closing Date' },
-            { key: 'status', label: 'Status' },
-            { key: 'actions', label: '', align: 'right' },
+            { key: 'title', label: t('col.title') },
+            { key: 'department', label: t('col.department') },
+            { key: 'location', label: t('col.location') },
+            { key: 'type', label: t('col.type') },
+            { key: 'closing', label: t('form.closingDate') },
+            { key: 'status', label: t('col.status') },
+            { key: 'actions', label: t('col.actions'), align: 'right' },
           ]}>
             {list.items.map((job) => (
               <CMSTableRow key={job.id}>
@@ -85,12 +85,12 @@ export default function CMSCareersPage() {
                 <CMSTableCell>
                   <div style={styles.badges}>
                     <StatusBadge status={job.is_active ? 'active' : 'inactive'} />
-                    {job.is_featured && <CMSBadge type="accent" size="xs">Featured</CMSBadge>}
+                    {job.is_featured && <CMSBadge type="accent" size="xs">{t('badge.featured')}</CMSBadge>}
                   </div>
                 </CMSTableCell>
                 <CMSTableCell align="right">
                   {canUpdate && <Link to={`/cms/careers/${job.id}`}><TableActionButton>{t('action.edit')}</TableActionButton></Link>}
-                  {canDelete && <TableActionButton onClick={() => setDeleteTarget(job)} style={{ color: '#ef4444' }}>{t('action.delete')}</TableActionButton>}
+                  {canDelete && <TableActionButton variant="danger" onClick={() => setDeleteTarget(job)}>{t('action.delete')}</TableActionButton>}
                 </CMSTableCell>
               </CMSTableRow>
             ))}

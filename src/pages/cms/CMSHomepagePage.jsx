@@ -37,16 +37,28 @@ import {
   createSectionConfig,
 } from '../../services/cms/homepageApi';
 
-const TABS = ['hero', 'foundation', 'marquee', 'industries', 'layout', 'sectionHeadings'];
+const TABS = ['hero', 'foundation', 'training', 'marquee', 'industries', 'layout', 'sectionHeadings'];
+
+/**
+ * Fixed homepage training path keys — product paths, not arbitrary CMS cards.
+ * The three keys map to Sidrah's canonical training destinations:
+ *   professional -> /training#professional-courses
+ *   starter      -> /training/starter
+ *   summer       -> /training/summer-training
+ * Keys and URLs are system identifiers; only labels/descriptions/CTA copy are
+ * editable in the CMS UI. Secondary/Baccalaureate is deliberately excluded
+ * (separate product line, not one of the 3 homepage training paths).
+ */
+const TRAINING_PATH_KEYS = ['professional', 'starter', 'summer'];
 
 const tabStyle = (active) => ({
   padding: '0.5rem 1rem',
   fontSize: '0.8125rem',
   fontWeight: '500',
-  color: active ? '#c9a96e' : '#888',
-  background: active ? 'rgba(201, 169, 110, 0.08)' : 'transparent',
+  color: active ? 'var(--cms-accent)' : 'var(--cms-text-muted)',
+  background: active ? 'var(--cms-accent-bg)' : 'transparent',
   border: 'none',
-  borderBottom: active ? '2px solid #c9a96e' : '2px solid transparent',
+  borderBottom: active ? '2px solid var(--cms-accent)' : '2px solid transparent',
   cursor: 'pointer',
   fontFamily: 'inherit',
   transition: '150ms ease',
@@ -63,9 +75,9 @@ const fullFieldStyle = {
 };
 
 const sectionCardStyle = {
-  background: '#0a0a14',
-  border: '1px solid #2a2a3e',
-  borderRadius: '8px',
+  background: 'var(--cms-bg-surface)',
+  border: '1px solid var(--cms-border-default)',
+  borderRadius: 'var(--cms-radius-lg)',
   padding: '1.25rem',
   marginBottom: '1rem',
 };
@@ -75,9 +87,9 @@ const listItemStyle = {
   alignItems: 'center',
   gap: '0.75rem',
   padding: '0.75rem 1rem',
-  background: '#0a0a14',
-  border: '1px solid #2a2a3e',
-  borderRadius: '6px',
+  background: 'var(--cms-bg-input)',
+  border: '1px solid var(--cms-border-subtle)',
+  borderRadius: 'var(--cms-radius-md)',
   marginBottom: '0.5rem',
 };
 
@@ -203,6 +215,24 @@ export default function CMSHomepagePage() {
 
   const updateField = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    setDirty(true);
+  };
+
+  // ── Training paths (fixed 3 product paths: professional, starter, summer) ──
+  const getPath = (key) => {
+    const paths = Array.isArray(formData.training_paths) ? formData.training_paths : [];
+    return paths.find((p) => p && p.key === key) || null;
+  };
+
+  const updatePathField = (key, field, value) => {
+    setFormData((prev) => {
+      const paths = Array.isArray(prev.training_paths) ? [...prev.training_paths] : [];
+      const idx = paths.findIndex((p) => p && p.key === key);
+      if (idx >= 0) {
+        paths[idx] = { ...paths[idx], [field]: value };
+      }
+      return { ...prev, training_paths: paths };
+    });
     setDirty(true);
   };
 
@@ -376,7 +406,7 @@ export default function CMSHomepagePage() {
       <CMSPageHeader title={t('homepage.title')} subtitle={t('homepage.subtitle')} />
 
       {/* Tab bar */}
-      <div style={{ display: 'flex', gap: '0.25rem', borderBottom: '1px solid #1e1e2e', marginBottom: '1.5rem', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', gap: '0.25rem', borderBottom: '1px solid var(--cms-border-default)', marginBottom: '1.5rem', overflowX: 'auto' }}>
         {TABS.map((tab) => (
           <button
             key={tab}
@@ -392,7 +422,7 @@ export default function CMSHomepagePage() {
       {/* ── Hero Tab ── */}
       {activeTab === 'hero' && (
         <div style={sectionCardStyle}>
-          <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+          <p style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)', marginBottom: '1rem' }}>
             {t('homepage.heroScopeNote')}
           </p>
           <div style={fieldGridStyle}>
@@ -541,6 +571,162 @@ export default function CMSHomepagePage() {
         </div>
       )}
 
+      {/* ── Training Tab ── */}
+      {activeTab === 'training' && (
+        <div style={sectionCardStyle}>
+          <h3 style={{ margin: '0 0 1rem', fontSize: '0.9375rem', fontWeight: 600 }}>
+            {t('homepage.trainingSectionTitle')}
+          </h3>
+          <div style={fieldGridStyle}>
+            <CMSInput
+              label={t('homepage.trainingHeadingEn')}
+              value={formData.training_heading_en || ''}
+              onChange={(e) => updateField('training_heading_en', e.target.value)}
+              disabled={!canEdit}
+              maxLength={200}
+            />
+            <CMSInput
+              label={t('homepage.trainingHeadingAr')}
+              value={formData.training_heading_ar || ''}
+              onChange={(e) => updateField('training_heading_ar', e.target.value)}
+              disabled={!canEdit}
+              dir="rtl"
+              maxLength={200}
+            />
+            <CMSTextarea
+              label={t('homepage.trainingDescriptionEn')}
+              value={formData.training_description_en || ''}
+              onChange={(e) => updateField('training_description_en', e.target.value)}
+              disabled={!canEdit}
+              rows={3}
+            />
+            <CMSTextarea
+              label={t('homepage.trainingDescriptionAr')}
+              value={formData.training_description_ar || ''}
+              onChange={(e) => updateField('training_description_ar', e.target.value)}
+              disabled={!canEdit}
+              dir="rtl"
+              rows={3}
+            />
+            <CMSInput
+              label={t('homepage.trainingCtaLabelEn')}
+              value={formData.training_cta_label_en || ''}
+              onChange={(e) => updateField('training_cta_label_en', e.target.value)}
+              disabled={!canEdit}
+              maxLength={60}
+            />
+            <CMSInput
+              label={t('homepage.trainingCtaLabelAr')}
+              value={formData.training_cta_label_ar || ''}
+              onChange={(e) => updateField('training_cta_label_ar', e.target.value)}
+              disabled={!canEdit}
+              dir="rtl"
+              maxLength={60}
+            />
+            <CMSInput
+              label={t('homepage.trainingCtaTarget')}
+              value={formData.training_cta_target || ''}
+              onChange={(e) => updateField('training_cta_target', e.target.value)}
+              disabled={!canEdit}
+              maxLength={255}
+              hint="/training"
+            />
+          </div>
+
+          <h3 style={{ margin: '1.5rem 0 0.5rem', fontSize: '0.9375rem', fontWeight: 600 }}>
+            {t('homepage.trainingPathsTitle')}
+          </h3>
+          <p style={{ margin: '0 0 1rem', fontSize: '0.8125rem', color: 'var(--cms-text-muted)' }}>
+            {t('homepage.trainingPathsHint')}
+          </p>
+          {TRAINING_PATH_KEYS.map((key) => {
+            const path = getPath(key);
+            return (
+              <div key={key} style={{ ...sectionCardStyle, background: 'var(--cms-bg-input)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                  <strong style={{ fontSize: '0.8125rem' }}>
+                    {path?.label_en || key}
+                  </strong>
+                  <span style={{
+                    fontSize: '0.6875rem',
+                    padding: '0.125rem 0.5rem',
+                    borderRadius: '9999px',
+                    background: 'var(--cms-accent-bg)',
+                    color: 'var(--cms-accent)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }}>
+                    {key}
+                  </span>
+                  <span style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--cms-text-muted)' }}>
+                    {path?.url}
+                  </span>
+                </div>
+                <div style={fieldGridStyle}>
+                  <CMSInput
+                    label={t('homepage.trainingPathLabelEn')}
+                    value={path?.label_en || ''}
+                    onChange={(e) => updatePathField(key, 'label_en', e.target.value)}
+                    disabled={!canEdit}
+                    maxLength={120}
+                  />
+                  <CMSInput
+                    label={t('homepage.trainingPathLabelAr')}
+                    value={path?.label_ar || ''}
+                    onChange={(e) => updatePathField(key, 'label_ar', e.target.value)}
+                    disabled={!canEdit}
+                    dir="rtl"
+                    maxLength={120}
+                  />
+                  <CMSTextarea
+                    label={t('homepage.trainingPathDescriptionEn')}
+                    value={path?.description_en || ''}
+                    onChange={(e) => updatePathField(key, 'description_en', e.target.value)}
+                    disabled={!canEdit}
+                    rows={2}
+                  />
+                  <CMSTextarea
+                    label={t('homepage.trainingPathDescriptionAr')}
+                    value={path?.description_ar || ''}
+                    onChange={(e) => updatePathField(key, 'description_ar', e.target.value)}
+                    disabled={!canEdit}
+                    dir="rtl"
+                    rows={2}
+                  />
+                  <CMSInput
+                    label={t('homepage.trainingPathCtaLabelEn')}
+                    value={path?.cta_label_en || ''}
+                    onChange={(e) => updatePathField(key, 'cta_label_en', e.target.value)}
+                    disabled={!canEdit}
+                    maxLength={60}
+                  />
+                  <CMSInput
+                    label={t('homepage.trainingPathCtaLabelAr')}
+                    value={path?.cta_label_ar || ''}
+                    onChange={(e) => updatePathField(key, 'cta_label_ar', e.target.value)}
+                    disabled={!canEdit}
+                    dir="rtl"
+                    maxLength={60}
+                  />
+                </div>
+              </div>
+            );
+          })}
+          {canEdit && (
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.75rem' }}>
+              <CMSButton variant="primary" onClick={handleSaveSettings} loading={saving} disabled={!dirty}>
+                {t('action.save')}
+              </CMSButton>
+              {dirty && (
+                <CMSButton variant="ghost" onClick={() => { setFormData(settings); setDirty(false); }}>
+                  {t('action.cancel')}
+                </CMSButton>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Marquee Tab ── */}
       {activeTab === 'marquee' && (
         <div>
@@ -572,7 +758,7 @@ export default function CMSHomepagePage() {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h3 style={{ fontSize: '0.875rem', color: '#ccc', margin: 0 }}>Marquee Items</h3>
+            <h3 style={{ fontSize: '0.875rem', color: 'var(--cms-text-primary)', margin: 0 }}>Marquee Items</h3>
             {canEdit && (
               <CMSButton variant="primary" size="sm" onClick={() => handleOpenMarqueeDialog()}>
                 {t('homepage.marqueeAddItem')}
@@ -580,22 +766,28 @@ export default function CMSHomepagePage() {
             )}
           </div>
 
+          <div style={{ marginBottom: '1rem', padding: '0.75rem', background: 'var(--cms-bg-surface-warning, #fff8e1)', border: '1px solid var(--cms-border-warning, #ffe082)', borderRadius: 'var(--cms-radius-md, 8px)', fontSize: '0.75rem', color: 'var(--cms-text-secondary, #666)' }}>
+            <strong>⚠ Deprecated:</strong> Marquee items are no longer used for homepage service display.
+            Canonical services are now managed through the <a href="/cms/services" style={{ color: 'var(--cms-accent, #6366f1)' }}>Services CMS</a>.
+            These records are preserved for reference only.
+          </div>
+
           {marqueeLoading ? (
             <CMSLoadingState />
           ) : marqueeItems.length === 0 ? (
-            <p style={{ color: '#555', fontSize: '0.8125rem' }}>{t('homepage.noItems')}</p>
+            <p style={{ color: 'var(--cms-text-muted)', fontSize: '0.8125rem' }}>{t('homepage.noItems')}</p>
           ) : (
             marqueeItems.map((item) => (
               <div key={item.id} style={listItemStyle}>
-                <span style={{ fontSize: '0.75rem', color: '#555', minWidth: '24px' }}>{item.display_order}</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)', minWidth: '24px' }}>{item.display_order}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.8125rem', color: '#ccc' }}>{item.title_en}</div>
+                  <div style={{ fontSize: '0.8125rem', color: 'var(--cms-text-primary)' }}>{item.title_en}</div>
                   {item.description_en && (
-                    <div style={{ fontSize: '0.75rem', color: '#666' }}>{item.description_en}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)' }}>{item.description_en}</div>
                   )}
                 </div>
                 {!item.is_visible && (
-                  <span style={{ fontSize: '0.6875rem', color: '#555' }}>hidden</span>
+                  <span style={{ fontSize: '0.6875rem', color: 'var(--cms-text-muted)' }}>hidden</span>
                 )}
                 {canEdit && (
                   <>
@@ -659,7 +851,7 @@ export default function CMSHomepagePage() {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h3 style={{ fontSize: '0.875rem', color: '#ccc', margin: 0 }}>Industries</h3>
+            <h3 style={{ fontSize: '0.875rem', color: 'var(--cms-text-primary)', margin: 0 }}>Industries</h3>
             {canEdit && (
               <CMSButton variant="primary" size="sm" onClick={() => handleOpenIndustryDialog()}>
                 {t('homepage.industriesAdd')}
@@ -670,22 +862,22 @@ export default function CMSHomepagePage() {
           {industriesLoading ? (
             <CMSLoadingState />
           ) : industries.length === 0 ? (
-            <p style={{ color: '#555', fontSize: '0.8125rem' }}>{t('homepage.noItems')}</p>
+            <p style={{ color: 'var(--cms-text-muted)', fontSize: '0.8125rem' }}>{t('homepage.noItems')}</p>
           ) : (
             industries.map((item) => (
               <div key={item.id} style={listItemStyle}>
-                <span style={{ fontSize: '0.75rem', color: '#555', minWidth: '24px' }}>{item.display_order}</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)', minWidth: '24px' }}>{item.display_order}</span>
                 {item.icon_url && (
                   <img src={item.icon_url} alt="" style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px' }} />
                 )}
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.8125rem', color: '#ccc' }}>{item.title_en}</div>
+                  <div style={{ fontSize: '0.8125rem', color: 'var(--cms-text-primary)' }}>{item.title_en}</div>
                   {item.description_en && (
-                    <div style={{ fontSize: '0.75rem', color: '#666' }}>{item.description_en}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)' }}>{item.description_en}</div>
                   )}
                 </div>
                 {!item.is_visible && (
-                  <span style={{ fontSize: '0.6875rem', color: '#555' }}>hidden</span>
+                  <span style={{ fontSize: '0.6875rem', color: 'var(--cms-text-muted)' }}>hidden</span>
                 )}
                 {canEdit && (
                   <>
@@ -706,13 +898,13 @@ export default function CMSHomepagePage() {
       {/* ── Layout Tab ── */}
       {activeTab === 'layout' && (
         <div>
-          <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>{t('homepage.layoutHint')}</p>
+          <p style={{ fontSize: '0.75rem', color: 'var(--cms-text-muted)', marginBottom: '1rem' }}>{t('homepage.layoutHint')}</p>
           {sectionsLoading ? (
             <CMSLoadingState />
           ) : (
             sections.map((section) => (
               <div key={section.id} style={listItemStyle}>
-                <span style={{ fontSize: '0.8125rem', color: '#ccc', flex: 1, textTransform: 'capitalize' }}>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--cms-text-primary)', flex: 1, textTransform: 'capitalize' }}>
                   {section.section_key.replace(/_/g, ' ')}
                 </span>
                 <input
@@ -724,8 +916,8 @@ export default function CMSHomepagePage() {
                   style={{
                     width: '60px',
                     padding: '0.25rem 0.5rem',
-                    background: '#0a0a14',
-                    border: '1px solid #2a2a3e',
+                    background: 'var(--cms-bg-input)',
+                    border: '1px solid var(--cms-border-subtle)',
                     borderRadius: '4px',
                     color: '#e0e0e0',
                     fontSize: '0.75rem',
